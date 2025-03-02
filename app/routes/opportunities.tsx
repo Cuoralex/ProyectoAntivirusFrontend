@@ -1,16 +1,23 @@
-// Opportunities.tsx
+// routes/Opportunities.tsx
 import { useLoaderData, Link } from "@remix-run/react";
 import { LoaderFunction, json } from "@remix-run/node";
-// routes/Opportunities.tsx
 import { getOpportunities } from "../utils/ProyectAntivirusFrontend";
+import OpportunityCard from "./../components/OpportunityCard";
 
-import OpportunityCard  from  "./../components/OpportunityCard";
- 
 // Definimos la interfaz de Opportunity
 interface Opportunity {
   id: number;
   name: string;
-  // Agrega más propiedades según sea necesario
+  description: string;
+  categoryId: number;
+  institutionId: number;
+  location: string;
+  requirements: string;
+  benefits: string;
+  createdAt: string;
+  expiration: string;
+  ownerId: number;
+  status: string;
 }
 
 // Definimos el tipo de datos que el loader devolverá
@@ -37,7 +44,7 @@ export default function Opportunities() {
             <Link to={`/opportunities/${opportunity.id}`} className="text-blue-600">
               {opportunity.name}
             </Link>
-            <OpportunityCard opportunity={opportunity} title={""} description={""} link={""} />
+            <OpportunityCard opportunity={opportunity} />
           </li>
         ))}
       </ul>

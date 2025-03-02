@@ -6,7 +6,8 @@ interface Opportunity {
   name: string;
   description: string;
   categoryId: number;
-  institutionId: number;
+  institutionsId: number;
+  sectorsId: number;
   location: string;
   requirements: string;
   benefits: string;
@@ -19,6 +20,7 @@ interface Opportunity {
   rating: number;
   stock: boolean;
   freeShipping: boolean;
+  opportunity_Types: number;
 }
 
 interface OpportunityCardProps {

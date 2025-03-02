@@ -24,7 +24,7 @@ interface Opportunity {
 
 interface OpportunityFilterProps {
   opportunity: Opportunity;
-  onFilterChange: (filters: Partial<Opportunity>) => void; // Para pasar los filtros al padre
+  onFilterChange: (filters: Partial<Opportunity>) => void;
 }
 
 const OpportunityFilter: React.FC<OpportunityFilterProps> = ({ opportunity, onFilterChange }) => {
@@ -39,87 +39,82 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({ opportunity, onFi
     const { name, value } = event.target;
     setFilters((prevFilters) => {
       const updatedFilters = { ...prevFilters, [name]: value };
-      onFilterChange(updatedFilters); // Enviar filtros al padre
+      onFilterChange(updatedFilters);
       return updatedFilters;
     });
   }
 
   return (
-    <div className="flex items-center justify-center">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-lg">
-        <h1 className="block text-gray-700 font-bold mb-4 text-xl text-center">FILTROS DE OPORTUNIDADES</h1>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="relative w-full max-w-lg">
+        <div className="card bg-blue-400 shadow-lg w-full h-full rounded-3xl absolute transform -rotate-6"></div>
+        <div className="card bg-red-400 shadow-lg w-full h-full rounded-3xl absolute transform rotate-6"></div>
+        <div className="relative w-full rounded-3xl px-6 py-4 bg-gray-100 shadow-md">
+          <h1 className="block text-gray-700 font-bold text-xl text-center">FILTROS DE OPORTUNIDADES</h1>
 
-        {/* Barra de búsqueda */}
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="search">
-            Buscar por palabra clave
-          </label>
-          <input
-            className="w-full border rounded py-2 px-3 text-gray-700"
-            name="name"
-            id="search"
-            type="text"
-            placeholder="Ingrese palabras clave"
-            value={filters.name}
-            onChange={handleFilterChange}
-          />
-        </div>
+          <form className="mt-5">
+            <div className="mt-4">
+              <input
+                type="text"
+                name="name"
+                placeholder="Buscar por palabra clave"
+                value={filters.name}
+                onChange={handleFilterChange}
+                className="w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3"
+              />
+            </div>
 
-        {/* Ubicación */}
-        <div className="mb-4">
-          <label htmlFor="block text-gray-700 text-sm font-bold mb-2">Ubicación</label>
-          <input
-            className="w-full border rounded py-2 px-3 text-gray-700"
-            type="text"
-            name="location"
-            placeholder="Ciudad, Región o País"
-            value={filters.location}
-            onChange={handleFilterChange}
-          />
-        </div>
+            <div className="mt-4">
+              <input
+                type="text"
+                name="location"
+                placeholder="Ubicación"
+                value={filters.location}
+                onChange={handleFilterChange}
+                className="w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3"
+              />
+            </div>
 
-        {/* Categoría */}
-        <div className="mb-4">
-          <label htmlFor="block text-gray-700 text-sm font-bold mb-2">Categoría de Oportunidad</label>
-          <select
-            className="w-full border rounded py-2 px-3 text-gray-700"
-            name="categoryId"
-            value={filters.categoryId ?? ""}
-            onChange={handleFilterChange}
-          >
-            <option value="">Seleccione una opción</option>
-            <option value="1">Educativas</option>
-            <option value="2">Económicas</option>
-            <option value="3">Laborales</option>
-          </select>
-        </div>
+            <div className="mt-4">
+              <select
+                name="categoryId"
+                value={filters.categoryId ?? ""}
+                onChange={handleFilterChange}
+                className="w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3"
+              >
+                <option value="">Seleccione una categoría</option>
+                <option value="1">Educativas</option>
+                <option value="2">Económicas</option>
+                <option value="3">Laborales</option>
+              </select>
+            </div>
 
-        {/* Estado de disponibilidad */}
-        <div className="mb-4">
-          <label htmlFor="block text-gray-700 text-sm font-bold mb-2">Estado de Disponibilidad</label>
-          <select
-            className="w-full border rounded py-2 px-3 text-gray-700"
-            name="status"
-            value={filters.status}
-            onChange={handleFilterChange}
-          >
-            <option value="">Seleccione una opción</option>
-            <option value="abierta">Abierta</option>
-            <option value="proxima apertura">Próxima Apertura</option>
-            <option value="cerrada">Cerrada</option>
-          </select>
-        </div>
+            <div className="mt-4">
+              <select
+                name="status"
+                value={filters.status}
+                onChange={handleFilterChange}
+                className="w-full border-none bg-gray-100 h-11 rounded-xl shadow-lg hover:bg-blue-100 focus:bg-blue-100 focus:ring-0 px-3"
+              >
+                <option value="">Estado de Disponibilidad</option>
+                <option value="abierta">Abierta</option>
+                <option value="proxima apertura">Próxima Apertura</option>
+                <option value="cerrada">Cerrada</option>
+              </select>
+            </div>
 
-        <div className="flex items-center justify-between">
-          <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-            type="button"
-            onClick={() => onFilterChange(filters)}
-          >
-            Aplicar Filtros
-          </button>
+            <div className="mt-6">
+              <button
+                className="bg-blue-500 w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105"
+                type="button"
+                onClick={() => onFilterChange(filters)}
+              >
+                Aplicar Filtros
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

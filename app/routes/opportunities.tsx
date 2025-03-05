@@ -2,8 +2,10 @@ import { useLoaderData } from "@remix-run/react";
 import { LoaderFunction, json } from "@remix-run/node";
 import { useState } from "react";
 import { getOpportunities } from "../utils/ProyectAntivirusFrontend";
-import OpportunityCard from "./../components/OpportunityCard";
-import OpportunityFilter from "./../components/OpportunityFilter";
+import OpportunityCard from "../components/molecules/OpportunityCard";
+import OpportunityFilter from "../components/molecules/OpportunityFilter";
+import Footer from "../components/organisms/footer";
+import Header from "~/components/organisms/header";
 
 // Definimos la interfaz de Opportunity
 interface Opportunity {
@@ -39,6 +41,9 @@ export const loader: LoaderFunction = async () => {
   return json<LoaderData>({ opportunities });
 };
 
+{/* Header al inicio de la página */}
+<Header />
+
 // Componente principal
 export default function Opportunities() {
   const { opportunities } = useLoaderData<LoaderData>();
@@ -68,22 +73,31 @@ export default function Opportunities() {
   });
 
   return (
-    <div className="flex min-h-screen bg-gray-100 p-6">
-      {/* Filtro fijo en el lado izquierdo */}
-      <div className="w-1/4 p-4 bg-white shadow-lg rounded-xl">
-        <OpportunityFilter opportunity={{} as Opportunity} onFilterChange={handleFilterChange} />
-      </div>
+      
+      
 
-      {/* Contenedor de tarjetas en el lado derecho */}
-      <div className="w-3/4 p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredOpportunities.length > 0 ? (
-          filteredOpportunities.map((opportunity) => (
-            <OpportunityCard key={opportunity.id} opportunity={opportunity} />
-          ))
-        ) : (
-          <p className="text-gray-600">No se encontraron oportunidades.</p>
-        )}
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      {/* Header al inicio de la página */}
+      <Header />
+      <div className="flex-grow flex p-6">
+        {/* Filtro fijo en el lado izquierdo */}
+        <div className="w-1/4 p-4 bg-white shadow-lg rounded-xl">
+          <OpportunityFilter opportunity={{} as Opportunity} onFilterChange={handleFilterChange} />
+        </div>
+
+        {/* Contenedor de tarjetas en el lado derecho */}
+        <div className="w-3/4 p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredOpportunities.length > 0 ? (
+            filteredOpportunities.map((opportunity) => (
+              <OpportunityCard key={opportunity.id} opportunity={opportunity} />
+            ))
+          ) : (
+            <p className="text-gray-600">No se encontraron oportunidades.</p>
+          )}
+        </div>
       </div>
+      {/* Footer al final de la página */}
+      <Footer />
     </div>
   );
 }

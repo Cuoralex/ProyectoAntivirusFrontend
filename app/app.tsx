@@ -1,5 +1,5 @@
 // app/App.tsx
-import OpportunityCard from "./components/OpportunityCard";
+import OpportunityCard from "./components/molecules/OpportunityCard";
 
 const opportunities = {
   id: 1,
@@ -21,7 +21,7 @@ const App = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <OpportunityCard opportunity={opportunities} />
     </div>
-  );
+  )
 };
 
 export default App;

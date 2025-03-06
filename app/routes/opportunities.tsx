@@ -6,6 +6,7 @@ import OpportunityCard from "../components/molecules/OpportunityCard";
 import OpportunityFilter from "../components/molecules/OpportunityFilter";
 import Footer from "../components/organisms/footer";
 import Header from "~/components/organisms/header";
+import Bottom from "~/components/organisms/bottom";
 
 // Definimos la interfaz de Opportunity
 interface Opportunity {
@@ -97,6 +98,7 @@ export default function Opportunities() {
         </div>
       </div>
       {/* Footer al final de la página */}
+      <Bottom />
       <Footer />
     </div>
   );

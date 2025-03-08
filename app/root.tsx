@@ -4,10 +4,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useMatches,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 
 import "./tailwind.css";
+import "./styles/global.css";
+import { LAYOUT_FOR_ROUTES } from "./utils/constants/routes";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -41,5 +44,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  const matches = useMatches();
+
+  const matchedLayout = LAYOUT_FOR_ROUTES.find((data) =>
+    data.routes.includes(matches[matches.length - 1]?.pathname)
+  );
+
+  const LayoutComponent = matchedLayout
+    ? matchedLayout.layout
+    : ({ children }: { children: React.ReactNode }) => <>{children}</>;
+
+  return (
+    <LayoutComponent>
+      <Outlet />
+    </LayoutComponent>
+  );
 }

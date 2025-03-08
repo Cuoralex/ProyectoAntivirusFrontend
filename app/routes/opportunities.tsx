@@ -28,7 +28,7 @@ interface Opportunity {
   rating: number;
   stock: boolean;
   freeShipping: boolean;
-  opportunity_Types: number;
+  opportunity_TypesId: number;
 }
 
 // Definimos el tipo de datos que el loader devolverá
@@ -83,7 +83,7 @@ export default function Opportunities() {
       <div className="flex-grow flex p-6">
         {/* Filtro fijo en el lado izquierdo */}
         <div className="w-1/4 p-4 bg-white shadow-lg rounded-xl">
-          <OpportunityFilter opportunity={{} as Opportunity} onFilterChange={handleFilterChange} />
+          <OpportunityFilter onFilterChange={handleFilterChange} />
         </div>
 
         {/* Contenedor de tarjetas en el lado derecho */}

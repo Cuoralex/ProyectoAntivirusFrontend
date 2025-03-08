@@ -4,9 +4,11 @@ import { useState } from "react";
 import { getOpportunities } from "../utils/ProyectAntivirusFrontend";
 import OpportunityCard from "../components/molecules/OpportunityCard";
 import OpportunityFilter from "../components/molecules/OpportunityFilter";
-import Footer from "../components/organisms/footer";
-import Header from "~/components/organisms/header";
-import Bottom from "~/components/organisms/bottom";
+import Bottom from "../components/organisms/bottom";
+import HeaderGeneral from "~/components/organisms/header-general/header-general";
+import FooterGeneral from "~/components/organisms/footer-general/footer-general";
+import ButtonDonateWompi from "~/components/organisms/button-donate-wompi/button-donate-wompi";
+import ButtonGoUp from "~/components/organisms/button-go-up/button-go-up";
 
 // Definimos la interfaz de Opportunity
 interface Opportunity {
@@ -42,9 +44,6 @@ export const loader: LoaderFunction = async () => {
   return json<LoaderData>({ opportunities });
 };
 
-{/* Header al inicio de la página */}
-<Header />
-
 // Componente principal
 export default function Opportunities() {
   const { opportunities } = useLoaderData<LoaderData>();
@@ -79,7 +78,7 @@ export default function Opportunities() {
 
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* Header al inicio de la página */}
-      <Header />
+      <HeaderGeneral />
       <div className="flex-grow flex p-6">
         {/* Filtro fijo en el lado izquierdo */}
         <div className="w-1/4 p-4 bg-white shadow-lg rounded-xl">
@@ -99,7 +98,9 @@ export default function Opportunities() {
       </div>
       {/* Footer al final de la página */}
       <Bottom />
-      <Footer />
+      <ButtonDonateWompi />
+      <ButtonGoUp />
+      <FooterGeneral />
     </div>
   );
 }

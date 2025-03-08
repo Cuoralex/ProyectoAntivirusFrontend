@@ -1,0 +1,3 @@
+#footer-general .social-icon {
+  @apply w-[50px] h-[50px] object-contain;
+}

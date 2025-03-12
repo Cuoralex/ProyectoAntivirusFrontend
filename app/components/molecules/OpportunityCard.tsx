@@ -5,9 +5,12 @@ interface Opportunity {
   id: number;
   name: string;
   description: string;
-  categoryId: number;
+  categoriesId: number;
+  categoriesName: string;
   institutionsId: number;
-  sectorsId: number;
+  institutionsName: string;
+  sectorId: number;
+  sectorName: string;
   location: string;
   requirements: string;
   benefits: string;
@@ -21,6 +24,7 @@ interface Opportunity {
   stock: boolean;
   freeShipping: boolean;
   opportunity_TypesId: number;
+  opportunity_TypesName: string;
 }
 
 interface OpportunityCardProps {
@@ -31,6 +35,9 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
   const price = opportunity.price ?? 0;
   const discountPrice = opportunity.discountPrice ?? price; // Si no hay descuento, usar el precio normal
   const rating = opportunity.rating ?? 0;
+
+{/* Muestra que información llega al frontend */}
+console.log(opportunity)
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-sm w-full border border-gray-200">
@@ -55,11 +62,12 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
 
         {/* Ubicación, Categoría e Institución */}
         <div className="text-xs text-gray-500 mt-2">
-          <p><strong>📍 Location:</strong> {opportunity.location}</p>
-          <p><strong>🏢 Institution ID:</strong> {opportunity.institutionsId}</p>
-          <p><strong>📂 Category:</strong> {opportunity.categoryId}</p>
-          <p><strong>📂 Tipo de oportunidad:</strong> {opportunity.opportunity_TypesId}</p>
-          <p><strong>📅 Expiration:</strong> {opportunity.expiration}</p>
+                    <p><strong>Institución:</strong> {opportunity.institutionsName}</p>
+                    <p><strong>Sector:</strong> {opportunity.sectorName}</p>
+                    <p><strong>Tipo de Oportunidad:</strong> {opportunity.opportunity_TypesName}</p>
+                    <p><strong>Categoría:</strong> {opportunity.categoriesName}</p>
+                    <p><strong>Ubicación:</strong> {opportunity.location}</p>
+                    <p><strong>Beneficios:</strong> {opportunity.benefits}</p>
 
         </div>
 

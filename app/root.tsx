@@ -5,13 +5,14 @@ import {
   Scripts,
   ScrollRestoration,
   useMatches,
+  useRouteError,
+  isRouteErrorResponse,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
-
 import "./tailwind.css";
 import "./styles/global.css";
 import { LAYOUT_FOR_ROUTES } from "./utils/constants/routes";
-import NotFoundPage from "./routes/404"; // Importa tu página 404
+import NotFoundPage from "./routes/404"; // Importa la página 404
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -44,17 +45,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Manejo de errores
-export function ErrorBoundary({ error }: { error: Error }) {
+// 🔹 Manejo de errores globales (Errores 500)
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    return <NotFoundPage />; // Muestra la página 404 directamente
+  }
+
+  let errorMessage = "Ocurrió un error inesperado.";
+  if (error instanceof Error) {
+    errorMessage = error.message;
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center text-center p-6">
       <h1 className="text-5xl font-bold text-red-600">¡Ups! Algo salió mal</h1>
-      <p className="text-xl mt-4 text-gray-600">{error.message}</p>
+      <p className="text-xl mt-4 text-gray-600">{errorMessage}</p>
     </div>
   );
 }
 
-// Manejo de rutas no encontradas (404)
+// 🔹 Manejo de rutas no encontradas (404)
 export function CatchBoundary() {
   return <NotFoundPage />;
 }

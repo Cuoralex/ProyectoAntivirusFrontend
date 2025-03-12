@@ -16,8 +16,12 @@ interface Opportunity {
   name: string;
   description: string;
   categoryId: number;
+  categoriesId: number;  // Agregar esta propiedad
+  categoriesName: string; // Agregar esta propiedad
   institutionsId: number;
-  sectorsId: number;
+  institutionsName: string; // Agregar esta propiedad
+  sectorId: number;
+  sectorName: string; // Agregar esta propiedad
   location: string;
   requirements: string;
   benefits: string;
@@ -31,6 +35,7 @@ interface Opportunity {
   stock: boolean;
   freeShipping: boolean;
   opportunity_TypesId: number;
+  opportunity_TypesName: string;
 }
 
 // Definimos el tipo de datos que el loader devolverá

@@ -11,9 +11,11 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.3.0",
     "@remix-run/node": "^2.15.3",
     "@remix-run/react": "^2.15.3",
     "@remix-run/serve": "^2.15.3",
+    "framer-motion": "^12.4.10",
     "isbot": "^4.1.0",
     "proyectantivirusfrontend": "file:",
     "react": "^18.2.0",

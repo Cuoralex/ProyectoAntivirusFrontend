@@ -1,12 +1,6 @@
-/**
- * By default, Remix will handle generating the HTTP Response for you.
- * You are free to delete this file if you'd like to, but if you ever want it revealed again, you can run `npx remix reveal` ✨
- * For more information, see https://remix.run/file-conventions/entry.server
- */
-
 import { PassThrough } from "node:stream";
 
-import type { AppLoadContext, EntryContext } from "@remix-run/node";
+import type { EntryContext } from "@remix-run/node";
 import { createReadableStreamFromReadable } from "@remix-run/node";
 import { RemixServer } from "@remix-run/react";
 import { isbot } from "isbot";
@@ -18,12 +12,20 @@ export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext,
-  // This is ignored so we can keep it in the template for visibility.  Feel
-  // free to delete this parameter in your app if you're not using it!
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loadContext: AppLoadContext
+  remixContext: EntryContext
 ) {
+  const acceptHeader = request.headers.get("Accept");
+  const isJsonRequest = acceptHeader?.includes("application/json");
+
+  if (isJsonRequest) {
+    return handleJsonRequest(
+      request,
+      responseStatusCode,
+      responseHeaders,
+      remixContext
+    );
+  }
+
   return isbot(request.headers.get("user-agent") || "")
     ? handleBotRequest(
         request,
@@ -37,6 +39,95 @@ export default function handleRequest(
         responseHeaders,
         remixContext
       );
+}
+
+function handleJsonRequest(
+  request: Request,
+  responseStatusCode: number,
+  responseHeaders: Headers,
+  remixContext: EntryContext
+) {
+  return new Promise((resolve, reject) => {
+    let shellRendered = false;
+    const { abort } = renderToPipeableStream(
+      <RemixServer
+        context={remixContext}
+        url={request.url}
+        abortDelay={5000}
+      />,
+      {
+        async onShellReady() {
+          shellRendered = true;
+
+          try {
+            if (responseStatusCode === 409) {
+              responseHeaders.set("Content-Type", "application/json");
+
+              resolve(
+                new Response(
+                  JSON.stringify({ error: "El correo ya está registrado." }),
+                  {
+                    headers: responseHeaders,
+                    status: 409,
+                  }
+                )
+              );
+              return;
+            }
+
+            const responseBody = await request.text().catch(() => null);
+
+            if (responseStatusCode >= 400) {
+              responseHeaders.set("Content-Type", "application/json");
+
+              resolve(
+                new Response(
+                  responseBody ||
+                    JSON.stringify({ error: `Error ${responseStatusCode}` }),
+                  {
+                    headers: responseHeaders,
+                    status: responseStatusCode,
+                  }
+                )
+              );
+              return;
+            }
+          } catch (error) {
+            console.error("Error al procesar la respuesta JSON:", error);
+          }
+
+          resolve(
+            new Response(null, {
+              headers: responseHeaders,
+              status: responseStatusCode || 200,
+            })
+          );
+        },
+        onShellError(error: unknown) {
+          reject(error);
+        },
+        onError(error: unknown) {
+          console.error("Error en la solicitud JSON:", error);
+
+          if (shellRendered) {
+            responseHeaders.set("Content-Type", "application/json");
+
+            resolve(
+              new Response(
+                JSON.stringify({ error: "Error inesperado en el servidor" }),
+                {
+                  headers: responseHeaders,
+                  status: 500,
+                }
+              )
+            );
+          }
+        },
+      }
+    );
+
+    setTimeout(abort, 5000);
+  });
 }
 
 function handleBotRequest(
@@ -75,9 +166,6 @@ function handleBotRequest(
         },
         onError(error: unknown) {
           responseStatusCode = 500;
-          // Log streaming rendering errors from inside the shell.  Don't log
-          // errors encountered during initial shell rendering since they'll
-          // reject and get logged in handleDocumentRequest.
           if (shellRendered) {
             console.error(error);
           }
@@ -125,9 +213,6 @@ function handleBrowserRequest(
         },
         onError(error: unknown) {
           responseStatusCode = 500;
-          // Log streaming rendering errors from inside the shell.  Don't log
-          // errors encountered during initial shell rendering since they'll
-          // reject and get logged in handleDocumentRequest.
           if (shellRendered) {
             console.error(error);
           }

@@ -15,7 +15,7 @@ export default function LoginForm() {
       <div className="flex bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl overflow-hidden">
         
         {/* Lado Izquierdo - Imagen Javi5 con animación */}
-        <div className="w-1/2 hidden md:flex justify-center items-center bg-gray-100 p-4 rounded-l-lg">
+        <div className="w-1/2 hidden md:flex justify-center items-center bg-white-100 p-4 rounded-l-lg">
           <motion.img 
             src="/images/Javi5.png" 
             alt="Javi5" 

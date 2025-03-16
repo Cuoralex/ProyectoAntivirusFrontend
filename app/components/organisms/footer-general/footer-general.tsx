@@ -10,7 +10,7 @@ export default function FooterGeneral() {
   return (
     <footer
       id="footer-general"
-      className="min-h-[380px] bg-[#232E55] px-[40px] lg:px-[150px] py-[20px] lg:py-[50px]"
+      className="min-h-[380px] bg-[#232E55] text-white px-[40px] lg:px-[150px] py-[20px] lg:py-[50px]"
     >
       <div className="flex flex-col lg:flex-row flex-wrap items-center justify-between gap-y-[20px]">
         <div className="flex flex-col lg:flex-row items-center lg:gap-[86px]">
@@ -20,17 +20,15 @@ export default function FooterGeneral() {
             className="w-[150px] h-[150px] object-contain"
           />
           <div className="flex flex-col mt-[15px]">
-            <span className="text-[20px] font-bold mb-[20px]">Visítanos</span>
-            <p>
-              Calle 79 Sur # 50-165 <br />- Oficinas 301 y 401 La Estrella -
+          <span className="text-[20px] font-bold mb-[20px] text-white">Visítanos</span>
+          <p className="text-white">
+              Calle 79 Sur # 50-165 <br />Oficinas 301 y 401 <br />La Estrella -
               Antioquia - Colombia
             </p>
           </div>
         </div>
         <div className="flex flex-col text-center mt-[15px]">
-          <h5 className="text-[20px] font-bold mb-[22px]">
-            Nuestras redes sociales
-          </h5>
+        <h5 className="text-[20px] font-bold mb-[22px] text-white">Nuestras redes sociales</h5>
           <div className="flex gap-[18px]">
             <img
               src={IconWhatsApp}
@@ -58,7 +56,7 @@ export default function FooterGeneral() {
       </div>
       <hr className="mt-[55px] mb-[35px]" />
       <div className="text-center text-[20px] font-normal">
-        <p>Antivirus para la Deserción © 2025 all rights reserved</p>
+      <p className="text-white">Antivirus para la Deserción © 2025 all rights reserved</p>
       </div>
     </footer>
   );

@@ -30,7 +30,7 @@ export default function HeaderGeneral() {
             <a href="#!">Oportunidades</a>
           </li>
           <li>
-            <a href="#!">Contáctanos</a>
+            <a href="contact-us">Contáctanos</a>
           </li>
         </ul>
       </div>

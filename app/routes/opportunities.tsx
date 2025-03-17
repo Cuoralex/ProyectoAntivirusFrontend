@@ -4,7 +4,7 @@ import { useState } from "react";
 import { getOpportunities } from "../utils/ProyectAntivirusFrontend";
 import OpportunityCard from "../components/molecules/OpportunityCard";
 import OpportunityFilter from "../components/molecules/OpportunityFilter";
-import Bottom from "../components/organisms/bottom";
+import ButtonWhatsapp from "../components/organisms/button-whatsapp";
 import HeaderGeneral from "~/components/organisms/header-general/header-general";
 import FooterGeneral from "~/components/organisms/footer-general/footer-general";
 import ButtonDonateWompi from "~/components/organisms/button-donate-wompi/button-donate-wompi";
@@ -16,12 +16,12 @@ interface Opportunity {
   name: string;
   description: string;
   categoryId: number;
-  categoriesId: number;  // Agregar esta propiedad
-  categoriesName: string; // Agregar esta propiedad
+  categoriesId: number;
+  categoriesName: string;
   institutionsId: number;
-  institutionsName: string; // Agregar esta propiedad
+  institutionsName: string;
   sectorId: number;
-  sectorName: string; // Agregar esta propiedad
+  sectorName: string;
   location: string;
   requirements: string;
   benefits: string;
@@ -46,6 +46,7 @@ type LoaderData = {
 // Implementamos el loader
 export const loader: LoaderFunction = async () => {
   const opportunities = await getOpportunities();
+  console.log(opportunities);
   return json<LoaderData>({ opportunities });
 };
 
@@ -81,8 +82,7 @@ export default function Opportunities() {
       (!filters.expiration || new Date(opportunity.expiration) >= new Date(filters.expiration)) &&
       (!filters.price || opportunity.price <= filters.price)
     );
-  });
-  
+  });  
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -108,7 +108,7 @@ export default function Opportunities() {
       </div>
 
       {/* Footer al final de la página */}
-      <Bottom />
+      <ButtonWhatsapp />
       <ButtonDonateWompi />
       <ButtonGoUp />
       <FooterGeneral />

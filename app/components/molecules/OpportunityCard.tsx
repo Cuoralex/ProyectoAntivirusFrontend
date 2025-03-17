@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Star } from "lucide-react";
 
 interface Opportunity {
@@ -34,7 +34,25 @@ interface OpportunityCardProps {
 const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
   const price = opportunity.price ?? 0;
   const discountPrice = opportunity.discountPrice ?? price; // Si no hay descuento, usar el precio normal
-  const rating = opportunity.rating ?? 0;
+  const [rating, setRating] = useState(opportunity.rating ?? 0);
+  const [hoverRating, setHoverRating] = useState(0);
+
+  const handleRating = async (newRating: number) => {
+    try {
+      const response = await fetch(`http://localhost:5055/api/v1/opportunities/${opportunity.id}/rate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newRating),
+      });
+
+      if (!response.ok) throw new Error("Error al calificar la oportunidad.");
+
+      const data = await response.json();
+      setRating(data.newRating);
+    } catch (error) {
+      console.error(error);
+    }
+  };  
 
 {/* Muestra que información llega al frontend */}
 console.log(opportunity)
@@ -84,20 +102,20 @@ console.log(opportunity)
         </div>
 
         {/* Calificación con precisión decimal */}
-        <div className="flex items-center text-yellow-500 text-sm">
-          {[...Array(5)].map((_, index) => {
-            const fillPercentage = Math.min(Math.max(rating - index, 0), 1);
-            return (
-              <Star
-                key={index}
-                size={16}
-                fill={`rgba(255, 204, 0, ${fillPercentage})`} 
-                stroke="currentColor"
-                className="mr-1"
-              />
-            );
-          })}
-          <span className="text-gray-700 ml-1 text-sm">({rating.toFixed(1)}/5)</span>
+        <div className="flex items-center text-yellow-500 text-sm mt-2">
+          {[...Array(5)].map((_, index) => (
+            <Star
+              key={index}
+              size={20}
+              fill={index < (hoverRating || rating) ? "#ffcc00" : "transparent"}
+              stroke="currentColor"
+              className="cursor-pointer"
+              onMouseEnter={() => setHoverRating(index + 1)}
+              onMouseLeave={() => setHoverRating(0)}
+              onClick={() => handleRating(index + 1)}
+            />
+          ))}
+          <span className="text-gray-700 ml-2">({rating.toFixed(1)}/5)</span>
         </div>
 
         {/* Información adicional */}

@@ -1,24 +1,62 @@
+import { useState, useRef } from "react";
 import Button from "~/components/atoms/button/button";
 import Logo from "../../../assets/images/logo-fundacion-antivirus.png";
 import IconSearch from "../../../assets/icons/icon-search.png";
 import IconSun from "../../../assets/icons/icon-sun.png";
 import IconMoon from "../../../assets/icons/icon-moon.png";
 
+
+
 export default function HeaderGeneral() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current); // Cancela el cierre si el usuario vuelve rápido
+    setIsDropdownOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsDropdownOpen(false);
+    }, 200); // Agrega un pequeño retraso de 200ms antes de cerrar
+  };
+
   return (
     <header
       id="header-general"
-      className="bg-white text-black h-[80px] flex flex-wrap items-center justify-between px-[40px]"
+      className="bg-white text-black h-[80px] flex flex-wrap items-center justify-between px-[40px] relative"
     >
       <div className="flex items-center">
         <img
           src={Logo}
-          alt="Logo Fundación Antivuros"
+          alt="Logo Fundación Antivirus"
           className="w-[55px] h-[55px] object-contain"
         />
         <ul className="hidden lg:flex gap-[20px] ml-[40px]">
-          <li>
-            <a href="#!">¿Quiénes somos?</a>
+          {/* Menú desplegable mejorado */}
+          <li
+            className="relative"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <a href="#!" className="hover:text-gray-500">
+              ¿Quiénes somos?
+            </a>
+            {isDropdownOpen && (
+              <ul
+                className="absolute left-0 mt-2 w-[180px] bg-white border border-gray-300 shadow-lg rounded-lg"
+                onMouseEnter={handleMouseEnter} // Mantiene abierto si el cursor está dentro del dropdown
+                onMouseLeave={handleMouseLeave} // Lo cierra al salir
+              >
+                <li className="px-4 py-2 hover:bg-gray-200">
+                  <a href="que-queremos">Qué queremos</a>
+                </li>
+                <li className="px-4 py-2 hover:bg-gray-200">
+                  <a href="#!">Nuestro equipo</a>
+                </li>
+              </ul>
+            )}
           </li>
           <li>
             <a href="#!">Instituciones</a>
@@ -47,7 +85,7 @@ export default function HeaderGeneral() {
           <input
             type="text"
             placeholder="Buscar"
-            className="bg-white outline-[0px] pl-2"
+            className="bg-white outline-none pl-2"
           />
         </form>
         <Button

@@ -3,24 +3,32 @@ import React, { useState, ChangeEvent } from "react";
 
 interface Opportunity {
   id: number;
-  name: string;
+  title: string;
   description: string;
   categoryId: number;
-  institutionsId: number;
-  sectorsId: number;
-  location: string;
+  categoryName: string;
+  institutionId: number;
+  institutionName: string;
+  opportunityTypeId: number;
+  opportunityTypeName: string;
+  sectorId: number;
+  sectorName: string;
+  localityId: number;
+  localityCity: string;
   requirements: string;
   benefits: string;
+  modality: string;
+  publicationDate: string;
+  expirationDate: string;
   createdAt: string;
-  expiration: string;
   ownerId: number;
   status: string;
   price: number;
   discountPrice: number;
   rating: number;
+  ratingCount: number;  
   stock: boolean;
   freeShipping: boolean;
-  opportunity_TypesId: number;
 }
 
 interface OpportunityFilterProps {

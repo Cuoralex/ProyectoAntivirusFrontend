@@ -13,29 +13,32 @@ import ButtonGoUp from "~/components/organisms/button-go-up/button-go-up";
 // Definimos la interfaz de Opportunity
 interface Opportunity {
   id: number;
-  name: string;
+  title: string;
   description: string;
   categoryId: number;
-  categoriesId: number;
-  categoriesName: string;
-  institutionsId: number;
-  institutionsName: string;
+  categoryName: string;
+  institutionId: number;
+  institutionName: string;
+  opportunityTypeId: number;
+  opportunityTypeName: string;
   sectorId: number;
   sectorName: string;
-  location: string;
+  localityId: number;
+  localityCity: string;
   requirements: string;
   benefits: string;
+  modality: string;
+  publicationDate: string;
+  expirationDate: string;
   createdAt: string;
-  expiration: string;
   ownerId: number;
   status: string;
   price: number;
   discountPrice: number;
   rating: number;
+  ratingCount: number;  
   stock: boolean;
   freeShipping: boolean;
-  opportunity_TypesId: number;
-  opportunity_TypesName: string;
 }
 
 // Definimos el tipo de datos que el loader devolverá
@@ -54,8 +57,8 @@ export const loader: LoaderFunction = async () => {
 export default function Opportunities() {
   const { opportunities } = useLoaderData<LoaderData>();
   const [filters, setFilters] = useState<Partial<Opportunity>>({
-    name: "",
-    location: "",
+    title: "",
+    localityCity: "",
     categoryId: undefined,
     status: "",
   });
@@ -71,15 +74,13 @@ export default function Opportunities() {
   // Filtrar oportunidades basadas en los filtros aplicados
   const filteredOpportunities = opportunities.filter((opportunity) => {
     return (
-      (!filters.name ||
-        opportunity.name.toLowerCase().includes(filters.name.toLowerCase()) ||
-        opportunity.description.toLowerCase().includes(filters.name.toLowerCase())) &&
-      (!filters.location ||
-        opportunity.location.toLowerCase().includes(filters.location.toLowerCase())) &&
+      (!filters.title || opportunity.title.toLowerCase().includes(filters.title.toLowerCase())) &&
+      (!filters.description || opportunity.description.toLowerCase().includes(filters.description.toLowerCase())) &&
+      (!filters.localityCity || opportunity.localityCity.toLowerCase().includes(filters.localityCity.toLowerCase())) &&
       (!filters.categoryId || opportunity.categoryId === filters.categoryId) &&
-      (!filters.institutionsId || opportunity.institutionsId === filters.institutionsId) &&
+      (!filters.institutionId || opportunity.institutionId === filters.institutionId) &&
       (!filters.status || opportunity.status === filters.status) &&
-      (!filters.expiration || new Date(opportunity.expiration) >= new Date(filters.expiration)) &&
+      (!filters.expirationDate || new Date(opportunity.expirationDate) >= new Date(filters.expirationDate)) &&
       (!filters.price || opportunity.price <= filters.price)
     );
   });  

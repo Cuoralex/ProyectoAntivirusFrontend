@@ -2,28 +2,33 @@ import React, { useState } from "react";
 import { Star } from "lucide-react";
 
 interface Opportunity {
-  discountPrice: number;
-  price: number;
   id: number;
   title: string;
   description: string;
-  opportunity_Types_id: number;
-  opportunityTypesName: string;
+  categoryId: number;
   categoryName: string;
-  institutions_id: number;
-  institutionsName: string;
-  sectors_id: number;
-  sectorsName: string;
-  localities_id: number;
-  localitiesCity: string;
+  institutionId: number;
+  institutionName: string;
+  opportunityTypeId: number;
+  opportunityTypeName: string;
+  sectorId: number;
+  sectorName: string;
+  localityId: number;
+  localityCity: string;
   requirements: string;
   benefits: string;
+  modality: string;
   publicationDate: string;
   expirationDate: string;
+  createdAt: string;
+  ownerId: number;
   status: string;
-  modality: string;
+  price: number;
+  discountPrice: number;
   rating: number;
-  ratingCount: number;
+  ratingCount: number;  
+  stock: boolean;
+  freeShipping: boolean;
 }
 
 interface OpportunityCardProps {
@@ -83,20 +88,20 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
           {/* Ubicación, Categoría e Institución */}
           <div className="text-xs text-gray-500 mt-2">
             <p>
-              <strong>Institución:</strong> {opportunity.institutionsName}
+              <strong>Institución:</strong> {opportunity.institutionName}
             </p>
             <p>
-              <strong>Sector:</strong> {opportunity.sectorsName}
+              <strong>Sector:</strong> {opportunity.sectorName}
             </p>
             <p>
               <strong>Tipo de Oportunidad:</strong>{" "}
-              {opportunity.opportunityTypesName}
+              {opportunity.opportunityTypeName}
             </p>
             <p>
               <strong>Categoría:</strong> {opportunity.categoryName}
             </p>
             <p>
-              <strong>Ubicación:</strong> {opportunity.localitiesCity}
+              <strong>Ubicación:</strong> {opportunity.localityCity}
             </p>
             <p>
               <strong>Beneficios:</strong> {opportunity.benefits}

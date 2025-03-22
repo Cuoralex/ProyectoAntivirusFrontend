@@ -17,6 +17,16 @@
     },
     "types": ["@remix-run/node", "vite/client"]
   },
-  "include": ["app/**/*.ts", "app/**/*.tsx", "components/**/*.jsx"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/.server/**/*.ts",
+    "**/.server/**/*.tsx",
+    "**/.client/**/*.ts",
+    "**/.client/**/*.tsx",
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "components/**/*.jsx"
+  ],
   "exclude": ["node_modules"]
 }

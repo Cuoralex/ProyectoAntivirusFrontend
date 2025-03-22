@@ -12,7 +12,6 @@ export default function AuthPage() {
 
   useEffect(() => {
     if (actionData?.success) {
-      console.log("✅ Registro exitoso, activando modal");
       setRegistrationSuccess(true);
     }
   }, [actionData, setRegistrationSuccess]);

@@ -16,21 +16,23 @@ export default function ContactUs() {
   return (
     <div className="min-h-screen flex flex-col bg-[#DCEBF9] text-[#222D56]">
       <Header />
-      <main className="flex-grow py-10 px-4 md:px-8">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold text-center mb-6">Contáctanos</h1>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+      <main className="flex-grow py-8 px-4 md:px-6">
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-2xl md:text-3xl font-bold text-center mb-4">Contáctanos</h1>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             {/* Contact Information */}
-            <div>
-              <div className="rounded-lg p-6 shadow-md bg-white dark:bg-[#32526E]">
-                <h2 className="text-3xl font-bold mb-4">Información de Contacto</h2>
-                <p className="mb-6 text-lg">
+            <div className="h-full flex">
+              <div className="rounded-lg p-4 shadow-md bg-white dark:bg-[#32526E] flex-grow flex flex-col">
+                <h2 className="text-2xl font-bold mb-3">Información de Contacto</h2>
+                <p className="mb-4 text-base">
                   Estamos aquí para ayudarte con cualquier duda que tengas sobre nuestros programas para reducir la deserción escolar en Colombia.
                 </p>
-
-                <div className="flex justify-center items-center bg-white">
-                  <img src="/images/antivirus_avatar.png" alt="Antivirus Avatar" className="w-full h-auto object-cover" />
+                <div className="flex justify-center items-center bg-white flex-grow mt-auto">
+                  <img
+                    src="/images/antivirus_avatar.png"
+                    alt="Antivirus Avatar"
+                    className="w-3/5 h-auto object-contain mx-auto"
+                  />
                 </div>
               </div>
             </div>

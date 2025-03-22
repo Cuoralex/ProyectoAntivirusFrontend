@@ -1,6 +1,6 @@
 import { MetaFunction } from "@remix-run/node";
-// import Header from "../components/Header";
-// import Footer from "../components/Footer";
+import Header from '../components/organisms/header-general/header-general';
+import Footer from '../components/organisms/footer-general/footer-general';
 // import FloatingButton from "../components/FloatingButton";
 // import DonateButton from "../components/DonateButton";
 import { Carousel } from "react-responsive-carousel";
@@ -15,7 +15,7 @@ export const meta: MetaFunction = () => [
 export default function QuienesSomos() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 text-gray-900">
-      {/* <Header /> */}
+      <Header />
 
       {/* Imagen Representativa */}
       <div className="w-full">
@@ -92,7 +92,7 @@ export default function QuienesSomos() {
 
 
 
-      {/* <Footer /> */}
+      <Footer />
 
       {/* Botones flotantes */}
       {/* <FloatingButton />

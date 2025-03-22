@@ -15,7 +15,10 @@ export default function AuthLayout() {
   );
 
   useEffect(() => {
-    if (searchParams.get("mode") === "login") {
+    const mode = searchParams.get("mode");
+    if (mode === "register") {
+      setIsRegistering(true);
+    } else {
       setIsRegistering(false);
     }
   }, [searchParams]);
@@ -45,7 +48,7 @@ export default function AuthLayout() {
 
         <div className="flex justify-center mt-4 space-x-4 px-14 w-full">
           <button
-            onClick={() => setIsRegistering(true)}
+            onClick={() => setSearchParams({ mode: "register" })}
             className={`px-4 py-2 w-full rounded-lg ${
               isRegistering ? "bg-[#7C78B3] text-white" : "bg-gray-300"
             }`}
@@ -53,7 +56,7 @@ export default function AuthLayout() {
             Registrarme
           </button>
           <button
-            onClick={() => setIsRegistering(false)}
+            onClick={() => setSearchParams({ mode: "login" })}
             className={`w-full px-4 py-2 h-auto rounded-lg ${
               !isRegistering
                 ? "bg-[#7C78B3] text-white"

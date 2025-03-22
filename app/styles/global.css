@@ -12,3 +12,19 @@ input[type="date"]::-webkit-datetime-edit {
   color: rgb(55 65 81 / var(--tw-text-opacity, 1));
   background-color: white;
 }
+
+.carousel .control-dots .dot {
+  background-color: #3e49af !important;
+}
+
+.carousel.carousel-slider .control-arrow {
+  background-color: #3e49af67 !important;
+}
+
+.carousel .control-next.control-arrow:before {
+  border-left: 8px solid #3e49af !important;
+}
+
+.carousel .control-prev.control-arrow:before {
+  border-right: 8px solid #3e49af !important;
+}

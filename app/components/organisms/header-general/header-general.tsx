@@ -5,10 +5,19 @@ import IconSearch from "../../../assets/icons/icon-search.png";
 import IconSun from "../../../assets/icons/icon-sun.png";
 import IconMoon from "../../../assets/icons/icon-moon.png";
 import { Menu, X } from "lucide-react";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function HeaderGeneral() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const navigate = useNavigate();
+
+  const handlelogin = () => {
+    navigate("/auth?mode=login");
+  };
+  const handleRegister = () => {
+    navigate("/auth?mode=register");
+  };
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
@@ -17,7 +26,7 @@ export default function HeaderGeneral() {
 
   return (
     <header
-      className={`h-[80px] flex items-center justify-between px-4 md:px-6 lg:px-10 w-full relative transition-all duration-300
+      className={`h-[80px] flex items-center justify-between px-4 md:px-6 lg:px-10 w-full relative transition-all duration-300 z-50 
       ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}
     `}
     >
@@ -30,31 +39,36 @@ export default function HeaderGeneral() {
         />
 
         {/* Menú en pantallas grandes */}
-        <ul className="hidden lg:flex gap-6 ml-6">
+        <ul className="hidden xl:flex gap-6 ml-6">
           <li>
-            <a href="#!" className="hover:text-gray-500">
+            <Link to="#!" className="hover:text-gray-500">
               ¿Quiénes somos?
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#!" className="hover:text-gray-500">
+            <Link to="#!" className="hover:text-gray-500">
               Instituciones
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#!" className="hover:text-gray-500">
+            <Link to="#!" className="hover:text-gray-500">
               Servicios
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="#!" className="hover:text-gray-500">
+            <Link to="#!" className="hover:text-gray-500">
               Oportunidades
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="contact-us" className="hover:text-gray-500">
+            <Link to="/contact-us" className="hover:text-gray-500">
               Contáctanos
-            </a>
+            </Link>
+          </li>
+          <li>
+            <Link to="/OurTeam" className="hover:text-gray-500">
+              Nuestro equipo{" "}
+            </Link>
           </li>
         </ul>
       </div>
@@ -77,46 +91,48 @@ export default function HeaderGeneral() {
 
         {/* Botones de sesión */}
         <Button
+          onClick={handlelogin}
           text="Iniciar sesión"
           backgroundColor="#7C78B3"
           textColor="white"
         />
-        <Button text="Registrarme" borderWidth={1.5} />
+        <Button onClick={handleRegister} text="Registrarme" borderWidth={1.5} />
+
+        <div className="flex items-center gap-2">
+          <button onClick={toggleDarkMode} className="focus:outline-none">
+            {darkMode ? (
+              <img src={IconSun} alt="Modo Claro" className=" cursor-pointer" />
+            ) : (
+              <img
+                src={IconMoon}
+                alt="Modo Oscuro"
+                className=" cursor-pointer"
+              />
+            )}
+          </button>
+
+          {/* Menú hamburguesa en tablets/móviles */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="xl:hidden text-black dark:text-white focus:outline-none"
+          >
+            {isMenuOpen ? (
+              <X className="text-inherit" size={30} />
+            ) : (
+              <Menu className="text-inherit" size={30} />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Modo oscuro/claro */}
-      <div className="flex items-center gap-2">
-        <button onClick={toggleDarkMode} className="focus:outline-none">
-          {darkMode ? (
-            <img
-              src={IconSun}
-              alt="Modo Claro"
-              className="w-[24px] h-[24px] cursor-pointer"
-            />
-          ) : (
-            <img
-              src={IconMoon}
-              alt="Modo Oscuro"
-              className="w-[24px] h-[24px] cursor-pointer"
-            />
-          )}
-        </button>
-
-        {/* Menú hamburguesa en tablets/móviles */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="lg:hidden text-black dark:text-white focus:outline-none"
-        >
-          {isMenuOpen ? <X size={30} /> : <Menu size={30} />}
-        </button>
-      </div>
 
       {/* Menú móvil/tablet */}
       {isMenuOpen && (
         <div
           className={`absolute top-[80px] left-0 w-full ${
             darkMode ? "bg-gray-800 text-white" : "bg-white text-black"
-          } shadow-md flex flex-col items-center py-4 space-y-4 lg:hidden transition-all duration-300`}
+          } shadow-md flex flex-col items-center py-4 space-y-4 xl:hidden transition-all duration-300`}
         >
           <a href="#!" className="hover:text-gray-400">
             ¿Quiénes somos?

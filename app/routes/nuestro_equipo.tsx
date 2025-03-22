@@ -13,6 +13,11 @@ const teamMembers = [
   { name: "Carlos Vásquez Restrepo", role: "Presidente", image: "/images/carlos_vasquez.jpg" },
   { name: "Astrid Franco", role: "Coordinadora Área Social", image: "/images/astrid_franco.jpg" },
   { name: "Luis Fernando Sánchez", role: "Director", image: "/images/luis_sanchez.jpg" },
+  { name: "Karen González", role: "Coordinadora Área de Tecnología y Dato", image: "/images/karen_gonzalez.jpg" },
+  { name: "Víctor Manuel Valencia", role: "Subdirector", image: "/images/victor_valencia.jpg" },
+  { name: "David Santiago Botero", role: "Coordinador Área Legal", image: "/images/david_botero.jpg" },
+  { name: "Manuela Correa Quintero", role: "Coordinador de comunicaciones", image: "/images/manuela_correa.jpg" },
+  { name: "Luis Fernando González", role: "Coordinador Área Administrativa y Financiera", image: "/images/luis_gonzalez.jpg" },
 ];
 
 export default function NuestroEquipo() {
@@ -23,7 +28,7 @@ export default function NuestroEquipo() {
       {/* Sección Nuestro Equipo */}
       <div className="flex-grow p-6 max-w-4xl mx-auto text-center">
         <h1 className="text-4xl font-extrabold mb-6 text-blue-600">Nuestro Equipo</h1>
-        <p className="text-lg text-gray-700 leading-relaxed mb-10">
+        <p className="text-lg text-gray-700 leading-relaxed mb-1">
           Conoce a las personas que hacen posible nuestra misión, trabajando con compromiso y dedicación.
         </p>
       </div>

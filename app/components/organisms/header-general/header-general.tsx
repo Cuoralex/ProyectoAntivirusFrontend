@@ -53,7 +53,7 @@ export default function HeaderGeneral() {
                   <a href="que-queremos">Qué queremos</a>
                 </li>
                 <li className="px-4 py-2 hover:bg-gray-200">
-                  <a href="#!">Nuestro equipo</a>
+                  <a href="nuestro_equipo">Nuestro equipo</a>
                 </li>
               </ul>
             )}

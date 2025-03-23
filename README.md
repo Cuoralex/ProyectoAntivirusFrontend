@@ -1,4 +1,4 @@
-![Saludo](public\Antivirus.jpg)
+![Saludo](public/Antivirus.jpg)
 
 
 # Frontend del Proyecto Antivirus EAFIT

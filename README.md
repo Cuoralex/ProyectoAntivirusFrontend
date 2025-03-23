@@ -1,4 +1,4 @@
-![Saludo](ProyectAntivirusFrontend/public/Antivirus.jpg)
+![Saludo](public\Antivirus.jpg)
 
 
 # Frontend del Proyecto Antivirus EAFIT
@@ -57,7 +57,7 @@ Scripts Disponibles
 ```sh
     URL=https://github.com/Cuoralex/ProyectAntivirusBackend.git
    ```
-   
+
 2. Asegúrate de que el backend está en ejecución en el puerto correcto.
  ```sh
    API_URL=http://localhost:5055/swagger/index.html

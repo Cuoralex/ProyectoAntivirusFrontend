@@ -4,7 +4,6 @@ import Footer from '../components/organisms/footer-general/footer-general';
 // import FloatingButton from "../components/FloatingButton";
 // import DonateButton from "../components/DonateButton";
 import { Carousel } from "react-responsive-carousel";
-
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 export const meta: MetaFunction = () => [

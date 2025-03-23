@@ -20,6 +20,7 @@ interface Opportunity {
   institutionId: number;
   institutionName: string;
   institutionImage: string;
+  institutionInformation: string;
   opportunityTypeId: number;
   opportunityTypeName: string;
   sectorId: number;

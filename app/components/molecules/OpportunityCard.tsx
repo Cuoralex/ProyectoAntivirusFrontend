@@ -9,6 +9,7 @@ interface Opportunity {
   categoryName: string;
   institutionId: number;
   institutionName: string;
+  institutionImage: string;
   opportunityTypeId: number;
   opportunityTypeName: string;
   sectorId: number;
@@ -26,7 +27,7 @@ interface Opportunity {
   price: number;
   discountPrice: number;
   rating: number;
-  ratingCount: number;  
+  ratingCount: number;
   stock: boolean;
   freeShipping: boolean;
 }
@@ -48,30 +49,30 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newRating),
+          body: JSON.stringify({ rating: newRating }),
         }
       );
 
-      if (!response.ok) throw new Error("Error al calificar la oportunidad.");
+      if (!response.ok) {
+        throw new Error(`Error al calificar la oportunidad. Código: ${response.status}`);
+      }
 
       const data = await response.json();
       setRating(data.newRating);
     } catch (error) {
-      console.error(error);
+      console.error("Error al enviar la calificación:", error);
     }
   };
-
-  console.log(opportunity);
 
   return (
     <div className="mx-auto flex justify-center items-center p-4">
       <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-sm w-full border border-gray-200">
         {/* Imagen con etiqueta de estado */}
-        <div className="relative">
+        <div className="relative w-full h-32 overflow-hidden">
           <img
-            src="https://www.udea.edu.co/wps/wcm/connect/udea/2117e09c-7085-4410-b53b-c8dd24da3da7/logosimbolo-horizontal.png?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_L8L8H8C0LODDC0A6SSS2AD2GO4-2117e09c-7085-4410-b53b-c8dd24da3da7-plcMekT"
-            alt={`Imagen de ${opportunity.title}`}
-            className="w-full h-64 object-cover"
+            src={opportunity.institutionImage}
+            alt={`Logo de ${opportunity.institutionName}`}
+            className="w-full h-full object-contain"
           />
           <span className="absolute top-2 left-2 bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded">
             {opportunity.status}
@@ -80,53 +81,27 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
 
         {/* Contenido de la tarjeta */}
         <div className="p-4">
-          <h2 className="text-lg font-semibold text-gray-900">
-            {opportunity.title}
-          </h2>
+          <h2 className="text-lg font-semibold text-gray-900">{opportunity.title}</h2>
           <p className="text-sm text-gray-600">{opportunity.description}</p>
 
           {/* Ubicación, Categoría e Institución */}
           <div className="text-xs text-gray-500 mt-2">
-            <p>
-              <strong>Institución:</strong> {opportunity.institutionName}
-            </p>
-            <p>
-              <strong>Sector:</strong> {opportunity.sectorName}
-            </p>
-            <p>
-              <strong>Tipo de Oportunidad:</strong>{" "}
-              {opportunity.opportunityTypeName}
-            </p>
-            <p>
-              <strong>Categoría:</strong> {opportunity.categoryName}
-            </p>
-            <p>
-              <strong>Ubicación:</strong> {opportunity.localityCity}
-            </p>
-            <p>
-              <strong>Beneficios:</strong> {opportunity.benefits}
-            </p>
-            <p>
-              <strong>Modalidad:</strong> {opportunity.modality}
-            </p>
-            <p>
-              <strong>Fecha de Publicación:</strong>{" "}
-              {opportunity.publicationDate}
-            </p>
-            <p>
-              <strong>Fecha de Expiración:</strong> {opportunity.expirationDate}
-            </p>
+            <p><strong>Institución:</strong> {opportunity.institutionName}</p>
+            <p><strong>Sector:</strong> {opportunity.sectorName}</p>
+            <p><strong>Tipo de Oportunidad:</strong> {opportunity.opportunityTypeName}</p>
+            <p><strong>Categoría:</strong> {opportunity.categoryName}</p>
+            <p><strong>Ubicación:</strong> {opportunity.localityCity}</p>
+            <p><strong>Beneficios:</strong> {opportunity.benefits}</p>
+            <p><strong>Modalidad:</strong> {opportunity.modality}</p>
+            <p><strong>Fecha de Publicación:</strong> {opportunity.publicationDate}</p>
+            <p><strong>Fecha de Expiración:</strong> {opportunity.expirationDate}</p>
           </div>
 
           {/* Precios con descuento */}
           <div className="flex items-center space-x-2 my-2">
-            <span className="text-green-600 font-bold text-lg">
-              ${discountPrice.toFixed(2)}
-            </span>
+            <span className="text-green-600 font-bold text-lg">${discountPrice.toFixed(2)}</span>
             {discountPrice < price && (
-              <span className="text-gray-500 line-through text-sm">
-                ${price.toFixed(2)}
-              </span>
+              <span className="text-gray-500 line-through text-sm">${price.toFixed(2)}</span>
             )}
           </div>
 
@@ -136,9 +111,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
               <Star
                 key={index}
                 size={20}
-                fill={
-                  index < (hoverRating || rating) ? "#ffcc00" : "transparent"
-                }
+                fill={index < (hoverRating || rating) ? "#ffcc00" : "transparent"}
                 stroke="currentColor"
                 className="cursor-pointer"
                 onMouseEnter={() => setHoverRating(index + 1)}

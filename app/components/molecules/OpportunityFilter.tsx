@@ -9,6 +9,7 @@ interface Opportunity {
   categoryName: string;
   institutionId: number;
   institutionName: string;
+  institutionsImage: string;
   opportunityTypeId: number;
   opportunityTypeName: string;
   sectorId: number;

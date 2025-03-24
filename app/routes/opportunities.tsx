@@ -63,14 +63,17 @@ export default function Opportunities() {
     localityCity: "",
     categoryId: undefined,
     status: "",
+    expirationDate: "",
+    price: undefined,
   });
 
   // Manejo de filtros
   const handleFilterChange = (newFilters: Partial<Opportunity>) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      ...newFilters,
-    }));
+    setFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters, ...newFilters };
+      console.log("Filtros actualizados:", updatedFilters);
+      return updatedFilters;
+    });
   };
 
   // Filtrar oportunidades basadas en los filtros aplicados

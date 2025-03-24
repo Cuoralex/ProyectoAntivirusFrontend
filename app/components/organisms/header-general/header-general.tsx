@@ -56,7 +56,7 @@ export default function HeaderGeneral() {
             </Link>
           </li>
           <li>
-            <Link to="#!" className="hover:text-gray-500">
+            <Link to="/opportunities" className="hover:text-gray-500">
               Oportunidades
             </Link>
           </li>

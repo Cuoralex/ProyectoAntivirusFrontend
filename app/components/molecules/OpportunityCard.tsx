@@ -86,12 +86,12 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
 
             {/* Contenido de la tarjeta */}
             <h2 className="text-lg font-semibold text-gray-900">{opportunity.title}</h2>
-            <p className="text-sm text-gray-600">{opportunity.description}</p>
 
             {/* Ubicación, Categoría e Institución */}
             <div className="text-xs text-gray-500 mt-2">
               <p><strong>Institución:</strong> {opportunity.institutionName}</p>
               <p><strong>Sector:</strong> {opportunity.sectorName}</p>
+              <p><strong>Tipo de Oportunidad:</strong> {opportunity.opportunityTypeName}</p>
               <p><strong>Ubicación:</strong> {opportunity.localityCity}</p>
               <p><strong>Fecha de Publicación:</strong> {opportunity.publicationDate}</p>
               <p><strong>Fecha de Expiración:</strong> {opportunity.expirationDate}</p>
@@ -142,7 +142,6 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
             <p className="text-sm">{opportunity.description}</p>
 
             <div className="text-xs mt-2">
-              <p><strong>Tipo de Oportunidad:</strong> {opportunity.opportunityTypeName}</p>
               <p><strong>Categoría:</strong> {opportunity.categoryName}</p>
               <p><strong>Beneficios:</strong> {opportunity.benefits}</p>
               <p><strong>Modalidad:</strong> {opportunity.modality}</p>

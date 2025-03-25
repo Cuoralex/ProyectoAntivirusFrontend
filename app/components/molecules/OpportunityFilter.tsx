@@ -46,7 +46,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({ onFilterChange })
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [name]: value || undefined, // Evitar valores vacíos en el estado
+      [name]: value || undefined, 
     }));
   };
 
@@ -62,7 +62,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({ onFilterChange })
       const response = await fetch(`/opportunities.data?${params.toString()}`);
       const data = await response.json();
       console.log("Datos recibidos:", data);
-      onFilterChange(currentFilters); // Notificar cambios al padre
+      onFilterChange(currentFilters);
     } catch (error) {
       console.error("Error al obtener oportunidades:", error);
     }
@@ -118,9 +118,16 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({ onFilterChange })
             <label htmlFor="institutions" className="block text-gray-700 font-medium">Instituciones</label>
             <select name="institutionId" onChange={handleInputChange} className="w-full border p-2 rounded">
               <option value="">Instituciones</option>
-              <option value="1">Universidad Nacional (Sede Medellín)</option>
-              <option value="2">Universidad EAFIT</option>
-              <option value="3">Universidad Pontificia Bolivariana</option>
+              <option value="1">Universidad de Antioquia</option>
+              <option value="2">Universidad Nacional (Sede Medellín)</option>
+              <option value="3">Universidad de Medellín</option>
+              <option value="4">Universidad EAFIT</option>
+              <option value="5">Universidad Pontificia Bolivariana</option>
+              <option value="6">Institución Universitaria Pascual Bravo</option>
+              <option value="7">Tecnológico de Antioquia</option>
+              <option value="8">Institución Universitaria ITM</option>
+              <option value="9">Politécnico Jaima Isaza Cadavid</option>
+              <option value="10">Servicio Nacional de Aprendizaje (SENA)</option>
             </select>
           </div>
 

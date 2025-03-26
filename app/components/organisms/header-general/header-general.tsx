@@ -21,10 +21,10 @@ export default function HeaderGeneral() {
             <a href="#!">¿Quiénes somos?</a>
           </li>
           <li>
-            <a href="#!">Instituciones</a>
+            <a href="#institutions">Instituciones</a>
           </li>
           <li>
-            <a href="#!">Servicios</a>
+            <a href="#our-services">Servicios</a>
           </li>
           <li>
             <a href="#!">Oportunidades</a>

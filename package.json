@@ -11,15 +11,20 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^2.3.0",
     "@remix-run/node": "^2.16.0",
     "@remix-run/react": "^2.15.3",
     "@remix-run/serve": "^2.15.3",
+    "framer-motion": "^12.4.10",
     "isbot": "^4.1.0",
+    "lucide-react": "^0.483.0",
     "proyectantivirusfrontend": "file:",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-responsive-carousel": "^3.2.23",
     "swiper": "^11.2.6",
+    "react-slick": "^0.30.3",
+    "slick-carousel": "^1.8.1",
     "zustand": "^5.0.3"
   },
   "devDependencies": {

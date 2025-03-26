@@ -15,7 +15,10 @@ export default function AuthLayout() {
   );
 
   useEffect(() => {
-    if (searchParams.get("mode") === "login") {
+    const mode = searchParams.get("mode");
+    if (mode === "register") {
+      setIsRegistering(true);
+    } else {
       setIsRegistering(false);
     }
   }, [searchParams]);
@@ -38,14 +41,14 @@ export default function AuthLayout() {
       />
       <div className="bg-white shadow-[0px_4px_10px_rgba(0,0,0,0.2)] flex justify-start flex-col items-center gap-4 lg:gap-4 rounded-lg w-[488px] h-auto pb-8 relative z-10">
         <h1 className="text-center text-3xl text-black font-semibold mt-12">
-          {isRegistering ? "Registrarme" : "Iniciar sesión"}
+          {isRegistering ? "Registrarme" : "Acceder"}
         </h1>
 
         {isRegistering ? <RegisterPage /> : <LoginPage />}
 
         <div className="flex justify-center mt-4 space-x-4 px-14 w-full">
           <button
-            onClick={() => setIsRegistering(true)}
+            onClick={() => setSearchParams({ mode: "register" })}
             className={`px-4 py-2 w-full rounded-lg ${
               isRegistering ? "bg-[#7C78B3] text-white" : "bg-gray-300"
             }`}
@@ -53,11 +56,11 @@ export default function AuthLayout() {
             Registrarme
           </button>
           <button
-            onClick={() => setIsRegistering(false)}
+            onClick={() => setSearchParams({ mode: "login" })}
             className={`w-full px-4 py-2 h-auto rounded-lg ${
               !isRegistering
                 ? "bg-[#7C78B3] text-white"
-                : "bg-white text-black border border-gray-400"
+                : "bg-gray-300 text-white "
             }`}
           >
             Acceder

@@ -46,12 +46,12 @@ export default function HeaderGeneral() {
             </Link>
           </li>
           <li>
-            <Link to="#!" className="hover:text-gray-500">
+            <Link to="#institutions" className="hover:text-gray-500">
               Instituciones
             </Link>
           </li>
           <li>
-            <Link to="#!" className="hover:text-gray-500">
+            <Link to="#our-services" className="hover:text-gray-500">
               Servicios
             </Link>
           </li>

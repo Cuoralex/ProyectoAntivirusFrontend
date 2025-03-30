@@ -2,6 +2,7 @@ import { useLoaderData } from "@remix-run/react";
 import { LoaderFunction, json } from "@remix-run/node";
 import { useState } from "react";
 import { getOpportunities } from "../utils/ProyectAntivirusFrontend";
+import { useSearchParams } from "@remix-run/react";
 import OpportunityCard from "../components/molecules/OpportunityCard";
 import OpportunityFilter from "../components/molecules/OpportunityFilter";
 import ButtonWhatsapp from "../components/organisms/button-whatsapp";
@@ -9,6 +10,8 @@ import HeaderGeneral from "~/components/organisms/header-general/header-general"
 import FooterGeneral from "~/components/organisms/footer-general/footer-general";
 import ButtonDonateWompi from "~/components/organisms/button-donate-wompi/button-donate-wompi";
 import ButtonGoUp from "~/components/organisms/button-go-up/button-go-up";
+import Pagination from "~/components/organisms/pagination";
+
 
 // Definimos la interfaz de Opportunity
 interface Opportunity {
@@ -38,7 +41,7 @@ interface Opportunity {
   price: number;
   discountPrice: number;
   rating: number;
-  ratingCount: number;  
+  ratingCount: number;
   stock: boolean;
   freeShipping: boolean;
 }
@@ -58,11 +61,15 @@ export const loader: LoaderFunction = async () => {
 // Componente principal
 export default function Opportunities() {
   const { opportunities } = useLoaderData<LoaderData>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState<Partial<Opportunity>>({
     title: "",
-    localityCity: "",
-    categoryId: undefined,
+    opportunityTypeId: 0,
+    localityId: 0,
+    institutionId: 0,
+    sectorId: 0,
     status: "",
+    publicationDate: "",
     expirationDate: "",
     price: undefined,
   });
@@ -76,19 +83,64 @@ export default function Opportunities() {
     });
   };
 
+  // Estado de paginación
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
+  const pageSize = 10;
+
   // Filtrar oportunidades basadas en los filtros aplicados
   const filteredOpportunities = opportunities.filter((opportunity) => {
+    // Convertir fechas de filtro a objetos Date (si existen)
+    const expirationDateFilter = filters.expirationDate
+      ? new Date(filters.expirationDate)
+      : null;
+    const publicationDateFilter = filters.publicationDate
+      ? new Date(filters.publicationDate)
+      : null;
+
+    // Convertir fechas de oportunidad a objetos Date (si existen)
+    const opportunityExpirationDate = opportunity.expirationDate
+      ? new Date(opportunity.expirationDate)
+      : null;
+    const opportunityPublicationDate = opportunity.publicationDate
+      ? new Date(opportunity.publicationDate)
+      : null;
     return (
-      (!filters.title || opportunity.title.toLowerCase().includes(filters.title.toLowerCase())) &&
-      (!filters.description || opportunity.description.toLowerCase().includes(filters.description.toLowerCase())) &&
-      (!filters.localityCity || opportunity.localityCity.toLowerCase().includes(filters.localityCity.toLowerCase())) &&
-      (!filters.categoryId || opportunity.categoryId === filters.categoryId) &&
-      (!filters.institutionId || opportunity.institutionId === filters.institutionId) &&
+      (!filters.title ||
+        opportunity.title
+          .toLowerCase()
+          .includes(filters.title.toLowerCase())) &&
+      (!filters.opportunityTypeId ||
+        opportunity.opportunityTypeId === Number(filters.opportunityTypeId)) &&
+      (!filters.localityId ||
+        opportunity.localityId === Number(filters.localityId)) &&
+      (!filters.institutionId ||
+        opportunity.institutionId === Number(filters.institutionId)) &&
+      (!filters.sectorId ||
+        opportunity.sectorId === Number(filters.sectorId)) &&
       (!filters.status || opportunity.status === filters.status) &&
-      (!filters.expirationDate || new Date(opportunity.expirationDate) >= new Date(filters.expirationDate)) &&
+      (!expirationDateFilter ||
+        (opportunityExpirationDate &&
+          opportunityExpirationDate.toISOString().split("T")[0] ===
+            expirationDateFilter.toISOString().split("T")[0])) &&
+      (!publicationDateFilter ||
+        (opportunityPublicationDate &&
+          opportunityPublicationDate.toISOString().split("T")[0] ===
+            publicationDateFilter.toISOString().split("T")[0])) &&
       (!filters.price || opportunity.price <= filters.price)
     );
-  });  
+  });
+
+  // Aplicar paginación
+  const paginatedOpportunities = filteredOpportunities.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  console.log("Oportunidades originales:", opportunities);
+  console.log("Filtros aplicados:", filters);
+  console.log("Oportunidades filtradas:", filteredOpportunities);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
@@ -97,14 +149,14 @@ export default function Opportunities() {
 
       <div className="flex-grow flex flex-col md:flex-row p-6 gap-4">
         {/* Filtro fijo en móviles y sticky en pantallas grandes */}
-        <div className="w-full md:w-1/4 p-4 bg-white shadow-lg rounded-xl md:sticky md:top-4 h-fit">
+        <div className="w-full md:w-1/4 p-4 bg-white shadow-lg rounded-xl md:sticky md:top-4 md:self-start md:h-[calc(100vh-2rem)] overflow-y-auto">
           <OpportunityFilter onFilterChange={handleFilterChange} />
         </div>
 
         {/* Contenedor de tarjetas con ajuste responsivo */}
         <div className="w-full md:w-3/4 p-4 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4 justify-center">
-          {filteredOpportunities.length > 0 ? (
-            filteredOpportunities.map((opportunity) => (
+          {paginatedOpportunities.length > 0 ? (
+            paginatedOpportunities.map((opportunity) => (
               <OpportunityCard key={opportunity.id} opportunity={opportunity} />
             ))
           ) : (
@@ -112,6 +164,21 @@ export default function Opportunities() {
           )}
         </div>
       </div>
+
+      {/* Componente de paginación */}
+      <Pagination
+        currentPage={currentPage}
+        totalItems={filteredOpportunities.length}
+        pageSize={pageSize}
+        onPageChange={(page: number) => {
+          setCurrentPage(page);
+          setSearchParams((prevParams) => {
+            const newParams = new URLSearchParams(prevParams);
+            newParams.set("page", String(page));
+            return newParams;
+          });          
+        }}
+      />
 
       {/* Footer al final de la página */}
       <ButtonWhatsapp />

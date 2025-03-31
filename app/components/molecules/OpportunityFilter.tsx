@@ -92,6 +92,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             <input
               type="text"
               name="title"
+              value={filters.title ?? ""}
               placeholder="Buscar título"
               onChange={handleInputChange}
               className="bg-gray-200 text-gray-700 p-2 rounded-md w-full"
@@ -108,6 +109,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             </label>
             <select
               name="opportunityTypeId"
+              value={filters.opportunityTypeId ?? ""}
               onChange={handleInputChange}
               className="bg-gray-200 text-gray-700 p-2 rounded-md w-full"
             >
@@ -131,6 +133,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             </label>
             <select
               name="institutionId"
+              value={filters.institutionId ?? ""}
               onChange={handleInputChange}
               className="bg-gray-200 text-gray-700 p-2 rounded-md w-full"
             >
@@ -159,6 +162,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             </label>
             <select
               name="sectorId"
+              value={filters.sectorId ?? ""}
               onChange={handleInputChange}
               className="bg-gray-200 text-gray-700 p-2 rounded-md w-full"
             >
@@ -192,6 +196,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             </label>
             <select
               name="localityId"
+              value={filters.localityId ?? ""}
               onChange={handleInputChange}
               className="bg-gray-200 text-gray-700 p-2 rounded-md w-full"
             >
@@ -242,6 +247,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             <input
               type="date"
               name="publicationDate"
+              value={filters.publicationDate ?? ""}
               onChange={handleInputChange}
               className="bg-gray-200 text-gray-700 p-2 rounded-md w-full appearance-none"
             />
@@ -258,6 +264,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             <input
               type="date"
               name="expirationDate"
+              value={filters.expirationDate ?? ""}
               onChange={handleInputChange}
               className="bg-gray-200 text-gray-700 p-2 rounded-md w-full appearance-none"
             />

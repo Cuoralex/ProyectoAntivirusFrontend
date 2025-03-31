@@ -144,8 +144,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
               <option value="7">Tecnológico de Antioquia</option>
               <option value="8">Institución Universitaria ITM</option>
               <option value="9">Politécnico Jaime Isaza Cadavid</option>
-              <option value="10">
-                Servicio Nacional de Aprendizaje (SENA)
+              <option value="10">Servicio Nacional de Aprendizaje (SENA)
               </option>
             </select>
           </div>
@@ -159,7 +158,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
               Sectores
             </label>
             <select
-              name="sectorsId"
+              name="sectorId"
               onChange={handleInputChange}
               className="bg-gray-200 text-gray-700 p-2 rounded-md w-full"
             >

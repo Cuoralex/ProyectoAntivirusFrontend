@@ -1,8 +1,10 @@
 // app/routes/contactanos.tsx
-import React from 'react';
 import { MetaFunction } from '@remix-run/node';
 import ContactForm from '../components/molecules/ContactForm';
 import Header from '../components/organisms/header-general/header-general';
+import ButtonWhatsapp from "../components/organisms/button-whatsapp";
+import ButtonDonateWompi from "~/components/organisms/button-donate-wompi/button-donate-wompi";
+import ButtonGoUp from "~/components/organisms/button-go-up/button-go-up";
 import Footer from '../components/organisms/footer-general/footer-general';
 
 export const meta: MetaFunction = () => {
@@ -44,6 +46,9 @@ export default function ContactUs() {
           </div>
         </div>
       </main>
+      <ButtonWhatsapp />
+      <ButtonDonateWompi />
+      <ButtonGoUp />
       <Footer />
     </div>
   );

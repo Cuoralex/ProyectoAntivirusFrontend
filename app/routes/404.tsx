@@ -23,7 +23,7 @@ export default function NotFoundPage() {
         {/* Imagen */}
         <div className="w-full md:w-1/2 flex justify-center md:justify-end p-6">
           <img
-            src="public\Javi 8.png"
+            src="public/Javi-8.png"
             alt="Page not found"
             className="max-w-full h-auto object-contain"
           />

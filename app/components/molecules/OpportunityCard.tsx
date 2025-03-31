@@ -10,7 +10,7 @@ interface Opportunity {
   institutionId: number;
   institutionName: string;
   institutionImage: string;
-  institutionInformation: string;
+  institutionLink: string;
   opportunityTypeId: number;
   opportunityTypeName: string;
   sectorId: number;
@@ -158,7 +158,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
               </button>
               <button
                 className="flex-1 bg-gray-800 text-white text-sm font-bold py-2 rounded-lg hover:bg-gray-900 transition"
-                onClick={() => window.open(opportunity.institutionInformation, "_blank")}
+                onClick={() => window.open(opportunity.institutionLink, "_blank")}
               >
                 Postularme
               </button>

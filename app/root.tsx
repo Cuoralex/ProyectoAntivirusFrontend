@@ -9,8 +9,13 @@ import {
   isRouteErrorResponse,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
+
+import "./styles/variables.css";
 import "./tailwind.css";
 import "./styles/global.css";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/free-mode";
 import { LAYOUT_FOR_ROUTES } from "./utils/constants/routes";
 import NotFoundPage from "./routes/404"; // Importa la página 404
 

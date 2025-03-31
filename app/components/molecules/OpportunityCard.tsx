@@ -56,7 +56,9 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
       );
 
       if (!response.ok) {
-        throw new Error(`Error al calificar la oportunidad. Código: ${response.status}`);
+        throw new Error(
+          `Error al calificar la oportunidad. Código: ${response.status}`
+        );
       }
 
       const data = await response.json();
@@ -71,7 +73,13 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
       <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-sm w-full border border-gray-200">
         {/* Cara A */}
         {!showDetails ? (
-          <div className="p-4">
+          <div
+            className={`p-4 ${
+              [2, 8, 9].includes(opportunity.institutionId)
+                ? "bg-gradient-to-r from-[#7C76B5] to-[#ffffff]"
+                : "bg-white"
+            }`}
+          >
             {/* Imagen con etiqueta de estado */}
             <div className="relative w-full h-32 overflow-hidden">
               <img
@@ -85,23 +93,44 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
             </div>
 
             {/* Contenido de la tarjeta */}
-            <h2 className="text-lg font-semibold text-gray-900">{opportunity.title}</h2>
+            <h2 className="text-lg font-semibold text-gray-900">
+              {opportunity.title}
+            </h2>
 
             {/* Ubicación, Categoría e Institución */}
             <div className="text-xs text-gray-500 mt-2">
-              <p><strong>Institución:</strong> {opportunity.institutionName}</p>
-              <p><strong>Sector:</strong> {opportunity.sectorName}</p>
-              <p><strong>Tipo de Oportunidad:</strong> {opportunity.opportunityTypeName}</p>
-              <p><strong>Ubicación:</strong> {opportunity.localityCity}</p>
-              <p><strong>Fecha de Publicación:</strong> {opportunity.publicationDate}</p>
-              <p><strong>Fecha de Expiración:</strong> {opportunity.expirationDate}</p>
+              <p>
+                <strong>Institución:</strong> {opportunity.institutionName}
+              </p>
+              <p>
+                <strong>Sector:</strong> {opportunity.sectorName}
+              </p>
+              <p>
+                <strong>Tipo de Oportunidad:</strong>{" "}
+                {opportunity.opportunityTypeName}
+              </p>
+              <p>
+                <strong>Ubicación:</strong> {opportunity.localityCity}
+              </p>
+              <p>
+                <strong>Fecha de Publicación:</strong>{" "}
+                {opportunity.publicationDate}
+              </p>
+              <p>
+                <strong>Fecha de Expiración:</strong>{" "}
+                {opportunity.expirationDate}
+              </p>
             </div>
 
             {/* Precio con descuento */}
             <div className="flex items-center space-x-2 my-2">
-              <span className="text-green-600 font-bold text-lg">${discountPrice.toFixed(2)}</span>
+              <span className="text-green-600 font-bold text-lg">
+                ${discountPrice.toFixed(2)}
+              </span>
               {discountPrice < price && (
-                <span className="text-gray-500 line-through text-sm">${price.toFixed(2)}</span>
+                <span className="text-gray-500 line-through text-sm">
+                  ${price.toFixed(2)}
+                </span>
               )}
             </div>
 
@@ -111,7 +140,9 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
                 <Star
                   key={index}
                   size={20}
-                  fill={index < (hoverRating || rating) ? "#ffcc00" : "transparent"}
+                  fill={
+                    index < (hoverRating || rating) ? "#ffcc00" : "transparent"
+                  }
                   stroke="currentColor"
                   className="cursor-pointer"
                   onMouseEnter={() => setHoverRating(index + 1)}
@@ -119,7 +150,9 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
                   onClick={() => handleRating(index + 1)}
                 />
               ))}
-              <span className="text-gray-700 ml-2">({rating.toFixed(1)}/5)</span>
+              <span className="text-gray-700 ml-2">
+                ({rating.toFixed(1)}/5)
+              </span>
             </div>
 
             {/* Botones */}
@@ -142,10 +175,19 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
             <p className="text-sm">{opportunity.description}</p>
 
             <div className="text-xs mt-2">
-              <p><strong>Categoría:</strong> {opportunity.categoryName}</p>
-              <p><strong>Beneficios:</strong> {opportunity.benefits}</p>
-              <p><strong>Modalidad:</strong> {opportunity.modality}</p>
-              <p><strong>Fecha de Expiración:</strong> {opportunity.expirationDate}</p>
+              <p>
+                <strong>Categoría:</strong> {opportunity.categoryName}
+              </p>
+              <p>
+                <strong>Beneficios:</strong> {opportunity.benefits}
+              </p>
+              <p>
+                <strong>Modalidad:</strong> {opportunity.modality}
+              </p>
+              <p>
+                <strong>Fecha de Expiración:</strong>{" "}
+                {opportunity.expirationDate}
+              </p>
             </div>
 
             {/* Botones */}
@@ -158,11 +200,12 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
               </button>
               <button
                 className="flex-1 bg-gray-800 text-white text-sm font-bold py-2 rounded-lg hover:bg-gray-900 transition"
-                onClick={() => window.open(opportunity.institutionLink, "_blank")}
+                onClick={() =>
+                  window.open(opportunity.institutionLink, "_blank")
+                }
               >
                 Postularme
               </button>
-
             </div>
           </div>
         )}

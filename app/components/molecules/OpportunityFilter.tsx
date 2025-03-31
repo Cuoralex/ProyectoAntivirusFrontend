@@ -55,15 +55,27 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
     }));    
   };
 
-  // Restablecer filtros
-  const resetFilters = () => {
-    setFilters({});
-    onFilterChange({});
+  const initialFilters: Partial<Opportunity> = {
+    title: "",
+    opportunityTypeId: 0,
+    localityId: 0,
+    institutionId: 0,
+    sectorId: 0,
+    status: "",
+    publicationDate: "",
+    expirationDate: "",
+    price: undefined,
   };
+  
+  const resetFilters = () => {
+    setFilters(initialFilters);
+    onFilterChange(initialFilters);
+  };
+  
 
   return (
     <div>
-      <h4 className="text-center text-3xl font-bold text-white bg-gray-700 py-2">
+      <h4 className="text-center text-3xl font-bold text-white bg-gray-300 py-2">
         Filtro Oportunidades
       </h4>
 
@@ -82,7 +94,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
               name="title"
               placeholder="Buscar título"
               onChange={handleInputChange}
-              className="w-full border p-2 rounded"
+              className="bg-gray-200 text-gray-700 p-2 rounded-md w-full"
             />
           </div>
 
@@ -97,7 +109,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             <select
               name="opportunityTypeId"
               onChange={handleInputChange}
-              className="w-full border p-2 rounded"
+              className="bg-gray-200 text-gray-700 p-2 rounded-md w-full"
             >
               <option value="">Tipo de oportunidad</option>
               <option value="1">Educación Superior</option>
@@ -120,7 +132,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             <select
               name="institutionId"
               onChange={handleInputChange}
-              className="w-full border p-2 rounded"
+              className="bg-gray-200 text-gray-700 p-2 rounded-md w-full"
             >
               <option value="">Instituciones</option>
               <option value="1">Universidad de Antioquia</option>
@@ -149,7 +161,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             <select
               name="sectorsId"
               onChange={handleInputChange}
-              className="w-full border p-2 rounded"
+              className="bg-gray-200 text-gray-700 p-2 rounded-md w-full"
             >
               <option value="">Sectores</option>
               <option value="1">Administrativo</option>
@@ -182,7 +194,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             <select
               name="localityId"
               onChange={handleInputChange}
-              className="w-full border p-2 rounded"
+              className="bg-gray-200 text-gray-700 p-2 rounded-md w-full"
             >
               <option value="">Ubicación</option>
               <option value="1">Medellín</option>
@@ -232,7 +244,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
               type="date"
               name="publicationDate"
               onChange={handleInputChange}
-              className="w-full border p-2 rounded"
+              className="bg-gray-200 text-gray-700 p-2 rounded-md w-full appearance-none"
             />
           </div>
 
@@ -248,7 +260,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
               type="date"
               name="expirationDate"
               onChange={handleInputChange}
-              className="w-full border p-2 rounded"
+              className="bg-gray-200 text-gray-700 p-2 rounded-md w-full appearance-none"
             />
           </div>
 

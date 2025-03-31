@@ -107,27 +107,14 @@ export default function Opportunities() {
       ? new Date(opportunity.publicationDate)
       : null;
     return (
-      (!filters.title ||
-        opportunity.title
-          .toLowerCase()
-          .includes(filters.title.toLowerCase())) &&
-      (!filters.opportunityTypeId ||
-        opportunity.opportunityTypeId === Number(filters.opportunityTypeId)) &&
-      (!filters.localityId ||
-        opportunity.localityId === Number(filters.localityId)) &&
-      (!filters.institutionId ||
-        opportunity.institutionId === Number(filters.institutionId)) &&
-      (!filters.sectorId ||
-        opportunity.sectorId === Number(filters.sectorId)) &&
+      (!filters.title || opportunity.title.toLowerCase() .includes(filters.title.toLowerCase())) &&
+      (!filters.opportunityTypeId || opportunity.opportunityTypeId === Number(filters.opportunityTypeId)) &&
+      (!filters.localityId || opportunity.localityId === Number(filters.localityId)) &&
+      (!filters.institutionId || opportunity.institutionId === Number(filters.institutionId)) &&
+      (!filters.sectorId || opportunity.sectorId === Number(filters.sectorId)) &&
       (!filters.status || opportunity.status === filters.status) &&
-      (!expirationDateFilter ||
-        (opportunityExpirationDate &&
-          opportunityExpirationDate.toISOString().split("T")[0] ===
-            expirationDateFilter.toISOString().split("T")[0])) &&
-      (!publicationDateFilter ||
-        (opportunityPublicationDate &&
-          opportunityPublicationDate.toISOString().split("T")[0] ===
-            publicationDateFilter.toISOString().split("T")[0])) &&
+      (!expirationDateFilter || (opportunityExpirationDate && opportunityExpirationDate.toISOString().split("T")[0] === expirationDateFilter.toISOString().split("T")[0])) &&
+      (!publicationDateFilter || (opportunityPublicationDate && opportunityPublicationDate.toISOString().split("T")[0] === publicationDateFilter.toISOString().split("T")[0])) &&
       (!filters.price || opportunity.price <= filters.price)
     );
   });

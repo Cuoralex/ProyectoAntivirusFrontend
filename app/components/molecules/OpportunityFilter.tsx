@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState, useEffect } from "react";
+import React, { ChangeEvent, useState } from "react";
+
 
 interface Opportunity {
   id: number;
@@ -48,52 +49,11 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
     const { name, value } = event.target;
     console.log(`Nombre: ${name}, Valor: ${value}`);
 
-    setFilters((prevFilters) => {
-      const updatedFilters = { ...prevFilters, [name]: value || undefined };
-      onFilterChange(updatedFilters); // Aplicar cambios directamente
-      return updatedFilters;
-    });    
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: value ? (isNaN(Number(value)) ? value : Number(value)) : undefined,
+    }));    
   };
-
-  // Función para obtener oportunidades según los filtros
-  const fetchOpportunities = async (currentFilters: Partial<Opportunity>) => {
-    const params = new URLSearchParams();
-    if (currentFilters.title) params.append("title", currentFilters.title);
-    if (typeof currentFilters.opportunityTypeId === "number")
-      params.append(
-        "opportunityTypeId",
-        String(currentFilters.opportunityTypeId)
-      );
-    if (typeof currentFilters.institutionId === "number")
-      params.append("institutionId", String(currentFilters.institutionId));
-    if (typeof currentFilters.localityId === "number")
-      params.append("localityId", String(currentFilters.localityId));
-    if (currentFilters.expirationDate)
-      params.append(
-        "expirationDate",
-        new Date(currentFilters.expirationDate).toISOString().split("T")[0]
-      );
-
-    if (currentFilters.publicationDate)
-      params.append(
-        "publicationDate",
-        new Date(currentFilters.publicationDate).toISOString().split("T")[0]
-      );
-
-    try {
-      const response = await fetch(`/opportunities.data?${params.toString()}`);
-      const data = await response.json();
-      console.log("Datos recibidos:", data);
-      onFilterChange(currentFilters); // Notificar cambios al padre
-    } catch (error) {
-      console.error("Error al obtener oportunidades:", error);
-    }
-  };
-
-  // Llamar a la API cuando los filtros cambian
-  useEffect(() => {
-    fetchOpportunities(filters);
-  }, [filters]);
 
   // Restablecer filtros
   const resetFilters = () => {
@@ -304,7 +264,7 @@ const OpportunityFilter: React.FC<OpportunityFilterProps> = ({
             <button
               type="button"
               className="bg-indigo-600 text-white px-4 py-2 rounded"
-              onClick={() => fetchOpportunities(filters)}
+              onClick={() => onFilterChange(filters)}
             >
               Aplicar
             </button>

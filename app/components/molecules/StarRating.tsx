@@ -6,34 +6,39 @@ interface StarRatingProps {
 }
 
 const StarRating: React.FC<StarRatingProps> = ({ cardId, userId }: StarRatingProps) => {
-  const [rating, setRating] = useState(0);
-  const [hover, setHover] = useState(0);
-  const [average, setAverage] = useState(0);
-  const [userVoted, setUserVoted] = useState(false);
+  const [rating, setRating] = useState(0); // Calificación del usuario
+  const [hover, setHover] = useState(0); // Estado para el hover
+  const [average, setAverage] = useState(0); // Promedio de calificaciones
+  const [userVoted, setUserVoted] = useState(false); // Si el usuario ya votó
 
   useEffect(() => {
+    // Obtener la calificación del usuario y el promedio
     fetch(`http://localhost:5055/api/v1/opportunities/${cardId}/rating/${userId}`)
-      .then(res => res.json())
-      .then(data => {
-        setAverage(data.Average);
-        if (data.UserRating) {
-          setRating(data.UserRating);
-          setUserVoted(true);
+      .then((res) => res.json())
+      .then((data) => {
+        setAverage(data.Average); // Promedio de calificaciones
+        if (data.UserRating !== null) {
+          setRating(data.UserRating); // Calificación del usuario
+          setUserVoted(true); // Si el usuario ya tiene calificación
         }
       })
-      .catch(err => console.error("Error al obtener la calificación:", err));
+      .catch((err) => console.error("Error al obtener la calificación:", err));
   }, [cardId, userId]);
 
   const handleClick = (score: number) => {
-    if (userVoted) return;
+    if (userVoted) return; // Evitar que el usuario vote más de una vez
+
+    // Enviar la calificación al backend
     fetch(`http://localhost:5055/api/v1/opportunities/${cardId}/rate`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, score })
-    }).then(() => {
-      setRating(score);
-      setUserVoted(true);
-    }).catch(err => console.error("Error al enviar la calificación:", err));
+      body: JSON.stringify({ userId, score }),
+    })
+      .then(() => {
+        setRating(score); // Actualiza la calificación del usuario
+        setUserVoted(true); // Marca que el usuario ya votó
+      })
+      .catch((err) => console.error("Error al enviar la calificación:", err));
   };
 
   return (
@@ -63,6 +68,6 @@ const StarRating: React.FC<StarRatingProps> = ({ cardId, userId }: StarRatingPro
       </span>
     </div>
   );
-  }  
+};
 
 export default StarRating;

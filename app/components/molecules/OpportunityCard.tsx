@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Star } from "lucide-react";
+import StarRating from "./StarRating";
+
+
 
 interface Opportunity {
   id: number;
@@ -40,33 +42,7 @@ interface OpportunityCardProps {
 const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
   const price = opportunity.price ?? 0;
   const discountPrice = opportunity.discountPrice ?? price;
-  const [rating, setRating] = useState(opportunity.rating ?? 0);
-  const [hoverRating, setHoverRating] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
-
-  const handleRating = async (newRating: number) => {
-    try {
-      const response = await fetch(
-        `http://localhost:5055/api/v1/opportunities/${opportunity.id}/rate`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ rating: newRating }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          `Error al calificar la oportunidad. Código: ${response.status}`
-        );
-      }
-
-      const data = await response.json();
-      setRating(data.newRating);
-    } catch (error) {
-      console.error("Error al enviar la calificación:", error);
-    }
-  };
 
   return (
     <div className="mx-auto flex justify-center items-center p-4">
@@ -135,25 +111,8 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
             </div>
 
             {/* Calificación */}
-            <div className="flex items-center text-yellow-500 text-sm mt-2">
-              {[...Array(5)].map((_, index) => (
-                <Star
-                  key={index}
-                  size={20}
-                  fill={
-                    index < (hoverRating || rating) ? "#ffcc00" : "transparent"
-                  }
-                  stroke="currentColor"
-                  className="cursor-pointer"
-                  onMouseEnter={() => setHoverRating(index + 1)}
-                  onMouseLeave={() => setHoverRating(0)}
-                  onClick={() => handleRating(index + 1)}
-                />
-              ))}
-              <span className="text-gray-700 ml-2">
-                ({rating.toFixed(1)}/5)
-              </span>
-            </div>
+            <StarRating cardId={opportunity.id.toString()} userId={opportunity.id.toString()} />
+
 
             {/* Botones */}
             <div className="mt-4 flex space-x-2">

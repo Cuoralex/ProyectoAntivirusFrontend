@@ -97,23 +97,24 @@ export default function Index() {
   useEffect(() => {
     getAllInitialInfo();
   }, []);
-
+  
   return (
     <div id="home">
+
       {/* Sección Hero agregada */}
-      <Hero />
+      <section className="relative w-full flex items-center justify-center h-[80vh] px-6 gap-6">
+        {/* Contenedor Imagen de inicio */}
+        <div className="w-[55%] flex justify-center w-[48%] mt-[-40px] ">
+        <img 
+        src={HomeBanner} 
+        alt="Banner" 
+        className="w-full h-auto object-cover rounded-lg shadow-lg-[-20px]" 
+        />
+        </div>
 
-      <section className="flex items-center justify-center gap-10 p-10">
-        {/* Imagen de inicio */}
-        <img src={HomeBanner} alt="Banner" className="w-[50%] max-w-[600px]" />
-
-        {/* Muñequita animada */}
-        <div className="relative w-[200px] h-[200px]">
-          <img
-            src="/ruta-de-la-muñequita.png"
-            alt="Muñequita"
-            className="w-full h-full animate-move"
-          />
+        {/* Contenedor Muñequita animada */}
+        <div className="w-1/2 flex justify-center w-[48%] mt-[-40px] ">
+        <Hero className="w-[250px] h-auto" />     
         </div>
       </section>
 

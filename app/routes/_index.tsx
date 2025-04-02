@@ -1,3 +1,6 @@
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importa los estilos del carrusel
 import HomeBanner from "../assets/images/home-fundacion-antivirus.png";
 import { useEffect, useState } from "react";
 import {
@@ -10,7 +13,8 @@ import {
   OurServiceResponse,
 } from "~/services/our-services.service";
 import { ourServiceResponseToCardInfoProps } from "~/utils/mappers/our-services.mappers";
-import { Swiper, SwiperSlide } from "swiper/react";
+import NuestroEquipo from "./ourTeam";
+import QuienesSomos from "./que-queremos";
 
 export interface CardInfoProps {
   id: number;
@@ -149,6 +153,12 @@ export default function Index() {
         <div className="mt-[10px] lg:mt-[76px]">
           <SliderCardInfo cards={ourServices} />
         </div>
+      </section>
+      <section id="quienes_somos" className="bg-[--color-light-blue] p-[20px] lg:p-[110px]">
+          <QuienesSomos />
+      </section>
+      <section id="our-team" className="bg-[white] p-[20px] lg:p-[110px]">
+          <NuestroEquipo />
       </section>
     </div>
   );

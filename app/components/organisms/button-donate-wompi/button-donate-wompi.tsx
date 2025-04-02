@@ -8,16 +8,21 @@ export default function ButtonDonateWompi() {
   return (
     <button
       id="button-donate-wompi"
-      className="bg-[#FFBA08] text-[white] fixed right-5 bottom-5 flex items-center gap-[16px] rounded-full"
+      className="bg-[#FFBA08] text-white fixed bottom-5 right-5 md:bottom-10 md:right-10 
+                 flex items-center gap-2 sm:gap-4 rounded-full p-2 sm:p-3 md:p-4 shadow-lg"
       onClick={handleClick}
     >
-      <img src={IconWompi} alt="Ícono Wompi" />
-      <div className="flex mr-[20px]">
-        <span className="text-[20px] font-bold">Donar</span>
+      <img
+        src={IconWompi}
+        alt="Ícono Wompi"
+        className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8"
+      />
+      <div className="flex items-center">
+        <span className="text-sm sm:text-lg font-bold">Donar</span>
         <img
           src={IconHeartWhite}
           alt="Ícono Corazón Donar"
-          className="w-[28px] h-[28px]"
+          className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 ml-1"
         />
       </div>
     </button>

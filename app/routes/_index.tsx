@@ -11,6 +11,7 @@ import {
   OurServiceResponse,
 } from "~/services/our-services.service";
 import { ourServiceResponseToCardInfoProps } from "~/utils/mappers/our-services.mappers";
+import Hero from "~/components/Hero";
 
 export interface CardInfoProps {
   id: number;
@@ -99,9 +100,23 @@ export default function Index() {
 
   return (
     <div id="home">
-      <section>
-        <img src={HomeBanner} alt="Banner" className="w-full" />
+      {/* Sección Hero agregada */}
+      <Hero />
+
+      <section className="flex items-center justify-center gap-10 p-10">
+        {/* Imagen de inicio */}
+        <img src={HomeBanner} alt="Banner" className="w-[50%] max-w-[600px]" />
+
+        {/* Muñequita animada */}
+        <div className="relative w-[200px] h-[200px]">
+          <img
+            src="/ruta-de-la-muñequita.png"
+            alt="Muñequita"
+            className="w-full h-full animate-move"
+          />
+        </div>
       </section>
+
       <section
         id="institutions"
         className="bg-[--color-light-blue] p-[20px] lg:p-[110px]"
@@ -125,3 +140,4 @@ export default function Index() {
     </div>
   );
 }
+

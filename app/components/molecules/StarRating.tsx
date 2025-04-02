@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
+import { Star } from "lucide-react"; // O usa react-icons si prefieres
 
 interface StarRatingProps {
   cardId: string;
   userId: string;
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ cardId, userId }: StarRatingProps) => {
+const StarRating: React.FC<StarRatingProps> = ({
+  cardId,
+  userId,
+}: StarRatingProps) => {
   const [rating, setRating] = useState(0); // Calificación del usuario
   const [hover, setHover] = useState(0); // Estado para el hover
   const [average, setAverage] = useState(0); // Promedio de calificaciones
@@ -13,7 +17,9 @@ const StarRating: React.FC<StarRatingProps> = ({ cardId, userId }: StarRatingPro
 
   useEffect(() => {
     // Obtener la calificación del usuario y el promedio
-    fetch(`http://localhost:5055/api/v1/opportunities/${cardId}/rating/${userId}`)
+    fetch(
+      `http://localhost:5055/api/v1/opportunities/${cardId}/rating/${userId}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setAverage(data.Average); // Promedio de calificaciones
@@ -42,30 +48,20 @@ const StarRating: React.FC<StarRatingProps> = ({ cardId, userId }: StarRatingPro
   };
 
   return (
-    <div className="flex items-center space-x-2">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <span
-          key={star}
-          role="button"
-          tabIndex={0}
-          className={`text-3xl cursor-pointer ${
-            userVoted
-              ? "text-yellow-500"
-              : hover >= star || rating >= star
-              ? "text-yellow-500"
-              : "text-gray-300"
-          }`}
-          onMouseEnter={() => !userVoted && setHover(star)}
+    <div className="flex items-center text-yellow-500 text-sm mt-2">
+      {[...Array(5)].map((_, index) => (
+        <Star
+          key={index}
+          size={20}
+          fill={index < (hover || rating) ? "#ffcc00" : "transparent"}
+          stroke="currentColor"
+          className="cursor-pointer"
+          onMouseEnter={() => !userVoted && setHover(index + 1)}
           onMouseLeave={() => !userVoted && setHover(0)}
-          onClick={() => handleClick(star)}
-          onKeyDown={(e) => e.key === "Enter" && handleClick(star)}
-        >
-          ★
-        </span>
+          onClick={() => handleClick(index + 1)}
+        />
       ))}
-      <span className="ml-2 text-lg font-semibold">
-        {average.toFixed(1)}/5
-      </span>
+      <span className="text-gray-700 ml-2">({average.toFixed(1)}/5)</span>
     </div>
   );
 };

@@ -9,7 +9,7 @@ export default function ButtonDonateWompi() {
     <button
       id="button-donate-wompi"
       className="bg-[#FFBA08] text-white fixed bottom-5 right-5 md:bottom-10 md:right-10 
-                 flex items-center gap-2 sm:gap-4 rounded-full p-2 sm:p-3 md:p-4 shadow-lg"
+                 flex items-center gap-2 sm:gap-4 rounded-full p-2 sm:p-3 md:p-4 shadow-lg z-50"
       onClick={handleClick}
     >
       <img

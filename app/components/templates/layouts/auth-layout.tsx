@@ -17,7 +17,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
   );
 
   return (
-    <div className="h-screen pt-20 min-h-screen bg-white w-screen flex justify-center items-center gap-2 px-8 lg:gap-0 xl:gap-32 relative">
+    <div className="h-screen pt-20 w-screen flex justify-center items-start gap-2 px-8 lg:gap-0 xl:gap-32 relative">
       <SuccessModal
         isOpen={isModalOpen}
         onClose={() => {

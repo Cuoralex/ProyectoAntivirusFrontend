@@ -98,12 +98,20 @@ export default function HeaderGeneral() {
         </form>
 
         {isLoggedIn ? (
-          <Button
-            onClick={() => navigate("/profile")}
-            text="Mi perfil"
-            backgroundColor="#7C78B3"
-            textColor="white"
-          />
+          <>
+            <Button
+              onClick={() => navigate("/profile")}
+              text="Mi perfil"
+              backgroundColor="#7C78B3"
+              textColor="white"
+            />
+            <Button
+              onClick={() => navigate("/logout")}
+              text="Cerrar sesión"
+              backgroundColor="#ef4444"
+              textColor="white"
+            />
+          </>
         ) : (
           <>
             <Button

@@ -61,8 +61,8 @@ const StarRating: React.FC<StarRatingProps> = ({
         />
       ))}
       {/* Puntaje de votación */}
-      <span className={`ml-2 ${isWhiteText ? "text-white" : "text-gray-700"}`}>
-        ({average.toFixed(1)}/5)
+      <span className={`ml-2 ${isWhiteText ? "text-white" : "text-gray-700 ml-2"}`}>
+      ({(hover || rating || average).toFixed(1)}/5)
       </span>
     </div>
   );

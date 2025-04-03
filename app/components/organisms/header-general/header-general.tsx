@@ -77,27 +77,7 @@ export default function HeaderGeneral() {
           </li>
           <li>
             <Link to="/OurTeam" className="hover:text-gray-500">
-              Nuestro equipo{" "}
-            </Link>
-          </li>
-          <li>
-            <Link to="#institutions" className="hover:text-gray-500">
-              Instituciones
-            </Link>
-          </li>
-          <li>
-            <Link to="#our-services" className="hover:text-gray-500">
-              Servicios
-            </Link>
-          </li>
-          <li>
-            <Link to="/opportunities" className="hover:text-gray-500">
-              Oportunidades
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact-us" className="hover:text-gray-500">
-              Contáctanos
+              Nuestro equipo
             </Link>
           </li>
         </ul>

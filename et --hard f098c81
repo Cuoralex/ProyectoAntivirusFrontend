@@ -1,0 +1,81 @@
+[33m1a7a916[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdevBaldurt[m[33m, [m[1;31morigin/devBaldurt[m[33m)[m Merge branch 'main' of https://github.com/Cuoralex/ProyectAntivirusFrontend into devBaldurt
+[33m871dbe4[m login done
+[33m531cec8[m feature: login done
+[33mf098c81[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #8 from Cuoralex/DevCuoralex
+[33mcd5350a[m[33m ([m[1;31morigin/DevCuoralex[m[33m)[m Fusión rama main a rama DevCuoralex
+[33m67ba7d3[m Atualización rama devGeny
+[33m03ec5dd[m Ajuste de votación y favoritos por usuario
+[33m3228fee[m[33m ([m[1;31morigin/devGeny[m[33m)[m Se realizan los cambios en la página principal
+[33m5daa94c[m Mejora presentación instituciones
+[33m926a8f5[m Se bajan cambios de main y se hace merge
+[33mfa28d36[m Ajjuste de proceso de votación en frontend
+[33maa3f2cc[m Implementación de votación en oportunidades
+[33mc867a2c[m Merge pull request #7 from Cuoralex/DevCuoralex
+[33m22e3133[m Corregir para inicializar input y selects de los filtros
+[33m389e1c3[m Se ajusta el nombre de sectors para que filtre correctamente
+[33meeb4d57[m Se ajusta boton de restablecer filtros
+[33m3e55741[m Ajuste de filtros en boton APLICAR
+[33m21eb412[m Ajuste en opportunityFilter
+[33m3c67831[m Acomodar institutionInformation a institutionLink por daño en la base de datos
+[33m836bf7a[m Se organizan filtros por Id, se ajusta filtro en su presentació, se agrega sectores para filtrar y se agrega paginación
+[33m245a956[m Merge pull request #6 from Cuoralex/feature/DevDianaRoldan
+[33mfbcc1f2[m[33m ([m[1;31morigin/feature/DevDianaRoldan[m[33m)[m Se solucionan conflictos
+[33m4ede8bb[m Se finaliza la construccion del home
+[33me97bb34[m Ajuste a filtro de oportunidades
+[33m05fad00[m Merge pull request #5 from Cuoralex/DevCuoralex
+[33m70e2445[m Se ajusta filtro por palabra funcional y directo
+[33md19482b[m Ajuste de tipos de filtros de oportunidades
+[33m2f263c5[m Se hace la instalacion de nuevos paquetes por pull
+[33m77d91cd[m Ajustes de merge de la rama main con la rama DevCuoralex
+[33m62c62c1[m Ajuste de direcciones header
+[33m6410fbb[m Se ajusta boton postularme para que redirija a las páginas de las instituciones
+[33ma0e006a[m Se ajusta cara A y B de tarjeta oportunidades con funcionalidad botones
+[33m801b7c7[m Ajuste de imagen de opportunidades desde la BdD
+[33mfb5777e[m Corrección imagen README
+[33m30bb0b4[m Ajuste imagen README
+[33m2b18b9b[m Se agrega README
+[33m54a0585[m Fix: responsive design header, enable dark mode and routing nav menu.
+[33mceb4121[m Merge branch 'devGeny' of https://github.com/Cuoralex/ProyectAntivirusFrontend into devBaldurt
+[33mb908ae2[m integrate header
+[33m5bd6d19[m Merge pull request #3 from Cuoralex/feature/navbar-responsive
+[33mb4c7470[m Merge pull request #4 from Cuoralex/devBaldurt
+[33mbf08051[m Merge branch 'main' into devBaldurt
+[33mc60ec57[m login form complete
+[33m9126d2d[m Se complementa información en la pagina de nuestro equipo
+[33m8088ab5[m Ajustar contenedor  formulario de página Contáctanos
+[33mb3d460b[m[33m ([m[1;31morigin/feature/navbar-responsive[m[33m)[m Responsive navbar
+[33m0e86ee4[m Ajuste para mostrar información del backend de oportunidades en el frontend
+[33m6c7d35e[m Se agrega menu desplegable a quienes somos y se crea la sección de nuestro_equipo
+[33mf89c931[m Se ajusta etiqueta abierta y se centran las oportunidades en pantallas medianas
+[33m09e8f44[m Funcionalidad boton whatsapp
+[33mc79be53[m Implementación de página Contaáctanos y Formulario
+[33m2be9928[m Merge remote-tracking branch 'origin/DevDianaCaro' into devBaldurt
+[33m5c5cb68[m Merge pull request #2 from Cuoralex/devBaldurt
+[33m3bd7658[m feat: implement registerpage, with auth layout for change between login and register page.
+[33m2829df5[m[33m ([m[1;31morigin/DevDianaCaro[m[33m)[m Se ajusta javi
+[33m47df50c[m Se ajusta página 404, se ajusta header y se corrige error en opportunities.tsx
+[33m3d9b6f9[m Configuración y ajuste de página error 404
+[33m679c155[m Merge remote-tracking branch 'origin/devGeny' into devBaldurt
+[33mf476217[m Agrego detalles al login
+[33m4b4c21a[m Ajuste de página inicial con opportunities
+[33m78ec2a7[m Merge branch 'main' into DevCuoralex
+[33m775a746[m Merge pull request #1 from Cuoralex/feature/DevDianaRoldan
+[33maa42796[m Ajuste de tarjetas
+[33mc76cd22[m Se genera estructura inicial y se deja configurada layout general
+[33mf9907b6[m Se crea sesión pagina que queremos de la sesión quienes somos
+[33mf273155[m Primera parte del login: estructura y diseño inicial
+[33mc668d7d[m Se anexa boton para chat
+[33m1ee6203[m Se agregan nuevo orden de carpetas y se ajusta header y footer
+[33m672cdcf[m Se ubican los opportunitycard y opportunityfilter en opportunities
+[33m50a9b07[m Estilos en el filtro
+[33m9d0cd0f[m Se implementa el filtro
+[33m57f8b4f[m Creación de estrellas para calificar
+[33m90294f2[m Corrección de errores en opportunitycard
+[33m36eaa2a[m Se ajustan algunos estilos de tarjetas de oportunidades
+[33m094211c[m Creación de oportunidades
+[33m7059272[m Fusion de historiales
+[33m59ca29e[m Merge branch 'main' of https://github.com/Cuoralex/ProyectAntivirusFrontend
+[33m67bce9b[m Initial commit
+[33m6cee5dd[m Merge branch 'main' of https://github.com/Cuoralex/ProyectAntivirusFrontend
+[33mbe6fc60[m Creación de documentos
+[33m8b260de[m Initial commit

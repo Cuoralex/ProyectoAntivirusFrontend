@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from '../../atoms/button/button';
+import Button from "../../atoms/button/button";
 import Logo from "../../../assets/images/logo-fundacion-antivirus.png";
 import IconSearch from "../../../assets/icons/icon-search.png";
 import IconSun from "../../../assets/icons/icon-sun.png";
@@ -48,13 +48,12 @@ export default function HeaderGeneral() {
 
         <ul className="hidden xl:flex gap-6 ml-6">
           <li className="relative">
-            
             <button
               onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
               className="hover:text-gray-500"
             >
-              ¿Quiénes somos?
-            </Link>
+              <Link to="/about-us">¿Quiénes somos?</Link>
+            </button>
           </li>
           <li>
             <Link to="/#institutions" className="hover:text-gray-500">
@@ -81,17 +80,41 @@ export default function HeaderGeneral() {
               Nuestro equipo{" "}
             </Link>
           </li>
-          <li><Link to="#institutions" className="hover:text-gray-500">Instituciones</Link></li>
-          <li><Link to="#our-services" className="hover:text-gray-500">Servicios</Link></li>
-          <li><Link to="/opportunities" className="hover:text-gray-500">Oportunidades</Link></li>
-          <li><Link to="/contact-us" className="hover:text-gray-500">Contáctanos</Link></li>
+          <li>
+            <Link to="#institutions" className="hover:text-gray-500">
+              Instituciones
+            </Link>
+          </li>
+          <li>
+            <Link to="#our-services" className="hover:text-gray-500">
+              Servicios
+            </Link>
+          </li>
+          <li>
+            <Link to="/opportunities" className="hover:text-gray-500">
+              Oportunidades
+            </Link>
+          </li>
+          <li>
+            <Link to="/contact-us" className="hover:text-gray-500">
+              Contáctanos
+            </Link>
+          </li>
         </ul>
       </div>
 
       <div className="hidden md:flex items-center gap-3">
         <form className="hidden md:flex items-center border border-gray-400 px-3 py-1 rounded-full">
-          <img src={IconSearch} alt="Ícono Buscar" className="w-[18px] h-[18px]" />
-          <input type="text" placeholder="Buscar" className="bg-transparent outline-none pl-2 w-[120px]" />
+          <img
+            src={IconSearch}
+            alt="Ícono Buscar"
+            className="w-[18px] h-[18px]"
+          />
+          <input
+            type="text"
+            placeholder="Buscar"
+            className="bg-transparent outline-none pl-2 w-[120px]"
+          />
         </form>
 
         {isLoggedIn ? (
@@ -122,11 +145,22 @@ export default function HeaderGeneral() {
             {darkMode ? (
               <img src={IconSun} alt="Modo Claro" className="cursor-pointer" />
             ) : (
-              <img src={IconMoon} alt="Modo Oscuro" className="cursor-pointer" />
+              <img
+                src={IconMoon}
+                alt="Modo Oscuro"
+                className="cursor-pointer"
+              />
             )}
           </button>
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="xl:hidden text-black dark:text-white focus:outline-none">
-            {isMenuOpen ? <X className="text-inherit" size={30} /> : <Menu className="text-inherit" size={30} />}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="xl:hidden text-black dark:text-white focus:outline-none"
+          >
+            {isMenuOpen ? (
+              <X className="text-inherit" size={30} />
+            ) : (
+              <Menu className="text-inherit" size={30} />
+            )}
           </button>
         </div>
       </div>

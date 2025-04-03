@@ -1,4 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import ContactForm from "~/components/molecules/ContactForm";
 import HomeBanner from "../assets/images/home-fundacion-antivirus.png";
 import { useEffect, useState } from "react";
 import {
@@ -120,6 +121,16 @@ export default function Index() {
         </h2>
         <div className="mt-[10px] lg:mt-[76px]">
           <SliderCardInfo cards={ourServices} />
+        </div>
+      </section>
+
+      {/* Formulario de Contacto */}
+      <section id="contact-form" className="bg-[#F5F5F5] p-[20px] lg:p-[110px]">
+        <h2 className="text-[black] text-[40px] font-bold text-center">
+          Contáctanos
+        </h2>
+        <div className="mt-[10px] lg:mt-[76px] max-w-[800px] mx-auto">
+          <ContactForm />
         </div>
       </section>
     </div>

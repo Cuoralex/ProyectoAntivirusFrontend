@@ -6,17 +6,23 @@ import IconSun from "../../../assets/icons/icon-sun.png";
 import IconMoon from "../../../assets/icons/icon-moon.png";
 import { Menu, X } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
+import { useLoaderData } from "@remix-run/react";
+import { loader } from "~/root";
 
 export default function HeaderGeneral() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
+  const { isLoggedIn } = useLoaderData<typeof loader>();
 
-  const handlelogin = () => {
-    navigate("/auth?mode=login");
+  const handleLogin = () => {
+    navigate("/auth/login");
   };
   const handleRegister = () => {
-    navigate("/auth?mode=register");
+    navigate("/auth/register");
+  };
+  const handleStart = () => {
+    navigate("/");
   };
 
   const toggleDarkMode = () => {
@@ -26,17 +32,19 @@ export default function HeaderGeneral() {
 
   return (
     <header
-      className={`h-[80px] flex items-center justify-between px-4 md:px-6 lg:px-10 w-full relative transition-all duration-300 z-50 
+      className={`h-[80px] fixed flex items-center justify-between px-4 md:px-6 lg:px-10 w-full  transition-all duration-300 z-50 
       ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}
     `}
     >
       {/* Logo y menú de navegación */}
       <div className="flex items-center w-full md:w-auto">
-        <img
-          src={Logo}
-          alt="Logo Fundación Antivirus"
-          className="w-[50px] h-[50px] object-contain"
-        />
+        <button onClick={handleStart}>
+          <img
+            src={Logo}
+            alt="Logo Fundación Antivirus"
+            className="w-[50px] h-[50px] object-contain"
+          />
+        </button>
 
         {/* Menú en pantallas grandes */}
         <ul className="hidden xl:flex gap-6 ml-6">
@@ -46,12 +54,12 @@ export default function HeaderGeneral() {
             </Link>
           </li>
           <li>
-            <Link to="#institutions" className="hover:text-gray-500">
+            <Link to="/#institutions" className="hover:text-gray-500">
               Instituciones
             </Link>
           </li>
           <li>
-            <Link to="#our-services" className="hover:text-gray-500">
+            <Link to="/#our-services" className="hover:text-gray-500">
               Servicios
             </Link>
           </li>
@@ -89,14 +97,28 @@ export default function HeaderGeneral() {
           />
         </form>
 
-        {/* Botones de sesión */}
-        <Button
-          onClick={handlelogin}
-          text="Iniciar sesión"
-          backgroundColor="#7C78B3"
-          textColor="white"
-        />
-        <Button onClick={handleRegister} text="Registrarme" borderWidth={1.5} />
+        {isLoggedIn ? (
+          <Button
+            onClick={() => navigate("/profile")}
+            text="Mi perfil"
+            backgroundColor="#7C78B3"
+            textColor="white"
+          />
+        ) : (
+          <>
+            <Button
+              onClick={handleLogin}
+              text="Iniciar sesión"
+              backgroundColor="#7C78B3"
+              textColor="white"
+            />
+            <Button
+              onClick={handleRegister}
+              text="Registrarme"
+              borderWidth={1.5}
+            />
+          </>
+        )}
 
         <div className="flex items-center gap-2">
           <button onClick={toggleDarkMode} className="focus:outline-none">

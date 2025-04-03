@@ -1,4 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importa los estilos del carrusel
 import HomeBanner from "../assets/images/home-fundacion-antivirus.png";
 import { useEffect, useState } from "react";
 import {
@@ -11,12 +13,14 @@ import {
   OurServiceResponse,
 } from "~/services/our-services.service";
 import { ourServiceResponseToCardInfoProps } from "~/utils/mappers/our-services.mappers";
+import NuestroEquipo from "./ourTeam";
+import QuienesSomos from "./que-queremos";
 
 export interface CardInfoProps {
   id: number;
   urlImg: string;
   title: string;
-  description: string;
+  description?: string; // Opcional, ya que institutions no la usa
 }
 
 interface SliderCardInfoProps {
@@ -44,53 +48,60 @@ function CardInfo({ id, urlImg, title, description }: Readonly<CardInfoProps>) {
   );
 }
 
+
 function SliderCardInfo({ cards }: Readonly<SliderCardInfoProps>) {
   return (
-    <Swiper
-      spaceBetween={30}
-      slidesPerView={1}
-      loop
-      breakpoints={{
-        640: {
-          slidesPerView: 1,
-        },
-        768: {
-          slidesPerView: 2,
-        },
-        1024: {
-          slidesPerView: 3,
-        },
-      }}
-    >
-      {cards.map((cardInfo: Readonly<CardInfoProps>) => (
-        <SwiperSlide key={cardInfo.id}>
-          <CardInfo {...cardInfo} />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <div className="w-full max-w-[1200px] mx-auto"> {/* Contenedor flexible */}
+      <Swiper
+        spaceBetween={20}  /* Menos espacio entre slides */
+        loop
+        breakpoints={{
+          320: {
+            slidesPerView: 1, /* 1 tarjeta en pantallas pequeñas */
+          },
+          640: {
+            slidesPerView: 2, /* 2 tarjetas en tablets */
+          },
+          1024: {
+            slidesPerView: 3, /* 3 tarjetas en escritorio */
+          },
+          1440: {
+            slidesPerView: 4, /* 4 tarjetas en pantallas grandes */
+          },
+        }}
+      >
+        {cards.map((cardInfo: Readonly<CardInfoProps>) => (
+          <SwiperSlide key={cardInfo.id} className="flex justify-center">
+            <CardInfo {...cardInfo} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
   );
 }
+
 
 export default function Index() {
   const [institutions, setInstitutions] = useState<CardInfoProps[]>([]);
   const [ourServices, setOurServices] = useState<CardInfoProps[]>([]);
 
   const getAllInitialInfo = async () => {
-    const institutionsResponse: InstitutionResponse[] =
-      await getAllInstitutions();
-    const ourServicesResponse: OurServiceResponse[] = await getAllOurServices();
+    try {
+      const institutionsResponse: InstitutionResponse[] =
+        await getAllInstitutions();
+      const ourServicesResponse: OurServiceResponse[] =
+        await getAllOurServices();
 
-    setInstitutions(
-      institutionsResponse.map((institutionResponse: InstitutionResponse) =>
-        institutionToCardInfoProps(institutionResponse)
-      )
-    );
+      setInstitutions(institutionsResponse.map(institutionToCardInfoProps));
 
-    setOurServices(
-      ourServicesResponse
-        .map(ourServiceResponseToCardInfoProps)
-        .filter((item): item is CardInfoProps => item !== undefined)
-    );
+      setOurServices(
+        ourServicesResponse
+          .map(ourServiceResponseToCardInfoProps)
+          .filter((item): item is CardInfoProps => item !== undefined)
+      );
+    } catch (error) {
+      console.error("Error cargando datos:", error);
+    }
   };
 
   useEffect(() => {
@@ -102,18 +113,39 @@ export default function Index() {
       <section>
         <img src={HomeBanner} alt="Banner" className="w-full" />
       </section>
+
+      {/* Sección de Instituciones */}
       <section
         id="institutions"
-        className="bg-[--color-light-blue] p-[20px] lg:p-[110px]"
+        className="bg-[--color-light-blue] p-6 lg:p-24"
       >
-        <h2 className="text-[black] text-[40px] font-bold text-center">
+        <h2 className="text-black text-3xl lg:text-4xl font-bold text-center">
           Instituciones aliadas
         </h2>
-        <div className="mt-[10px] lg:mt-[76px]">
-          <SliderCardInfo cards={institutions} />
-        </div>
+        {institutions.length > 0 ? (
+          <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {institutions.map((institution) => (
+              <div
+                key={institution.id}
+                className={`p-4 flex justify-center items-center border border-gray-300 shadow-lg rounded-lg aspect-[3/2] 
+            ${[2, 8, 9].includes(institution.id) ? "bg-gray-400" : "bg-white"}`}
+              >
+                <img
+                  src={institution.urlImg}
+                  alt={institution.title}
+                  className="max-w-[80%] max-h-[70%] object-contain"
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-600 mt-4">
+            Cargando instituciones...
+          </p>
+        )}
       </section>
 
+      {/* Sección de Servicios */}
       <section id="our-services" className="bg-[white] p-[20px] lg:p-[110px]">
         <h2 className="text-[black] text-[40px] font-bold text-center">
           Nuestros servicios
@@ -121,6 +153,12 @@ export default function Index() {
         <div className="mt-[10px] lg:mt-[76px]">
           <SliderCardInfo cards={ourServices} />
         </div>
+      </section>
+      <section id="quienes_somos" className="bg-[--color-light-blue] p-[20px] lg:p-[110px]">
+          <QuienesSomos />
+      </section>
+      <section id="our-team" className="bg-[white] p-[20px] lg:p-[110px]">
+          <NuestroEquipo />
       </section>
     </div>
   );

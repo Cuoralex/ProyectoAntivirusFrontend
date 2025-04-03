@@ -1,6 +1,4 @@
 import { MetaFunction } from "@remix-run/node";
-import Header from "../components/organisms/header-general/header-general";
-import Footer from "../components/organisms/footer-general/footer-general";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
@@ -57,22 +55,17 @@ const teamMembers = [
 
 export default function NuestroEquipo() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 text-gray-900">
-      <Header />
-
-      {/* Sección Nuestro Equipo */}
-      <div className="flex-grow p-6 max-w-4xl mx-auto text-center">
-        <h1 className="text-4xl font-extrabold mb-6 text-blue-600">
+    <div className="flex flex-col min-h-screen text-gray-900">
+      <div className="fmax-w-4xl mx-auto text-center mb-4">
+        <h2 className="text-[black] text-[40px] font-bold text-center">
           Nuestro Equipo
-        </h1>
-        <p className="text-lg text-gray-700 leading-relaxed mb-1">
+        </h2>
+        <p className="text-lg text-gray-700 leading-relaxed">
           Conoce a las personas que hacen posible nuestra misión, trabajando con
           compromiso y dedicación.
         </p>
       </div>
-
-      {/* Carrusel de equipo */}
-      <div className="max-w-full mx-auto px-6 py-12">
+      <div className="max-w-full mx-auto px-6 py-4 mt-[-20px]">
         <Carousel
           showArrows
           infiniteLoop
@@ -101,8 +94,6 @@ export default function NuestroEquipo() {
           ))}
         </Carousel>
       </div>
-
-      <Footer />
     </div>
   );
 }

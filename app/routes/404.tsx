@@ -10,7 +10,8 @@ export default function NotFoundPage() {
             404
           </h1>
           <p className="text-lg md:text-2xl font-light leading-relaxed mb-6">
-            ¡Error 404! Esta ruta no está en el plan de estudios. Vuelve a explorar.
+            ¡Error 404! Esta ruta no está en el plan de estudios. Vuelve a
+            explorar.
           </p>
           <Link
             to="/"
@@ -23,7 +24,7 @@ export default function NotFoundPage() {
         {/* Imagen */}
         <div className="w-full md:w-1/2 flex justify-center md:justify-end p-6">
           <img
-            src="public/Javi-8.png"
+            src="/Javi-8.png"
             alt="Page not found"
             className="max-w-full h-auto object-contain"
           />

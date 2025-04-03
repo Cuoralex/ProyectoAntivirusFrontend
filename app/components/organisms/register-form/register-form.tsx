@@ -1,7 +1,7 @@
 import { Form, useActionData } from "@remix-run/react";
 import { useState, useEffect } from "react";
-import { useAuthStore } from "../store";
-import "../styles/global.css";
+import { useAuthStore } from "../../../store";
+import "../../../styles/global.css";
 
 interface ActionData {
   fieldErrors?: {
@@ -131,7 +131,7 @@ export default function RegisterForm() {
   return (
     <Form
       method="post"
-      action="/auth"
+      action="/auth/register"
       className="flex flex-col items-center text-gray-500 w-full h-full px-12 gap-6"
     >
       <div className="flex flex-col items-start w-full relative">

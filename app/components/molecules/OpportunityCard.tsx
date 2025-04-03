@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Star } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import StarRating from "./StarRating";
 
 interface Opportunity {
   id: number;
@@ -40,33 +40,50 @@ interface OpportunityCardProps {
 const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
   const price = opportunity.price ?? 0;
   const discountPrice = opportunity.discountPrice ?? price;
-  const [rating, setRating] = useState(opportunity.rating ?? 0);
-  const [hoverRating, setHoverRating] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const formatDate = (dateString: string | number | Date) => {
+    const date = new Date(dateString);
+    return date.toISOString().split("T")[0]; // Devuelve "YYYY-MM-DD"
+  };
 
-  const handleRating = async (newRating: number) => {
+  const handleMarkFavorite = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:5055/api/v1/opportunities/${opportunity.id}/rate`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ rating: newRating }),
-        }
-      );
+      const response = await fetch("/api/v1/favorites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: 1, // Debes reemplazar esto con el ID del usuario autenticado
+          opportunityId: opportunity.id,
+        }),
+      });
 
-      if (!response.ok) {
-        throw new Error(
-          `Error al calificar la oportunidad. Código: ${response.status}`
-        );
+      if (response.ok) {
+        setIsFavorite(true);
       }
-
-      const data = await response.json();
-      setRating(data.newRating);
     } catch (error) {
-      console.error("Error al enviar la calificación:", error);
+      console.error("Error al marcar como favorita:", error);
     }
   };
+
+  useEffect(() => {
+    const checkFavorite = async () => {
+      try {
+        const response = await fetch(`/api/v1/favorites?userId=1`);
+        const favorites = await response.json();
+        setIsFavorite(
+          favorites.some(
+            (favorite: { opportunityId: number }) =>
+              favorite.opportunityId === opportunity.id
+          )
+        );
+      } catch (error) {
+        console.error("Error al obtener favoritos:", error);
+      }
+    };
+
+    checkFavorite();
+  }, [opportunity.id]);
 
   return (
     <div className="mx-auto flex justify-center items-center p-4">
@@ -114,11 +131,11 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
               </p>
               <p>
                 <strong>Fecha de Publicación:</strong>{" "}
-                {opportunity.publicationDate}
+                {formatDate(opportunity.publicationDate)}
               </p>
               <p>
                 <strong>Fecha de Expiración:</strong>{" "}
-                {opportunity.expirationDate}
+                {formatDate(opportunity.expirationDate)}
               </p>
             </div>
 
@@ -135,31 +152,25 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
             </div>
 
             {/* Calificación */}
-            <div className="flex items-center text-yellow-500 text-sm mt-2">
-              {[...Array(5)].map((_, index) => (
-                <Star
-                  key={index}
-                  size={20}
-                  fill={
-                    index < (hoverRating || rating) ? "#ffcc00" : "transparent"
-                  }
-                  stroke="currentColor"
-                  className="cursor-pointer"
-                  onMouseEnter={() => setHoverRating(index + 1)}
-                  onMouseLeave={() => setHoverRating(0)}
-                  onClick={() => handleRating(index + 1)}
-                />
-              ))}
-              <span className="text-gray-700 ml-2">
-                ({rating.toFixed(1)}/5)
-              </span>
-            </div>
+            <StarRating
+              cardId={opportunity.id.toString()}
+              userId={opportunity.id.toString()}
+            />
 
             {/* Botones */}
             <div className="mt-4 flex space-x-2">
-              <button className="flex-1 bg-blue-600 text-white text-sm font-bold py-2 rounded-lg hover:bg-blue-700 transition">
-                Marcar Favorita
+              <button
+                className={`flex-1 text-white text-sm font-bold py-2 rounded-lg transition ${
+                  isFavorite
+                    ? "bg-gray-500 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700"
+                }`}
+                onClick={handleMarkFavorite}
+                disabled={isFavorite}
+              >
+                {isFavorite ? "Marcada como Favorita" : "Marcar Favorita"}
               </button>
+
               <button
                 className="flex-1 bg-gray-200 text-gray-700 text-sm font-bold py-2 rounded-lg hover:bg-gray-300 transition"
                 onClick={() => setShowDetails(true)}

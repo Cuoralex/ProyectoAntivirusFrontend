@@ -13,8 +13,7 @@ export const meta: MetaFunction = () => [
 
 export default function QuienesSomos() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 text-gray-900">
-      <Header />
+    <div className="flex flex-col min-h-screen text-gray-900">
 
       {/* Imagen Representativa */}
       <div className="w-full">
@@ -23,7 +22,9 @@ export default function QuienesSomos() {
 
       {/* Sección Quiénes Somos */}
       <div className="flex-grow p-6 max-w-4xl mx-auto text-center">
-        <h1 className="text-4xl font-extrabold mb-6 text-blue-600">¿Quiénes somos?</h1>
+        <h2 className="text-[black] text-[40px] font-bold text-center">
+          ¿Quienes Somos?
+        </h2>
         <p className="text-lg text-gray-700 leading-relaxed mb-10">
           Somos una empresa dedicada a la seguridad informática, protegiendo a nuestros
           clientes de amenazas digitales con soluciones innovadoras y eficientes. Nuestro
@@ -90,8 +91,6 @@ export default function QuienesSomos() {
 </div>
 
 
-
-      <Footer />
 
       {/* Botones flotantes */}
       {/* <FloatingButton />

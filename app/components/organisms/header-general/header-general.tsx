@@ -41,7 +41,7 @@ export default function HeaderGeneral() {
 
   return (
     <header
-      className={`h-[80px] fixed flex items-center justify-between px-4 md:px-6 lg:px-10 w-full  transition-all duration-300 z-50 
+      className={`h-[80px] fixed flex items-center justify-between px-4 md:px-6 lg:px-10 w-full shadow-lg  transition-all duration-300 z-50 
       ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}
     `}
     >

@@ -111,21 +111,15 @@ export default function Index() {
 
   return (
     <div id="home">
-      {/* Sección Hero agregada */}
-      <section className="relative w-full flex items-center justify-center h-[80vh] px-6 gap-6">
-        {/* Contenedor Imagen de inicio */}
-        <div className="w-[55%] flex justify-cente mt-[-40px] ">
-          <img
-            src={HomeBanner}
-            alt="Banner"
-            className="w-full h-auto object-cover rounded-lg shadow-lg-[-20px]"
-          />
-        </div>
-
-        {/* Contenedor Muñequita animada */}
-        <div className="w-1/2 flex justify-centermt-[-40px] ">
-          <Hero className="w-[250px] h-auto" />
-        </div>
+      <div className=" z-50 items-center justify-center">
+        <Hero className="w-[20rem] h-[20rem]" />
+      </div>
+      <section className=" w-full h-[100vh]">
+        <img
+          src={HomeBanner}
+          alt="Banner"
+          className="absolute top-0 left-0 w-full h-full object-cover"
+        />
       </section>
 
       <section
@@ -172,7 +166,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Formulario de Contacto */}
       <section id="contact-form" className="bg-[#F5F5F5] p-[20px] lg:p-[110px]">
         <h2 className="text-[black] text-[40px] font-bold text-center">
           Contáctanos

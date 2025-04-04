@@ -13,6 +13,8 @@ import {
 } from "~/services/our-services.service";
 import { ourServiceResponseToCardInfoProps } from "~/utils/mappers/our-services.mappers";
 import OurTeam from "../components/organisms/sections/ourTeam";
+import Hero from "~/components/Hero";
+
 export interface CardInfoProps {
   id: number;
   urlImg: string;
@@ -109,8 +111,21 @@ export default function Index() {
 
   return (
     <div id="home">
-      <section>
-        <img src={HomeBanner} alt="Banner" className="w-full" />
+      {/* Sección Hero agregada */}
+      <section className="relative w-full flex items-center justify-center h-[80vh] px-6 gap-6">
+        {/* Contenedor Imagen de inicio */}
+        <div className="w-[55%] flex justify-cente mt-[-40px] ">
+          <img
+            src={HomeBanner}
+            alt="Banner"
+            className="w-full h-auto object-cover rounded-lg shadow-lg-[-20px]"
+          />
+        </div>
+
+        {/* Contenedor Muñequita animada */}
+        <div className="w-1/2 flex justify-centermt-[-40px] ">
+          <Hero className="w-[250px] h-auto" />
+        </div>
       </section>
 
       <section

@@ -248,7 +248,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
               </p>
               <p>
                 <strong>Fecha de Expiración:</strong>{" "}
-                {opportunity.expirationDate}
+                {formatDate(opportunity.expirationDate)}
               </p>
             </div>
 

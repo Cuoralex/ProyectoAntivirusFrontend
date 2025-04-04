@@ -1,8 +1,7 @@
-import { useLoaderData } from "@remix-run/react";
 import { LoaderFunction, json } from "@remix-run/node";
 import { useState } from "react";
 import { getOpportunities } from "../utils/ProyectAntivirusFrontend";
-import { useSearchParams } from "@remix-run/react";
+import { useSearchParams, useLoaderData } from "@remix-run/react";
 import OpportunityCard from "../components/molecules/OpportunityCard";
 import OpportunityFilter from "../components/molecules/OpportunityFilter";
 import ButtonWhatsapp from "../components/organisms/button-whatsapp";

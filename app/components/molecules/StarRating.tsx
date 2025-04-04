@@ -41,45 +41,33 @@ const StarRating: React.FC<StarRatingProps> = ({
       opportunityId,
       score,
       userId,
-      comment: comment || "Sin comentario", // Evita null o undefined
+      comment: comment || "Sin comentario",
     };
-  
-    console.log("📤 Enviando JSON:", JSON.stringify(payload, null, 2));
   
     fetch(`http://localhost:5055/api/v1/ratings/opportunity/${opportunityId}/average`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ opportunityId, userId, score, comment}),
+      body: JSON.stringify(payload),
     })
       .then(async (res) => {
-        console.log("Headers del backend:", res.headers);
-        console.log("Estado HTTP:", res.status);
-    
-        const contentType = res.headers.get("Content-Type");
-        
-        if (!contentType || !contentType.includes("application/json")) {
-          const text = await res.text();
-          console.warn("Respuesta no JSON:", text);
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error("Error en la respuesta del backend:", errorText);
           return;
         }
-    
         return res.json();
       })
       .then((data) => {
         if (data) {
-          console.log("Respuesta JSON:", data);
+          console.log("Nuevo promedio guardado:", data.average);
           setRating(score);
+          setAverage(data.average); // ✅ Actualiza el estado con el nuevo promedio
           setUserVoted(true);
         }
       })
-      .catch(async (err) => {
-        console.error("Error al enviar la calificación:", err);
-        
-        if (err.response) {
-          const errorText = await err.response.text();
-          console.error("Respuesta del backend:", errorText);
-        }});
-      }
+      .catch((err) => console.error("Error al enviar la calificación:", err));
+  };
+  
      
   
   return (

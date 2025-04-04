@@ -6,15 +6,23 @@ import IconSun from "../../../assets/icons/icon-sun.png";
 import IconMoon from "../../../assets/icons/icon-moon.png";
 import { Menu, X } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
-import { useLoaderData } from "@remix-run/react";
-import { loader } from "~/root";
+import { useMatches } from "@remix-run/react";
 
 export default function HeaderGeneral() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { isLoggedIn } = useLoaderData<typeof loader>();
+  const { isLoggedIn, role } = useRootLoaderData() ?? {
+    isLoggedIn: false,
+    role: null,
+  };
+
+  function useRootLoaderData(): { isLoggedIn: boolean; role: string | null } {
+    const matches = useMatches();
+    const rootMatch = matches.find((m) => m.id === "root");
+    return rootMatch?.data as { isLoggedIn: boolean; role: string | null };
+  }
 
   const handleLogin = () => {
     navigate("/auth/login");
@@ -52,7 +60,7 @@ export default function HeaderGeneral() {
               onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
               className="hover:text-gray-500"
             >
-              <Link to="/about-us">¿Quiénes somos?</Link>
+              <Link to="/#about-us">¿Quiénes somos?</Link>
             </button>
           </li>
           <li>
@@ -76,28 +84,8 @@ export default function HeaderGeneral() {
             </Link>
           </li>
           <li>
-            <Link to="/OurTeam" className="hover:text-gray-500">
-              Nuestro equipo{" "}
-            </Link>
-          </li>
-          <li>
-            <Link to="#institutions" className="hover:text-gray-500">
-              Instituciones
-            </Link>
-          </li>
-          <li>
-            <Link to="#our-services" className="hover:text-gray-500">
-              Servicios
-            </Link>
-          </li>
-          <li>
-            <Link to="/opportunities" className="hover:text-gray-500">
-              Oportunidades
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact-us" className="hover:text-gray-500">
-              Contáctanos
+            <Link to="/#OurTeam" className="hover:text-gray-500">
+              Nuestro equipo
             </Link>
           </li>
         </ul>
@@ -118,12 +106,22 @@ export default function HeaderGeneral() {
         </form>
 
         {isLoggedIn ? (
-          <Button
-            onClick={() => navigate("/profile")}
-            text="Mi perfil"
-            backgroundColor="#7C78B3"
-            textColor="white"
-          />
+          <>
+            <Button
+              onClick={() =>
+                navigate(role === "admin" ? "/admin/index" : "/user-dashboard")
+              }
+              text="Mi perfil"
+              backgroundColor="#7C78B3"
+              textColor="white"
+            />
+            <Button
+              onClick={() => navigate("/logout")}
+              text="Cerrar sesión"
+              backgroundColor="#ef4444"
+              textColor="white"
+            />
+          </>
         ) : (
           <>
             <Button

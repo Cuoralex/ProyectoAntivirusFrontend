@@ -41,9 +41,9 @@ export default function HeaderGeneral() {
 
   return (
     <header
-      className={`h-[80px] fixed flex items-center justify-between px-4 md:px-6 lg:px-10 w-full shadow-lg  transition-all duration-300 z-50 
-      ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}
-    `}
+      className={`h-[80px] fixed flex items-center justify-between px-4 md:px-6 lg:px-10 w-full shadow-lg transition-all duration-300 z-50 ${
+        darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+      }`}
     >
       <div className="flex items-center w-full md:w-auto">
         <button onClick={handleStart}>
@@ -137,31 +137,91 @@ export default function HeaderGeneral() {
             />
           </>
         )}
-
-        <div className="flex items-center gap-2">
-          <button onClick={toggleDarkMode} className="focus:outline-none">
-            {darkMode ? (
-              <img src={IconSun} alt="Modo Claro" className="cursor-pointer" />
-            ) : (
-              <img
-                src={IconMoon}
-                alt="Modo Oscuro"
-                className="cursor-pointer"
-              />
-            )}
-          </button>
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="xl:hidden text-black dark:text-white focus:outline-none"
-          >
-            {isMenuOpen ? (
-              <X className="text-inherit" size={30} />
-            ) : (
-              <Menu className="text-inherit" size={30} />
-            )}
-          </button>
-        </div>
+        <button onClick={toggleDarkMode} className="focus:outline-none">
+          {darkMode ? (
+            <img src={IconSun} alt="Modo Claro" className="cursor-pointer" />
+          ) : (
+            <img src={IconMoon} alt="Modo Oscuro" className="cursor-pointer" />
+          )}
+        </button>
       </div>
+
+      <div className="flex items-center gap-2 xl:hidden">
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="text-inherit focus:outline-none"
+        >
+          {isMenuOpen ? (
+            <X size={30} className="text-inherit" />
+          ) : (
+            <Menu size={30} className="text-inherit" />
+          )}
+        </button>
+      </div>
+
+      {isMenuOpen && (
+        <div
+          className={`absolute top-[80px] left-0 w-full bg-white dark:bg-gray-900 shadow-md p-4 flex flex-col gap-4 xl:hidden transition-all duration-300 z-40`}
+        >
+          <nav className="flex flex-col gap-3 text-sm">
+            <Link to="/#about-us" onClick={() => setIsMenuOpen(false)}>
+              ¿Quiénes somos?
+            </Link>
+            <Link to="/#institutions" onClick={() => setIsMenuOpen(false)}>
+              Instituciones
+            </Link>
+            <Link to="/#our-services" onClick={() => setIsMenuOpen(false)}>
+              Servicios
+            </Link>
+            <Link to="/opportunities" onClick={() => setIsMenuOpen(false)}>
+              Oportunidades
+            </Link>
+            <Link to="#contact-form" onClick={() => setIsMenuOpen(false)}>
+              Contáctanos
+            </Link>
+            <Link to="/#OurTeam" onClick={() => setIsMenuOpen(false)}>
+              Nuestro equipo
+            </Link>
+          </nav>
+
+          <div className="border-t border-gray-300 pt-4 mt-2">
+            {isLoggedIn ? (
+              <>
+                <Button
+                  onClick={() =>
+                    navigate(
+                      role === "admin" ? "/admin/index" : "/user-dashboard"
+                    )
+                  }
+                  text="Mi perfil"
+                  backgroundColor="#7C78B3"
+                  textColor="white"
+                />
+                <Button
+                  onClick={() => navigate("/logout")}
+                  text="Cerrar sesión"
+                  backgroundColor="#ef4444"
+                  textColor="white"
+                />
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={handleLogin}
+                  text="Iniciar sesión"
+                  backgroundColor="#7C78B3"
+                  textColor="white"
+                />
+                <Button
+                  onClick={handleRegister}
+                  text="Registrarme"
+                  borderWidth={1.5}
+                />
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 }

@@ -3,6 +3,7 @@ import ButtonDonateWompi from "~/components/organisms/button-donate-wompi/button
 import ButtonGoUp from "~/components/organisms/button-go-up/button-go-up";
 import FooterGeneral from "~/components/organisms/footer-general/footer-general";
 import HeaderGeneral from "~/components/organisms/header-general/header-general";
+import ButtonWhatsapp from "../../organisms/button-whatsapp";
 
 export default function GeneralLayout() {
   return (
@@ -14,6 +15,7 @@ export default function GeneralLayout() {
         <Outlet />
       </div>
       <FooterGeneral />
+      <ButtonWhatsapp />
     </div>
   );
 }

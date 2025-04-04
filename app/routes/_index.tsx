@@ -114,11 +114,11 @@ export default function Index() {
       <div className=" z-50 items-center justify-center">
         <Hero className="w-[20rem] h-[20rem]" />
       </div>
-      <section className=" w-full h-[100vh]">
+      <section className="w-full max-h-[100vh] overflow-hidden">
         <img
           src={HomeBanner}
           alt="Banner"
-          className="absolute top-0 left-0 w-full h-full object-cover"
+          className="w-full h-auto object-cover max-h-[100vh]"
         />
       </section>
 

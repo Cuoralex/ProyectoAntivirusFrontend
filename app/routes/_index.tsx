@@ -1,6 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importa los estilos del carrusel
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import HomeBanner from "../assets/images/home-fundacion-antivirus.png";
 import { useEffect, useState } from "react";
 import {
@@ -13,14 +12,13 @@ import {
   OurServiceResponse,
 } from "~/services/our-services.service";
 import { ourServiceResponseToCardInfoProps } from "~/utils/mappers/our-services.mappers";
-import NuestroEquipo from "./ourTeam";
-import QuienesSomos from "./que-queremos";
-
+import NuestroEquipo from "../components/organisms/sections/ourTeam";
+import QuienesSomos from "../components/organisms/sections/que-queremos";
 export interface CardInfoProps {
   id: number;
   urlImg: string;
   title: string;
-  description?: string; // Opcional, ya que institutions no la usa
+  description?: string;
 }
 
 interface SliderCardInfoProps {
@@ -48,25 +46,26 @@ function CardInfo({ id, urlImg, title, description }: Readonly<CardInfoProps>) {
   );
 }
 
-
 function SliderCardInfo({ cards }: Readonly<SliderCardInfoProps>) {
   return (
-    <div className="w-full max-w-[1200px] mx-auto"> {/* Contenedor flexible */}
+    <div className="w-full max-w-[1200px] mx-auto">
+      {" "}
+      {/* Contenedor flexible */}
       <Swiper
-        spaceBetween={20}  /* Menos espacio entre slides */
+        spaceBetween={20} /* Menos espacio entre slides */
         loop
         breakpoints={{
           320: {
-            slidesPerView: 1, /* 1 tarjeta en pantallas pequeñas */
+            slidesPerView: 1 /* 1 tarjeta en pantallas pequeñas */,
           },
           640: {
-            slidesPerView: 2, /* 2 tarjetas en tablets */
+            slidesPerView: 2 /* 2 tarjetas en tablets */,
           },
           1024: {
-            slidesPerView: 3, /* 3 tarjetas en escritorio */
+            slidesPerView: 3 /* 3 tarjetas en escritorio */,
           },
           1440: {
-            slidesPerView: 4, /* 4 tarjetas en pantallas grandes */
+            slidesPerView: 4 /* 4 tarjetas en pantallas grandes */,
           },
         }}
       >
@@ -80,8 +79,10 @@ function SliderCardInfo({ cards }: Readonly<SliderCardInfoProps>) {
   );
 }
 
-
 export default function Index() {
+  useEffect(() => {
+    console.log("Cargando _index.tsx");
+  }, []);
   const [institutions, setInstitutions] = useState<CardInfoProps[]>([]);
   const [ourServices, setOurServices] = useState<CardInfoProps[]>([]);
 
@@ -154,11 +155,14 @@ export default function Index() {
           <SliderCardInfo cards={ourServices} />
         </div>
       </section>
-      <section id="quienes_somos" className="bg-[--color-light-blue] p-[20px] lg:p-[110px]">
-          <QuienesSomos />
+      <section
+        id="quienes_somos"
+        className="bg-[--color-light-blue] p-[20px] lg:p-[110px]"
+      >
+        <QuienesSomos />
       </section>
       <section id="our-team" className="bg-[white] p-[20px] lg:p-[110px]">
-          <NuestroEquipo />
+        <NuestroEquipo />
       </section>
     </div>
   );

@@ -60,7 +60,7 @@ export default function HeaderGeneral() {
               onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
               className="hover:text-gray-500"
             >
-              <Link to="/about-us">¿Quiénes somos?</Link>
+              <Link to="/#about-us">¿Quiénes somos?</Link>
             </button>
           </li>
           <li>
@@ -84,7 +84,7 @@ export default function HeaderGeneral() {
             </Link>
           </li>
           <li>
-            <Link to="/OurTeam" className="hover:text-gray-500">
+            <Link to="/#OurTeam" className="hover:text-gray-500">
               Nuestro equipo
             </Link>
           </li>
@@ -109,7 +109,7 @@ export default function HeaderGeneral() {
           <>
             <Button
               onClick={() =>
-                navigate(role === "admin" ? "/admin" : "/user-dashboard")
+                navigate(role === "admin" ? "/admin/index" : "/user-dashboard")
               }
               text="Mi perfil"
               backgroundColor="#7C78B3"

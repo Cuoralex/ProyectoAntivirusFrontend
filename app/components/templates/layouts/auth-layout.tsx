@@ -3,11 +3,7 @@ import "/app/styles/global.css";
 import SuccessModal from "/app/components/organisms/success-modal/sucess-modal";
 import { useAuthStore } from "/app/store.ts";
 
-interface AuthLayoutProps {
-  children?: React.ReactNode;
-}
-
-export default function AuthLayout({ children }: AuthLayoutProps) {
+export default function AuthLayout() {
   const location = useLocation();
   const isRegistering = location.pathname.includes("register");
 
@@ -36,8 +32,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           {isRegistering ? "Registrarme" : "Acceder"}
         </h1>
 
-        {/* Renderiza los hijos pasados al layout */}
-        {children}
+        <Outlet />
 
         <div className="flex justify-center mt-4 space-x-4 px-14 w-full">
           <Link

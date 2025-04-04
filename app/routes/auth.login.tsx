@@ -8,6 +8,7 @@ import { useActionData } from "@remix-run/react";
 import LoginForm from "~/components/organisms/login-form/login-form";
 import { authToken } from "~/utils/session.server";
 import { userRole } from "~/utils/session-role.server";
+import { userEmail } from "~/utils/session-email.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
@@ -40,13 +41,13 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: data?.message ?? "Login fallido" }, { status: 401 });
   }
 
-  const dummyToken = "dummy";
-
-  const destination = data?.role === "admin" ? "/admin" : "/user-dashboard";
+  const destination =
+    data?.role === "admin" ? "/admin/index" : "/user-dashboard";
 
   const headers = new Headers();
-  headers.append("Set-Cookie", await authToken.serialize(dummyToken));
+  headers.append("Set-Cookie", await authToken.serialize(data.token));
   headers.append("Set-Cookie", await userRole.serialize(data.role));
+  headers.append("Set-Cookie", await userEmail.serialize(data.email));
 
   return redirect(destination, { headers });
 };

@@ -19,10 +19,17 @@ import NotFoundPage from "./routes/404";
 import { authToken } from "./utils/session.server";
 import { json, type LoaderFunctionArgs, LinksFunction } from "@remix-run/node";
 
+import { userRole } from "./utils/session-role.server";
+
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const token = await authToken.parse(cookieHeader);
-  return json({ isLoggedIn: !!token });
+  const role = await userRole.parse(cookieHeader);
+
+  return json({
+    isLoggedIn: !!token,
+    role: role ?? null,
+  });
 }
 
 export const links: LinksFunction = () => [

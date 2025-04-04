@@ -1,4 +1,3 @@
-// routes/login.tsx
 import {
   json,
   redirect,
@@ -8,12 +7,13 @@ import {
 import { useActionData } from "@remix-run/react";
 import LoginForm from "~/components/organisms/login-form/login-form";
 import { authToken } from "~/utils/session.server";
+import { userRole } from "~/utils/session-role.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const token = await authToken.parse(cookieHeader);
   if (token) {
-    return redirect("/profile");
+    return redirect("/admin");
   }
   return null;
 }
@@ -30,28 +30,25 @@ export const action: ActionFunction = async ({ request }) => {
   const response = await fetch("http://localhost:5055/api/v1/user/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
+    credentials: "include",
     body: JSON.stringify({ email, password }),
   });
 
-  const responseBody = await response.json();
+  const data = await response.json();
 
   if (!response.ok) {
-    return json(
-      { error: responseBody?.message ?? "Login fallido" },
-      { status: 401 }
-    );
+    return json({ error: data?.message ?? "Login fallido" }, { status: 401 });
   }
 
-  const token = responseBody?.token;
-  if (!token) {
-    return json({ error: "Token no recibido del backend." }, { status: 500 });
-  }
+  const dummyToken = "dummy";
 
-  return redirect("/profile", {
-    headers: {
-      "Set-Cookie": await authToken.serialize(token),
-    },
-  });
+  const destination = data?.role === "admin" ? "/admin" : "/user-dashboard";
+
+  const headers = new Headers();
+  headers.append("Set-Cookie", await authToken.serialize(dummyToken));
+  headers.append("Set-Cookie", await userRole.serialize(data.role));
+
+  return redirect(destination, { headers });
 };
 
 export default function LoginPage() {

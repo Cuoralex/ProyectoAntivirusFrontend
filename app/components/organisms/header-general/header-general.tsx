@@ -6,15 +6,23 @@ import IconSun from "../../../assets/icons/icon-sun.png";
 import IconMoon from "../../../assets/icons/icon-moon.png";
 import { Menu, X } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
-import { useLoaderData } from "@remix-run/react";
-import { loader } from "~/root";
+import { useMatches } from "@remix-run/react";
 
 export default function HeaderGeneral() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { isLoggedIn } = useLoaderData<typeof loader>();
+  const { isLoggedIn, role } = useRootLoaderData() ?? {
+    isLoggedIn: false,
+    role: null,
+  };
+
+  function useRootLoaderData(): { isLoggedIn: boolean; role: string | null } {
+    const matches = useMatches();
+    const rootMatch = matches.find((m) => m.id === "root");
+    return rootMatch?.data as { isLoggedIn: boolean; role: string | null };
+  }
 
   const handleLogin = () => {
     navigate("/auth/login");
@@ -100,7 +108,9 @@ export default function HeaderGeneral() {
         {isLoggedIn ? (
           <>
             <Button
-              onClick={() => navigate("/profile")}
+              onClick={() =>
+                navigate(role === "admin" ? "/admin" : "/user-dashboard")
+              }
               text="Mi perfil"
               backgroundColor="#7C78B3"
               textColor="white"

@@ -12,7 +12,7 @@ import {
   OurServiceResponse,
 } from "~/services/our-services.service";
 import { ourServiceResponseToCardInfoProps } from "~/utils/mappers/our-services.mappers";
-
+import OurTeam from "../components/organisms/sections/ourTeam";
 export interface CardInfoProps {
   id: number;
   urlImg: string;
@@ -144,6 +144,11 @@ export default function Index() {
       </section>
 
       <section id="our-services" className="bg-[white] p-[20px] lg:p-[110px]">
+        <div className="mt-[10px] text-center lg:mt-[76px]">
+          <OurTeam />
+        </div>
+      </section>
+      <section id="our-team" className="bg-[white] p-[20px] lg:p-[110px]">
         <h2 className="text-[black] text-[40px] font-bold text-center">
           Nuestros servicios
         </h2>

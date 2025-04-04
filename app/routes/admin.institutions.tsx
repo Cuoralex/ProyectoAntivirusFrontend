@@ -133,9 +133,9 @@ export default function AdminInstitutions() {
           </div>
 
           <div className="overflow-auto">
-            <table className="min-w-full bg-white rounded shadow">
+            <table className="min-w-full bg-white dark:bg-neutral-600 rounded shadow">
               <thead className="bg-gray-100">
-                <tr>
+                <tr className="dark:text-black">
                   <th className="p-2 text-left w-1/3">Nombre</th>
                   <th className="p-2 text-left w-1/3">Link</th>
                   <th className="p-2 text-right w-1/3">Acciones</th>

@@ -153,9 +153,9 @@ export default function AdminUsers() {
           </div>
 
           <div className="overflow-auto">
-            <table className="min-w-full bg-white shadow-md rounded-md">
+            <table className="min-w-full bg-white dark:bg-neutral-600  shadow-md rounded-md">
               <thead>
-                <tr className="bg-gray-100 text-left">
+                <tr className="bg-gray-100 text-left dark:text-black">
                   <th className="p-2">Nombre</th>
                   <th className="p-2">Email</th>
                   <th className="p-2">Teléfono</th>

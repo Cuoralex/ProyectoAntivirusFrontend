@@ -220,9 +220,9 @@ export default function AdminOpportunities() {
           </div>
 
           <div className="overflow-auto">
-            <table className="min-w-full bg-white rounded shadow">
+            <table className="min-w-full bg-white rounded shadow dark:bg-neutral-600">
               <thead className="bg-gray-100">
-                <tr>
+                <tr className="dark:text-black">
                   <th className="p-2 text-left">Título</th>
                   <th className="p-2">Institución</th>
                   <th className="p-2">Tipo</th>

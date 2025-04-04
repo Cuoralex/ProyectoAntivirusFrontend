@@ -1,4 +1,3 @@
-import { Link, Outlet, useLocation, useMatches } from "@remix-run/react";
 import {
   Home,
   Users,
@@ -9,8 +8,12 @@ import {
   ClipboardList,
   Network,
   FolderCog,
+  Menu,
+  X,
 } from "lucide-react";
+import { Link, Outlet, useLocation, useMatches } from "@remix-run/react";
 import { useEffect, useState } from "react";
+import HeaderDashboard from "~/components/organisms/header-dashboard";
 
 function useCurrentUserEmail(): string | null {
   const matches = useMatches();
@@ -18,6 +21,7 @@ function useCurrentUserEmail(): string | null {
   const data = root?.data as { email?: string } | undefined;
   return data?.email ?? null;
 }
+
 interface User {
   id: number;
   fullName: string;
@@ -30,12 +34,12 @@ interface User {
 
 export default function DashboardLayout() {
   const location = useLocation();
-
   const isActive = (path: string) =>
     location.pathname === path || location.pathname.startsWith(path + "/");
 
   const currentUserEmail = useCurrentUserEmail();
   const [firstName, setFirstName] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -55,119 +59,111 @@ export default function DashboardLayout() {
   }, [currentUserEmail]);
 
   return (
-    <div className="flex grid-cols-1 md:grid-cols-5 min-h-screen">
-      {/* Sidebar */}
-      <aside className="col-span-1 fixed h-screen w-72 bg-gray-900 text-white p-4 space-y-4">
+    <div className="flex min-h-screen relative">
+      <HeaderDashboard
+        isSidebarOpen={sidebarOpen}
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+      />
+
+      <button
+        className="md:hidden p-4 fixed top-0 right-0 z-50"
+        onClick={() => setSidebarOpen((prev) => !prev)}
+      >
+        <Menu size={28} className="text-gray-800" />
+      </button>
+
+      {sidebarOpen && (
+        <div
+          role="button"
+          tabIndex={0}
+          aria-label="Cerrar menú"
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === "Escape") {
+              setSidebarOpen(false);
+            }
+          }}
+        />
+      )}
+
+      <div
+        className={`fixed z-40 top-0 left-0 h-screen w-72 bg-gray-900 text-white p-4 space-y-4 transform transition-transform duration-300 ease-in-out md:hidden ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">Admin Panel</h2>
+          <button onClick={() => setSidebarOpen(false)}>
+            <X size={24} />
+          </button>
+        </div>
+        <nav className="flex flex-col space-y-2">
+          <SidebarLinks isActive={isActive} />
+        </nav>
+      </div>
+
+      <aside className="hidden md:block fixed h-screen w-72 pt-4 bg-gray-900 text-white p-4 space-y-4">
         <h2 className="text-2xl font-bold mb-6">Admin Panel</h2>
         <nav className="flex flex-col space-y-2">
-          <Link
-            to="/admin/index"
-            className={`p-2 rounded flex gap-2 items-center ${
-              isActive("/admin/index")
-                ? "bg-gray-800 font-semibold"
-                : "hover:bg-gray-800"
-            }`}
-          >
-            <Home size={20} /> Inicio
-          </Link>
-
-          <Link
-            to="/admin/users"
-            className={`p-2 rounded flex gap-2 items-center ${
-              isActive("/admin/users")
-                ? "bg-gray-800 font-semibold"
-                : "hover:bg-gray-800"
-            }`}
-          >
-            <Users size={20} /> Usuarios
-          </Link>
-
-          <Link
-            to="/admin/opportunities"
-            className={`p-2 rounded flex gap-2 items-center ${
-              isActive("/admin/opportunities")
-                ? "bg-gray-800 font-semibold"
-                : "hover:bg-gray-800"
-            }`}
-          >
-            <Briefcase size={20} /> Oportunidades
-          </Link>
-
-          <Link
-            to="/admin/institutions"
-            className={`p-2 rounded flex gap-2 items-center ${
-              isActive("/admin/institutions")
-                ? "bg-gray-800 font-semibold"
-                : "hover:bg-gray-800"
-            }`}
-          >
-            <Building size={20} /> Instituciones
-          </Link>
-
-          <Link
-            to="/admin/services"
-            className={`p-2 rounded flex gap-2 items-center ${
-              isActive("/admin/services")
-                ? "bg-gray-800 font-semibold"
-                : "hover:bg-gray-800"
-            }`}
-          >
-            <Layers size={20} /> Servicios
-          </Link>
-
-          <Link
-            to="/admin/service-types"
-            className={`p-2 rounded flex gap-2 items-center ${
-              isActive("/admin/service-types")
-                ? "bg-gray-800 font-semibold"
-                : "hover:bg-gray-800"
-            }`}
-          >
-            <ClipboardList size={20} /> Tipos de Servicio
-          </Link>
-
-          <Link
-            to="/admin/opportunity-types"
-            className={`p-2 rounded flex gap-2 items-center ${
-              isActive("/admin/opportunity-types")
-                ? "bg-gray-800 font-semibold"
-                : "hover:bg-gray-800"
-            }`}
-          >
-            <FolderCog size={20} /> Tipos de Oportunidad
-          </Link>
-
-          <Link
-            to="/admin/sectors"
-            className={`p-2 rounded flex gap-2 items-center ${
-              isActive("/admin/sectors")
-                ? "bg-gray-800 font-semibold"
-                : "hover:bg-gray-800"
-            }`}
-          >
-            <Network size={20} /> Sectores
-          </Link>
-
-          <Link
-            to="/admin/config"
-            className={`p-2 rounded flex gap-2 items-center ${
-              isActive("/admin/config")
-                ? "bg-gray-800 font-semibold"
-                : "hover:bg-gray-800"
-            }`}
-          >
-            <Settings size={20} /> Configuración
-          </Link>
+          <SidebarLinks isActive={isActive} />
         </nav>
       </aside>
 
-      {/* Main content */}
-      <main className="col-span-4 p-6 ml-72 flex-1">
+      <main className="flex-1 p-6 w-full md:ml-72">
         <h1 className="text-3xl font-bold mb-4 text-gray-700">
-          Hola {firstName ?? "Usuario"}
+          Hola, {firstName ?? "Usuario"}
         </h1>
         <Outlet />
       </main>
     </div>
+  );
+}
+
+function SidebarLinks({ isActive }: { isActive: (path: string) => boolean }) {
+  const links = [
+    { to: "/admin/index", icon: <Home size={20} />, label: "Inicio" },
+    { to: "/admin/users", icon: <Users size={20} />, label: "Usuarios" },
+    {
+      to: "/admin/opportunities",
+      icon: <Briefcase size={20} />,
+      label: "Oportunidades",
+    },
+    {
+      to: "/admin/institutions",
+      icon: <Building size={20} />,
+      label: "Instituciones",
+    },
+    { to: "/admin/services", icon: <Layers size={20} />, label: "Servicios" },
+    {
+      to: "/admin/service-types",
+      icon: <ClipboardList size={20} />,
+      label: "Tipos de Servicio",
+    },
+    {
+      to: "/admin/opportunity-types",
+      icon: <FolderCog size={20} />,
+      label: "Tipos de Oportunidad",
+    },
+    { to: "/admin/sectors", icon: <Network size={20} />, label: "Sectores" },
+  ];
+
+  return (
+    <>
+      {links.map((link) => (
+        <Link
+          key={link.to}
+          to={link.to}
+          className={`p-2 rounded flex gap-2 items-center ${
+            isActive(link.to)
+              ? "bg-gray-800 font-semibold"
+              : "hover:bg-gray-800"
+          }`}
+        >
+          {link.icon}
+          {link.label}
+        </Link>
+      ))}
+    </>
   );
 }

@@ -34,12 +34,12 @@ function CardInfo({ id, urlImg, title, description }: Readonly<CardInfoProps>) {
       <img
         src={urlImg}
         alt={title}
-        className="w-[250px] h-[250px] object-contain rounded-[10px]"
+        className="w-[250px] h-[250px] object-cover rounded-[10px]"
       />
       <h4 className="text-black mt-[18px] mb-[28px] font-bold text-[20px] min-h-[90px]">
         {title}
       </h4>
-      <p className="text-black text-justify text-[18px] overflow-hidden text-ellipsis h-[130px]">
+      <p className="text-black text-center text-[18px] overflow-hidden text-ellipsis h-[130px]">
         {description}
       </p>
     </div>
@@ -48,24 +48,23 @@ function CardInfo({ id, urlImg, title, description }: Readonly<CardInfoProps>) {
 
 function SliderCardInfo({ cards }: Readonly<SliderCardInfoProps>) {
   return (
-    <div className="w-full max-w-[1200px] mx-auto">
+    <div className="w-full max-w-full mx-auto text-left">
       {" "}
-      {/* Contenedor flexible */}
       <Swiper
-        spaceBetween={20} /* Menos espacio entre slides */
+        spaceBetween={20}
         loop
         breakpoints={{
           320: {
-            slidesPerView: 1 /* 1 tarjeta en pantallas pequeñas */,
+            slidesPerView: 1,
           },
           640: {
-            slidesPerView: 2 /* 2 tarjetas en tablets */,
+            slidesPerView: 2,
           },
           1024: {
-            slidesPerView: 3 /* 3 tarjetas en escritorio */,
+            slidesPerView: 3,
           },
           1440: {
-            slidesPerView: 4 /* 4 tarjetas en pantallas grandes */,
+            slidesPerView: 4,
           },
         }}
       >
@@ -115,7 +114,6 @@ export default function Index() {
         <img src={HomeBanner} alt="Banner" className="w-full" />
       </section>
 
-      {/* Sección de Instituciones */}
       <section
         id="institutions"
         className="bg-[--color-light-blue] p-6 lg:p-24"
@@ -146,12 +144,11 @@ export default function Index() {
         )}
       </section>
 
-      {/* Sección de Servicios */}
       <section id="our-services" className="bg-[white] p-[20px] lg:p-[110px]">
         <h2 className="text-[black] text-[40px] font-bold text-center">
           Nuestros servicios
         </h2>
-        <div className="mt-[10px] lg:mt-[76px]">
+        <div className="mt-[10px] text-center lg:mt-[76px]">
           <SliderCardInfo cards={ourServices} />
         </div>
       </section>

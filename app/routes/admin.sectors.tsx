@@ -152,9 +152,9 @@ export default function AdminSectors() {
           </div>
 
           <div className="overflow-auto">
-            <table className="min-w-full bg-white rounded shadow">
+            <table className="min-w-full bg-white rounded shadow dark:bg-neutral-600">
               <thead className="bg-gray-100">
-                <tr>
+                <tr className="dark:text-black">
                   <th className="p-2 text-left">Nombre</th>
                   <th className="p-2 text-left">Descripción</th>
                   <th className="p-2 text-left">Acciones</th>

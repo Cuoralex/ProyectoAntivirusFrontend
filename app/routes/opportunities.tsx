@@ -1,7 +1,8 @@
-import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { LoaderFunction, json } from "@remix-run/node";
 import { useState } from "react";
 import { getOpportunities } from "../utils/ProyectAntivirusFrontend";
+import { useSearchParams, useLoaderData } from "@remix-run/react";
+
 import OpportunityCard from "../components/molecules/OpportunityCard";
 import OpportunityFilter from "../components/molecules/OpportunityFilter";
 import ButtonWhatsapp from "../components/organisms/button-whatsapp";
@@ -9,7 +10,6 @@ import ButtonDonateWompi from "~/components/organisms/button-donate-wompi/button
 import ButtonGoUp from "~/components/organisms/button-go-up/button-go-up";
 import Pagination from "~/components/organisms/pagination";
 
-// Definimos la interfaz de Opportunity
 interface Opportunity {
   id: number;
   title: string;
@@ -40,6 +40,9 @@ interface Opportunity {
   ratingCount: number;
   stock: boolean;
   freeShipping: boolean;
+  score: number;
+  userId?:number;
+  comment: string;
 }
 
 // Definimos el tipo de datos que el loader devolverá

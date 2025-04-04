@@ -31,6 +31,9 @@ interface Opportunity {
   ratingCount: number;
   stock: boolean;
   freeShipping: boolean;
+  score: number;
+  userId?:number;
+  comment: string;
 }
 
 interface OpportunityCardProps {
@@ -49,28 +52,41 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
 
   const handleMarkFavorite = async () => {
     try {
-      const response = await fetch("/api/v1/favorites", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: 1, // Debes reemplazar esto con el ID del usuario autenticado
-          opportunityId: opportunity.id,
-        }),
-      });
-
+      const response = await fetch(
+        `http://localhost:5055/api/v1/favorites/${opportunity.id}`, // Aquí se usa opportunity.id correctamente
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            opportunityId: opportunity.id,
+          }),
+        }
+      );
+  
       if (response.ok) {
         setIsFavorite(true);
       }
     } catch (error) {
       console.error("Error al marcar como favorita:", error);
     }
-  };
+  };  
 
   useEffect(() => {
     const checkFavorite = async () => {
       try {
-        const response = await fetch(`/api/v1/favorites?userId=1`);
-        const favorites = await response.json();
+        const response = await fetch(`http://localhost:5055/api/v1/favorites`);
+        if (!response.ok) {
+          throw new Error(
+            `Error en la API: ${response.status} - ${response.statusText}`
+          );
+        }
+
+        // Verifica si la respuesta tiene contenido antes de intentar parsearla
+        const favorites = await response.json().catch(() => {
+          console.warn("La respuesta de favoritos no es JSON válido");
+          return []; // Si hay un error, devuelve un array vacío
+        });
+
         setIsFavorite(
           favorites.some(
             (favorite: { opportunityId: number }) =>
@@ -86,14 +102,14 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
   }, [opportunity.id]);
 
   return (
-    <div className="mx-auto flex justify-center items-center p-4">
-      <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-sm w-full border border-gray-200">
+    <div className="mx-auto flex flex-wrap justify-center items-start gap-8 p-4">
+      <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-sm w-72 h-96 border border-gray-200">
         {/* Cara A */}
         {!showDetails ? (
           <div
-            className={`p-4 ${
+            className={`h-full flex flex-col justify-between p-4 ${
               [2, 8, 9].includes(opportunity.institutionId)
-                ? "bg-gradient-to-r from-[#7C76B5] to-[#ffffff]"
+                ? "bg-[#3C3C3C] text-white"
                 : "bg-white"
             }`}
           >
@@ -110,60 +126,94 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
             </div>
 
             {/* Contenido de la tarjeta */}
-            <h2 className="text-lg font-semibold text-gray-900">
-              {opportunity.title}
-            </h2>
+            <div className="flex flex-col flex-grow justify-between">
+              <h2
+                className={`text-lg font-semibold ${
+                  [2, 8, 9].includes(opportunity.institutionId)
+                    ? "text-white"
+                    : "text-gray-900"
+                }`}
+              >
+                {opportunity.title}
+              </h2>
 
-            {/* Ubicación, Categoría e Institución */}
-            <div className="text-xs text-gray-500 mt-2">
-              <p>
-                <strong>Institución:</strong> {opportunity.institutionName}
-              </p>
-              <p>
-                <strong>Sector:</strong> {opportunity.sectorName}
-              </p>
-              <p>
-                <strong>Tipo de Oportunidad:</strong>{" "}
-                {opportunity.opportunityTypeName}
-              </p>
-              <p>
-                <strong>Ubicación:</strong> {opportunity.localityCity}
-              </p>
-              <p>
-                <strong>Fecha de Publicación:</strong>{" "}
-                {formatDate(opportunity.publicationDate)}
-              </p>
-              <p>
-                <strong>Fecha de Expiración:</strong>{" "}
-                {formatDate(opportunity.expirationDate)}
-              </p>
+              {/* Ubicación, Categoría e Institución */}
+              <div
+                className={`text-xs mt-2 ${
+                  [2, 8, 9].includes(opportunity.institutionId)
+                    ? "text-white"
+                    : "text-gray-500"
+                }`}
+              >
+                <p>
+                  <strong>Institución:</strong> {opportunity.institutionName}
+                </p>
+                <p>
+                  <strong>Sector:</strong> {opportunity.sectorName}
+                </p>
+                <p>
+                  <strong>Tipo de Oportunidad:</strong>{" "}
+                  {opportunity.opportunityTypeName}
+                </p>
+                <p>
+                  <strong>Ubicación:</strong> {opportunity.localityCity}
+                </p>
+                <p>
+                  <strong>Fecha de Publicación:</strong>{" "}
+                  {formatDate(opportunity.publicationDate)}
+                </p>
+                <p>
+                  <strong>Fecha de Expiración:</strong>{" "}
+                  {formatDate(opportunity.expirationDate)}
+                </p>
+              </div>
             </div>
 
-            {/* Precio con descuento */}
-            <div className="flex items-center space-x-2 my-2">
-              <span className="text-green-600 font-bold text-lg">
-                ${discountPrice.toFixed(2)}
-              </span>
-              {discountPrice < price && (
-                <span className="text-gray-500 line-through text-sm">
-                  ${price.toFixed(2)}
+            {/* Contenedor de precio y calificación */}
+            <div className="flex items-center justify-between mt-2">
+              {/* Precio */}
+              <div className="flex items-center space-x-2">
+                <span className="text-green-600 font-bold text-lg">
+                  ${discountPrice.toFixed(2)}
                 </span>
-              )}
-            </div>
+                {discountPrice < price && (
+                  <span
+                    className={`line-through text-sm ${
+                      [2, 8, 9].includes(opportunity.institutionId)
+                        ? "text-white"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    ${price.toFixed(2)}
+                  </span>
+                )}
+              </div>
 
-            {/* Calificación */}
-            <StarRating
-              cardId={opportunity.id.toString()}
-              userId={opportunity.id.toString()}
-            />
+              {/* Estrellas de votación */}
+              <div
+                className={
+                  [2, 8, 9].includes(opportunity.institutionId)
+                    ? "text-white"
+                    : "text-gray-500"
+                }
+              >
+                <StarRating
+                  opportunityId={opportunity.id}
+                  userId={opportunity.userId}
+                  comment={opportunity.comment}
+                  score={opportunity.score}
+                  isWhiteText={[2, 8, 9].includes(opportunity.institutionId)}
+                />
+              </div>
+            </div>
 
             {/* Botones */}
             <div className="mt-4 flex space-x-2">
               <button
-                className={`flex-1 text-white text-sm font-bold py-2 rounded-lg transition ${
+                className={`flex-1 text-sm font-bold py-2 rounded-lg transition ${
                   isFavorite
-                    ? "bg-gray-500 cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-700"
+                    ? "bg-gray-500 cursor-not-allowed text-white"
+                    : "bg-blue-600 hover:bg-blue-700 text-white"
                 }`}
                 onClick={handleMarkFavorite}
                 disabled={isFavorite}
@@ -172,7 +222,11 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
               </button>
 
               <button
-                className="flex-1 bg-gray-200 text-gray-700 text-sm font-bold py-2 rounded-lg hover:bg-gray-300 transition"
+                className={`flex-1 text-sm font-bold py-2 rounded-lg hover:bg-gray-300 transition ${
+                  [2, 8, 9].includes(opportunity.institutionId)
+                    ? "bg-gray-600 text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
                 onClick={() => setShowDetails(true)}
               >
                 Más información
@@ -181,7 +235,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
           </div>
         ) : (
           /* Cara B */
-          <div className="p-4 bg-yellow-400 text-gray-900">
+          <div className="h-full flex flex-col justify-between p-4 bg-yellow-400 text-gray-900">
             <h2 className="text-lg font-semibold">{opportunity.title}</h2>
             <p className="text-sm">{opportunity.description}</p>
 
@@ -197,7 +251,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
               </p>
               <p>
                 <strong>Fecha de Expiración:</strong>{" "}
-                {opportunity.expirationDate}
+                {formatDate(opportunity.expirationDate)}
               </p>
             </div>
 

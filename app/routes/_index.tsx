@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import ContactForm from "~/components/molecules/ContactForm";
 import HomeBanner from "../assets/images/home-fundacion-antivirus.png";
 import { useEffect, useState } from "react";
 import {
@@ -12,8 +12,7 @@ import {
   OurServiceResponse,
 } from "~/services/our-services.service";
 import { ourServiceResponseToCardInfoProps } from "~/utils/mappers/our-services.mappers";
-import NuestroEquipo from "../components/organisms/sections/ourTeam";
-import QuienesSomos from "../components/organisms/sections/que-queremos";
+
 export interface CardInfoProps {
   id: number;
   urlImg: string;
@@ -152,14 +151,15 @@ export default function Index() {
           <SliderCardInfo cards={ourServices} />
         </div>
       </section>
-      <section
-        id="quienes_somos"
-        className="bg-[--color-light-blue] p-[20px] lg:p-[110px]"
-      >
-        <QuienesSomos />
-      </section>
-      <section id="our-team" className="bg-[white] p-[20px] lg:p-[110px]">
-        <NuestroEquipo />
+
+      {/* Formulario de Contacto */}
+      <section id="contact-form" className="bg-[#F5F5F5] p-[20px] lg:p-[110px]">
+        <h2 className="text-[black] text-[40px] font-bold text-center">
+          Contáctanos
+        </h2>
+        <div className="mt-[10px] lg:mt-[76px] max-w-[800px] mx-auto">
+          <ContactForm />
+        </div>
       </section>
     </div>
   );

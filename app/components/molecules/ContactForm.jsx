@@ -98,6 +98,7 @@ const ContactForm = ({ className = "" }) => {
                 value={formData.name}
                 onChange={handleChange}
                 className={`w-full p-1.5 text-sm border rounded dark:bg-[#32526E] dark:border-[#708BC6] ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
+                style={{ color: '#06407A' }} // Azul oscuro
               />
               {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
             </div>
@@ -112,6 +113,7 @@ const ContactForm = ({ className = "" }) => {
                 onChange={handleChange}
                 maxLength={10}
                 className={`w-full p-1.5 text-sm border rounded dark:bg-[#32526E] dark:border-[#708BC6] ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
+                style={{ color: '#021930' }} // Azul oscuro
               />
               {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
             </div>
@@ -125,6 +127,7 @@ const ContactForm = ({ className = "" }) => {
                 value={formData.email}
                 onChange={handleChange}
                 className={`w-full p-1.5 text-sm border rounded dark:bg-[#32526E] dark:border-[#708BC6] ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+                style={{ color: '#06407A' }} // Azul oscuro
               />
               {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
@@ -137,10 +140,7 @@ const ContactForm = ({ className = "" }) => {
                 value={formData.requestType}
                 onChange={handleChange}
                 className={`w-full p-1.5 text-sm border rounded text-black font-medium dark:bg-[#32526E] dark:border-[#708BC6] ${errors.requestType ? 'border-red-500' : 'border-gray-300'}`}
-                style={{
-                  color: 'black',
-                  fontWeight: '500'
-                }}
+                style={{ color: '#06407A', fontWeight: '500' }} // Azul oscuro
               >
                 <option value="" className="text-black font-medium">Seleccione una opción</option>
                 {requestTypes.map((type) => (
@@ -171,10 +171,7 @@ const ContactForm = ({ className = "" }) => {
                 onChange={handleChange}
                 rows="3"
                 className={`w-full p-1.5 text-sm border rounded text-black font-medium dark:bg-[#32526E] dark:border-[#708BC6] ${errors.comments ? 'border-red-500' : 'border-gray-300'}`}
-                style={{
-                  color: 'black',
-                  fontWeight: '500'
-                }}
+                style={{ color: '#06407A', fontWeight: '500' }} // Azul oscuro
               ></textarea>
               {errors.comments && <p className="text-red-500 text-xs mt-1">{errors.comments}</p>}
             </div>

@@ -79,7 +79,7 @@ export default function HeaderGeneral() {
             </Link>
           </li>
           <li>
-            <Link to="/contact-us" className="hover:text-gray-500">
+            <Link to="#contact-form" className="hover:text-gray-500">
               Contáctanos
             </Link>
           </li>

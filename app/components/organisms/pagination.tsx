@@ -9,7 +9,12 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export default function Pagination({ totalItems, currentPage, pageSize, onPageChange }: PaginationProps) {
+export default function Pagination({
+  totalItems,
+  currentPage,
+  pageSize,
+  onPageChange,
+}: PaginationProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -31,8 +36,10 @@ export default function Pagination({ totalItems, currentPage, pageSize, onPageCh
   return (
     <div className="flex justify-center items-center gap-2 mt-4 flex-wrap">
       {/* Selector de elementos por página */}
-      <div className="mb-2">
-        <label htmlFor="pageSize" className="mr-2 text-gray-700">Mostrar:</label>
+      <div>
+        <label htmlFor="pageSize" className="mr-2 text-gray-700">
+          Mostrar:
+        </label>
         <select
           id="pageSize"
           value={pageSize}
@@ -40,7 +47,9 @@ export default function Pagination({ totalItems, currentPage, pageSize, onPageCh
           className="border p-1 rounded"
         >
           {[10, 20, 50, 100].map((size) => (
-            <option key={size} value={size}>{size}</option>
+            <option key={size} value={size}>
+              {size}
+            </option>
           ))}
         </select>
       </div>
@@ -59,8 +68,10 @@ export default function Pagination({ totalItems, currentPage, pageSize, onPageCh
             key={index + 1}
             onClick={() => changePage(index + 1)}
             className={`py-2 px-4 rounded-md ${
-                currentPage === index + 1 ? "bg-blue-700 text-white" : "bg-gray-500 text-white"
-              }`}              
+              currentPage === index + 1
+                ? "bg-blue-700 text-white"
+                : "bg-gray-500 text-white"
+            }`}
           >
             {index + 1}
           </button>

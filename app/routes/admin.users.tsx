@@ -43,7 +43,13 @@ export default function AdminUsers() {
   const [currentPage, setCurrentPage] = useState(
     Number(searchParams.get("page")) || 1
   );
-  const usersPerPage = 14;
+  const [pageSize, setPageSize] = useState(
+    Number(searchParams.get("pageSize")) || 14
+  );
+  useEffect(() => {
+    const newPageSize = Number(searchParams.get("pageSize")) || 14;
+    setPageSize(newPageSize);
+  }, [searchParams]);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -110,7 +116,12 @@ export default function AdminUsers() {
     fetchUsers();
   }, []);
 
-  const filteredUsers = users.filter((user) => {
+  const sortedUsers = [...users].sort((a, b) => {
+    if (a.email === currentUserEmail) return -1;
+    if (b.email === currentUserEmail) return 1;
+    return 0;
+  });
+  const filteredUsers = sortedUsers.filter((user) => {
     const term = searchTerm.toLowerCase();
     return (
       user.fullName.toLowerCase().includes(term) ||
@@ -122,18 +133,17 @@ export default function AdminUsers() {
   });
 
   const paginatedUsers = filteredUsers.slice(
-    (currentPage - 1) * usersPerPage,
-    currentPage * usersPerPage
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
   );
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Usuarios</h1>
       {loading ? (
-        <p>Cargando usuarios...</p>
+        <p className="text-4xl">Cargando usuarios...</p>
       ) : (
         <>
-          <div className="mb-4">
+          <div className="mb-2">
             <Input
               placeholder="Buscar usuario por cualquier campo..."
               value={searchTerm}
@@ -174,12 +184,12 @@ export default function AdminUsers() {
                             onChange={() =>
                               toggleUserStatus(user.id, user.isActive)
                             }
-                            className={`$${
+                            className={`${
                               user.isActive ? "bg-green-500" : "bg-gray-300"
                             } relative inline-flex h-6 w-11 items-center rounded-full transition-colors`}
                           >
                             <span
-                              className={`$${
+                              className={`${
                                 user.isActive
                                   ? "translate-x-6"
                                   : "translate-x-1"
@@ -216,7 +226,7 @@ export default function AdminUsers() {
           <Pagination
             currentPage={currentPage}
             totalItems={users.length}
-            pageSize={usersPerPage}
+            pageSize={pageSize}
             onPageChange={(page: number) => {
               setCurrentPage(page);
               setSearchParams((prev) => {
@@ -229,7 +239,6 @@ export default function AdminUsers() {
         </>
       )}
 
-      {/* Modal Editar */}
       <Dialog open={!!editUser} onOpenChange={() => setEditUser(null)}>
         <DialogContent aria-describedby="edit-user-description">
           <DialogHeader>
@@ -308,7 +317,6 @@ export default function AdminUsers() {
         </DialogContent>
       </Dialog>
 
-      {/* Modal Eliminar */}
       <Dialog open={!!deleteUserId} onOpenChange={() => setDeleteUserId(null)}>
         <DialogContent aria-describedby="delete-user-description">
           <DialogHeader>

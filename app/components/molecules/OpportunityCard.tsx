@@ -52,21 +52,24 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
 
   const handleMarkFavorite = async () => {
     try {
-      const response = await fetch("/api/v1/favorites", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          opportunityId: opportunity.id,
-        }),
-      });
-
+      const response = await fetch(
+        `http://localhost:5055/api/v1/favorites/${opportunity.id}`, // Aquí se usa opportunity.id correctamente
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            opportunityId: opportunity.id,
+          }),
+        }
+      );
+  
       if (response.ok) {
         setIsFavorite(true);
       }
     } catch (error) {
       console.error("Error al marcar como favorita:", error);
     }
-  };
+  };  
 
   useEffect(() => {
     const checkFavorite = async () => {

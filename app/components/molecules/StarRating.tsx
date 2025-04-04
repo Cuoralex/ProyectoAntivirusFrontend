@@ -6,14 +6,14 @@ interface StarRatingProps {
   userId?: number;
   comment: string,
   score: number;
-  isWhiteText?: boolean; // Nueva prop opcional
+  isWhiteText?: boolean;
 }
 
 const StarRating: React.FC<StarRatingProps> = ({
   opportunityId,
   comment,
   userId,
-  isWhiteText = false, // Valor por defecto
+  isWhiteText = false,
 }: StarRatingProps) => {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);

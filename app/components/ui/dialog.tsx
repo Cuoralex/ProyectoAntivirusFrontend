@@ -61,6 +61,17 @@ export const DialogTitle = ({
   </h2>
 );
 
+// Agregar DialogDescription
+export const DialogDescription = ({
+  className,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLParagraphElement>) => (
+  <p className={cn("text-sm text-gray-500 mb-4", className)} {...props}>
+    {children}
+  </p>
+);
+
 export const DialogFooter = ({
   className,
   ...props

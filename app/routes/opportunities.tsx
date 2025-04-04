@@ -74,7 +74,6 @@ export default function Opportunities() {
   const handleFilterChange = (newFilters: Partial<Opportunity>) => {
     setFilters((prevFilters) => {
       const updatedFilters = { ...prevFilters, ...newFilters };
-      console.log("Filtros actualizados:", updatedFilters);
       return updatedFilters;
     });
   };

@@ -45,7 +45,13 @@ export const action: ActionFunction = async ({ request }) => {
     data?.role === "admin" ? "/admin/index" : "/user-dashboard";
 
   const headers = new Headers();
-  headers.append("Set-Cookie", await authToken.serialize(data.token));
+  headers.append(
+    "Set-Cookie",
+    `authToken=${data.token}; Path=/; HttpOnly; SameSite=Lax${
+      process.env.NODE_ENV === "production" ? "; Secure" : ""
+    }`
+  );
+
   headers.append("Set-Cookie", await userRole.serialize(data.role));
   headers.append("Set-Cookie", await userEmail.serialize(data.email));
 

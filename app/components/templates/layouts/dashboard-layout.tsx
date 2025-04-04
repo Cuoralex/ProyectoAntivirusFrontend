@@ -59,7 +59,7 @@ export default function DashboardLayout() {
   }, [currentUserEmail]);
 
   return (
-    <div className="flex min-h-screen relative">
+    <div className="flex min-h-screen relative pt-16">
       <HeaderDashboard
         isSidebarOpen={sidebarOpen}
         onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
@@ -103,7 +103,7 @@ export default function DashboardLayout() {
         </nav>
       </div>
 
-      <aside className="hidden md:block fixed h-screen w-72 pt-4 bg-gray-900 text-white p-4 space-y-4">
+      <aside className="hidden md:block fixed h-screen w-72 pt-6 bg-gray-900 text-white p-4 space-y-4">
         <h2 className="text-2xl font-bold mb-6">Admin Panel</h2>
         <nav className="flex flex-col space-y-2">
           <SidebarLinks isActive={isActive} />

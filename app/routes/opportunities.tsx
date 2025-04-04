@@ -44,6 +44,9 @@ interface Opportunity {
   ratingCount: number;
   stock: boolean;
   freeShipping: boolean;
+  score: number;
+  userId?:number;
+  comment: string;
 }
 
 // Definimos el tipo de datos que el loader devolverá

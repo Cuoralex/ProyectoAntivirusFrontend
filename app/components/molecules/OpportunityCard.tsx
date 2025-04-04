@@ -31,6 +31,9 @@ interface Opportunity {
   ratingCount: number;
   stock: boolean;
   freeShipping: boolean;
+  score: number;
+  userId?:number;
+  comment: string;
 }
 
 interface OpportunityCardProps {
@@ -53,7 +56,6 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: 1, // Debes reemplazar esto con el ID del usuario autenticado
           opportunityId: opportunity.id,
         }),
       });
@@ -69,8 +71,19 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
   useEffect(() => {
     const checkFavorite = async () => {
       try {
-        const response = await fetch(`/api/v1/favorites?userId=1`);
-        const favorites = await response.json();
+        const response = await fetch(`http://localhost:5055/api/v1/favorites`);
+        if (!response.ok) {
+          throw new Error(
+            `Error en la API: ${response.status} - ${response.statusText}`
+          );
+        }
+
+        // Verifica si la respuesta tiene contenido antes de intentar parsearla
+        const favorites = await response.json().catch(() => {
+          console.warn("La respuesta de favoritos no es JSON válido");
+          return []; // Si hay un error, devuelve un array vacío
+        });
+
         setIsFavorite(
           favorites.some(
             (favorite: { opportunityId: number }) =>
@@ -182,8 +195,10 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
                 }
               >
                 <StarRating
-                  cardId={opportunity.id.toString()}
-                  userId={opportunity.id.toString()}
+                  opportunityId={opportunity.id}
+                  userId={opportunity.userId}
+                  comment={opportunity.comment}
+                  score={opportunity.score}
                   isWhiteText={[2, 8, 9].includes(opportunity.institutionId)}
                 />
               </div>

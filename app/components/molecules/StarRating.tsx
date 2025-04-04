@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import { Star } from "lucide-react"; // O usa react-icons si prefieres
 
 interface StarRatingProps {
-  cardId: string;
-  userId: string;
+  opportunityId: number;
+  userId?: number;
+  comment: string,
+  score: number;
   isWhiteText?: boolean; // Nueva prop opcional
 }
 
 const StarRating: React.FC<StarRatingProps> = ({
-  cardId,
+  opportunityId,
+  comment,
   userId,
   isWhiteText = false, // Valor por defecto
 }: StarRatingProps) => {
@@ -18,33 +21,67 @@ const StarRating: React.FC<StarRatingProps> = ({
   const [userVoted, setUserVoted] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:5055/api/v1/opportunities/${cardId}/rating/${userId}`)
-      .then((res) => res.json())
+    fetch(`http://localhost:5055/api/v1/ratings/opportunity/${opportunityId}/average`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Error en la API: ${res.status} - ${res.statusText}`);
+        }
+        return res.json();
+      })
       .then((data) => {
-        setAverage(data.Average);
-        if (data.UserRating !== null) {
-          setRating(data.UserRating);
+        setAverage(data.Average || 0);
+      })
+      .catch((err) => console.error("Error al obtener la calificación:", err));
+  }, [opportunityId]);
+  
+  const handleClick = (score: number) => {
+    if (rating > 0) return;
+  
+    const payload = {
+      opportunityId,
+      score,
+      userId,
+      comment: comment || "Sin comentario", // Evita null o undefined
+    };
+  
+    console.log("📤 Enviando JSON:", JSON.stringify(payload, null, 2));
+  
+    fetch(`http://localhost:5055/api/v1/ratings/opportunity/${opportunityId}/average`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ opportunityId, userId, score, comment}),
+    })
+      .then(async (res) => {
+        console.log("Headers del backend:", res.headers);
+        console.log("Estado HTTP:", res.status);
+    
+        const contentType = res.headers.get("Content-Type");
+        
+        if (!contentType || !contentType.includes("application/json")) {
+          const text = await res.text();
+          console.warn("Respuesta no JSON:", text);
+          return;
+        }
+    
+        return res.json();
+      })
+      .then((data) => {
+        if (data) {
+          console.log("Respuesta JSON:", data);
+          setRating(score);
           setUserVoted(true);
         }
       })
-      .catch((err) => console.error("Error al obtener la calificación:", err));
-  }, [cardId, userId]);
-
-  const handleClick = (score: number) => {
-    if (userVoted) return;
-
-    fetch(`http://localhost:5055/api/v1/opportunities/${cardId}/rate`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId, score }),
-    })
-      .then(() => {
-        setRating(score);
-        setUserVoted(true);
-      })
-      .catch((err) => console.error("Error al enviar la calificación:", err));
-  };
-
+      .catch(async (err) => {
+        console.error("Error al enviar la calificación:", err);
+        
+        if (err.response) {
+          const errorText = await err.response.text();
+          console.error("Respuesta del backend:", errorText);
+        }});
+      }
+     
+  
   return (
     <div className="flex items-center text-sm mt-2">
       {/* Estrellas */}

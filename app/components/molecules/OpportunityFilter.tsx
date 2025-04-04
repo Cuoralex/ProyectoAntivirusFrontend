@@ -31,6 +31,9 @@ interface Opportunity {
   ratingCount: number;
   stock: boolean;
   freeShipping: boolean;
+  score: number;
+  userId?:number;
+  comment: string;
 }
 
 interface OpportunityFilterProps {

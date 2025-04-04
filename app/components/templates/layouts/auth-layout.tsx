@@ -1,35 +1,23 @@
-import { useState, useEffect } from "react";
-import RegisterPage from "/app/routes/register";
-import LoginPage from "/app/routes/login";
-import { Link, useSearchParams } from "@remix-run/react";
+import { Outlet, Link, useLocation } from "@remix-run/react";
 import "/app/styles/global.css";
 import SuccessModal from "/app/components/organisms/success-modal/sucess-modal";
 import { useAuthStore } from "/app/store.ts";
 
 export default function AuthLayout() {
-  const [isRegistering, setIsRegistering] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const isRegistering = location.pathname.includes("register");
+
   const isModalOpen = useAuthStore((state) => state.registrationSuccess);
   const setRegistrationSuccess = useAuthStore(
     (state) => state.setRegistrationSuccess
   );
 
-  useEffect(() => {
-    const mode = searchParams.get("mode");
-    if (mode === "register") {
-      setIsRegistering(true);
-    } else {
-      setIsRegistering(false);
-    }
-  }, [searchParams]);
-
   return (
-    <div className="h-screen min-h-screen bg-white w-screen flex justify-center items-center gap-2 px-8 lg:gap-0 xl:gap-32 relative">
+    <div className="h-screen pt-20 w-screen flex justify-center items-start gap-2 px-8 lg:gap-0 xl:gap-32 relative">
       <SuccessModal
         isOpen={isModalOpen}
         onClose={() => {
           setRegistrationSuccess(false);
-          setSearchParams({ mode: "login" });
         }}
       />
 
@@ -44,28 +32,27 @@ export default function AuthLayout() {
           {isRegistering ? "Registrarme" : "Acceder"}
         </h1>
 
-        {isRegistering ? <RegisterPage /> : <LoginPage />}
+        <Outlet />
 
         <div className="flex justify-center mt-4 space-x-4 px-14 w-full">
-          <button
-            onClick={() => setSearchParams({ mode: "register" })}
-            className={`px-4 py-2 w-full rounded-lg ${
+          <Link
+            to="/auth/register"
+            className={`px-4 py-2 w-full rounded-lg text-center ${
               isRegistering ? "bg-[#7C78B3] text-white" : "bg-gray-300"
             }`}
           >
             Registrarme
-          </button>
-          <button
-            onClick={() => setSearchParams({ mode: "login" })}
-            className={`w-full px-4 py-2 h-auto rounded-lg ${
-              !isRegistering
-                ? "bg-[#7C78B3] text-white"
-                : "bg-gray-300 text-white "
+          </Link>
+          <Link
+            to="/auth/login"
+            className={`w-full px-4 py-2 rounded-lg text-center ${
+              !isRegistering ? "bg-[#7C78B3] text-white" : "bg-gray-300"
             }`}
           >
             Acceder
-          </button>
+          </Link>
         </div>
+
         <p className="text-black font-medium text-lg">Continuar con</p>
         <div className="flex gap-5">
           <img

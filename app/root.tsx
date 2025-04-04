@@ -8,8 +8,6 @@ import {
   useRouteError,
   isRouteErrorResponse,
 } from "@remix-run/react";
-import type { LinksFunction } from "@remix-run/node";
-
 import "./styles/variables.css";
 import "./tailwind.css";
 import "./styles/global.css";
@@ -17,7 +15,24 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/free-mode";
 import { LAYOUT_FOR_ROUTES } from "./utils/constants/routes";
-import NotFoundPage from "./routes/404"; // Importa la página 404
+import NotFoundPage from "./routes/404";
+import { authToken } from "./utils/session.server";
+import { json, type LoaderFunctionArgs, LinksFunction } from "@remix-run/node";
+import { userRole } from "./utils/session-role.server";
+import { userEmail } from "./utils/session-email.server";
+
+export async function loader({ request }: LoaderFunctionArgs) {
+  const cookieHeader = request.headers.get("Cookie");
+  const token = await authToken.parse(cookieHeader);
+  const role = await userRole.parse(cookieHeader);
+  const email = await userEmail.parse(cookieHeader);
+
+  return json({
+    isLoggedIn: !!token,
+    role: role ?? null,
+    email: email ?? null,
+  });
+}
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -50,12 +65,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-// 🔹 Manejo de errores globales (Errores 500)
 export function ErrorBoundary() {
   const error = useRouteError();
 
   if (isRouteErrorResponse(error) && error.status === 404) {
-    return <NotFoundPage />; // Muestra la página 404 directamente
+    return <NotFoundPage />;
   }
 
   let errorMessage = "Ocurrió un error inesperado.";
@@ -76,11 +90,29 @@ export function CatchBoundary() {
   return <NotFoundPage />;
 }
 
+function matchPath(pathname: string, route: string): boolean {
+  if (route.includes(":")) {
+    // Soporte para rutas con params tipo /admin/users/:id
+    const pattern = new RegExp("^" + route.replace(/:\w+/g, "[^/]+") + "$");
+    return pattern.test(pathname);
+  }
+
+  return pathname === route;
+}
+
 export default function App() {
   const matches = useMatches();
+  const currentPath = matches[matches.length - 1]?.pathname || "/";
 
-  const matchedLayout = LAYOUT_FOR_ROUTES.find((data) =>
-    data.routes.includes(matches[matches.length - 1]?.pathname)
+  // Ordenar para que las rutas más largas (más específicas) vengan primero
+  const sortedLayouts = [...LAYOUT_FOR_ROUTES].sort(
+    (a, b) =>
+      Math.max(...b.routes.map((r) => r.length)) -
+      Math.max(...a.routes.map((r) => r.length))
+  );
+
+  const matchedLayout = sortedLayouts.find(({ routes }) =>
+    routes.some((route) => matchPath(currentPath, route))
   );
 
   const LayoutComponent = matchedLayout

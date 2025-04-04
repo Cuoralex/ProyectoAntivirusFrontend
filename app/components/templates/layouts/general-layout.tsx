@@ -10,7 +10,9 @@ export default function GeneralLayout() {
       <HeaderGeneral />
       <ButtonGoUp />
       <ButtonDonateWompi />
-      <Outlet />
+      <div className="pt-20 overflow-hidden">
+        <Outlet />
+      </div>
       <FooterGeneral />
     </div>
   );

@@ -28,3 +28,12 @@ input[type="date"]::-webkit-datetime-edit {
 .carousel .control-prev.control-arrow:before {
   border-right: 8px solid #3e49af !important;
 }
+
+#pageSize {
+  background-color: transparent;
+}
+
+textarea {
+  resize: none;
+  overflow-y: auto;
+}

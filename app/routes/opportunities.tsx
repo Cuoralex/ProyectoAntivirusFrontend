@@ -2,17 +2,14 @@ import { LoaderFunction, json } from "@remix-run/node";
 import { useState } from "react";
 import { getOpportunities } from "../utils/ProyectAntivirusFrontend";
 import { useSearchParams, useLoaderData } from "@remix-run/react";
+
 import OpportunityCard from "../components/molecules/OpportunityCard";
 import OpportunityFilter from "../components/molecules/OpportunityFilter";
 import ButtonWhatsapp from "../components/organisms/button-whatsapp";
-import HeaderGeneral from "~/components/organisms/header-general/header-general";
-import FooterGeneral from "~/components/organisms/footer-general/footer-general";
 import ButtonDonateWompi from "~/components/organisms/button-donate-wompi/button-donate-wompi";
 import ButtonGoUp from "~/components/organisms/button-go-up/button-go-up";
 import Pagination from "~/components/organisms/pagination";
 
-
-// Definimos la interfaz de Opportunity
 interface Opportunity {
   id: number;
   title: string;
@@ -80,7 +77,6 @@ export default function Opportunities() {
   const handleFilterChange = (newFilters: Partial<Opportunity>) => {
     setFilters((prevFilters) => {
       const updatedFilters = { ...prevFilters, ...newFilters };
-      console.log("Filtros actualizados:", updatedFilters);
       return updatedFilters;
     });
   };
@@ -109,14 +105,27 @@ export default function Opportunities() {
       ? new Date(opportunity.publicationDate)
       : null;
     return (
-      (!filters.title || opportunity.title.toLowerCase() .includes(filters.title.toLowerCase())) &&
-      (!filters.opportunityTypeId || opportunity.opportunityTypeId === Number(filters.opportunityTypeId)) &&
-      (!filters.localityId || opportunity.localityId === Number(filters.localityId)) &&
-      (!filters.institutionId || opportunity.institutionId === Number(filters.institutionId)) &&
-      (!filters.sectorId || opportunity.sectorId === Number(filters.sectorId)) &&
+      (!filters.title ||
+        opportunity.title
+          .toLowerCase()
+          .includes(filters.title.toLowerCase())) &&
+      (!filters.opportunityTypeId ||
+        opportunity.opportunityTypeId === Number(filters.opportunityTypeId)) &&
+      (!filters.localityId ||
+        opportunity.localityId === Number(filters.localityId)) &&
+      (!filters.institutionId ||
+        opportunity.institutionId === Number(filters.institutionId)) &&
+      (!filters.sectorId ||
+        opportunity.sectorId === Number(filters.sectorId)) &&
       (!filters.status || opportunity.status === filters.status) &&
-      (!expirationDateFilter || (opportunityExpirationDate && opportunityExpirationDate.toISOString().split("T")[0] === expirationDateFilter.toISOString().split("T")[0])) &&
-      (!publicationDateFilter || (opportunityPublicationDate && opportunityPublicationDate.toISOString().split("T")[0] === publicationDateFilter.toISOString().split("T")[0])) &&
+      (!expirationDateFilter ||
+        (opportunityExpirationDate &&
+          opportunityExpirationDate.toISOString().split("T")[0] ===
+            expirationDateFilter.toISOString().split("T")[0])) &&
+      (!publicationDateFilter ||
+        (opportunityPublicationDate &&
+          opportunityPublicationDate.toISOString().split("T")[0] ===
+            publicationDateFilter.toISOString().split("T")[0])) &&
       (!filters.price || opportunity.price <= filters.price)
     );
   });
@@ -127,14 +136,9 @@ export default function Opportunities() {
     currentPage * pageSize
   );
 
-  console.log("Oportunidades originales:", opportunities);
-  console.log("Filtros aplicados:", filters);
-  console.log("Oportunidades filtradas:", filteredOpportunities);
-
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen bg-gray-100 pb-20">
       {/* Header al inicio de la página */}
-      <HeaderGeneral />
 
       <div className="flex-grow flex flex-col md:flex-row p-6 gap-4">
         {/* Filtro fijo en móviles y sticky en pantallas grandes */}
@@ -154,7 +158,6 @@ export default function Opportunities() {
         </div>
       </div>
 
-      {/* Componente de paginación */}
       <Pagination
         currentPage={currentPage}
         totalItems={filteredOpportunities.length}
@@ -165,15 +168,13 @@ export default function Opportunities() {
             const newParams = new URLSearchParams(prevParams);
             newParams.set("page", String(page));
             return newParams;
-          });          
+          });
         }}
       />
 
-      {/* Footer al final de la página */}
       <ButtonWhatsapp />
       <ButtonDonateWompi />
       <ButtonGoUp />
-      <FooterGeneral />
     </div>
   );
 }

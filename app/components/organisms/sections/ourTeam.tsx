@@ -55,7 +55,7 @@ const teamMembers = [
 
 export default function NuestroEquipo() {
   return (
-    <div className="flex flex-col min-h-screen text-gray-900">
+    <div id="OurTeam" className="flex flex-col min-h-screen text-gray-900">
       <div className="fmax-w-4xl mx-auto text-center mb-4">
         <h2 className="text-[black] text-[40px] font-bold text-center">
           Nuestro Equipo

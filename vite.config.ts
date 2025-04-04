@@ -18,19 +18,6 @@ export default defineConfig({
         v3_singleFetch: true,
         v3_lazyRouteDiscovery: true,
       },
-      // 🔥 AQUÍ es donde va la configuración de rutas personalizadas
-      routes(defineRoutes) {
-        return defineRoutes((route) => {
-          route("/", "routes/_index.tsx", { index: true });
-          route("about-us", "routes/about-us.tsx");
-
-          // Layout de autenticación
-          route("auth", "routes/__auth.tsx", () => {
-            route("login", "routes/auth.login.tsx");
-            route("register", "routes/auth.register.tsx");
-          });
-        });
-      },
     }),
     tsconfigPaths(),
   ],

@@ -12,6 +12,7 @@ import {
 } from "../components/ui/dialog";
 import { Label } from "../components/ui/label";
 import Pagination from "../components/organisms/pagination";
+import { useSearchParams } from "@remix-run/react";
 
 interface Category {
   id: number;
@@ -33,8 +34,13 @@ export default function AdminOpportunityTypes() {
   const [selected, setSelected] = useState<OpportunityType | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(10);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
+  const [pageSize, setPageSize] = useState(
+    Number(searchParams.get("pageSize")) || 10
+  );
 
   const fetchOpportunityTypes = async () => {
     setLoading(true);
@@ -125,6 +131,11 @@ export default function AdminOpportunityTypes() {
     currentPage * pageSize
   );
 
+  useEffect(() => {
+    const newPageSize = Number(searchParams.get("pageSize")) || 10;
+    setPageSize(newPageSize);
+  }, [searchParams]);
+
   return (
     <div>
       {loading ? (
@@ -203,7 +214,14 @@ export default function AdminOpportunityTypes() {
         currentPage={currentPage}
         totalItems={filtered.length}
         pageSize={pageSize}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+          setSearchParams((prev) => {
+            const next = new URLSearchParams(prev);
+            next.set("page", String(page));
+            return next;
+          });
+        }}
       />
 
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>

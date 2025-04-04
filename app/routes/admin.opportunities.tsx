@@ -46,9 +46,13 @@ export default function AdminOpportunities() {
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
+  const [pageSize, setPageSize] = useState(
+    Number(searchParams.get("pageSize")) || 10
+  );
   const [selected, setSelected] = useState<Opportunity | null>(null);
 
   const [sectors, setSectors] = useState<SelectItem[]>([]);
@@ -132,7 +136,6 @@ export default function AdminOpportunities() {
       ? `http://localhost:5055/api/v1/opportunity/${selected.id}`
       : "http://localhost:5055/api/v1/opportunity";
 
-    // ✅ Convertir expirationDate a formato UTC si existe
     const expirationDateUtc = selected.expirationDate
       ? new Date(selected.expirationDate).toISOString()
       : "";
@@ -174,6 +177,11 @@ export default function AdminOpportunities() {
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
+
+  useEffect(() => {
+    const newPageSize = Number(searchParams.get("pageSize")) || 10;
+    setPageSize(newPageSize);
+  }, [searchParams]);
 
   return (
     <div>
@@ -263,7 +271,14 @@ export default function AdminOpportunities() {
         currentPage={currentPage}
         totalItems={filtered.length}
         pageSize={pageSize}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+          setSearchParams((prev) => {
+            const next = new URLSearchParams(prev);
+            next.set("page", String(page));
+            return next;
+          });
+        }}
       />
 
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>

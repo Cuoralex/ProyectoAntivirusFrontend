@@ -1,3 +1,4 @@
+// Componente AdminSectors.jsx o .tsx
 import { useEffect, useState } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { Button } from "../components/ui/button";
@@ -14,16 +15,15 @@ import { Label } from "../components/ui/label";
 import Pagination from "../components/organisms/pagination";
 import { useSearchParams } from "@remix-run/react";
 
-interface ServiceType {
+interface Sector {
   id?: number;
   name: string;
   description?: string;
 }
 
-export default function AdminServiceTypes() {
-  const [types, setTypes] = useState<ServiceType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState<ServiceType | null>(null);
+export default function AdminSectors() {
+  const [sectors, setSectors] = useState<Sector[]>([]);
+  const [selected, setSelected] = useState<Sector | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
@@ -34,16 +34,18 @@ export default function AdminServiceTypes() {
     Number(searchParams.get("pageSize")) || 10
   );
 
-  const fetchServiceTypes = async () => {
+  const [loading, setLoading] = useState(true);
+
+  const fetchSectors = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5055/api/serviceTypes", {
+      const res = await fetch("http://localhost:5055/api/v1/sectors", {
         credentials: "include",
       });
       const data = await res.json();
-      setTypes(data);
+      setSectors(data);
     } catch (err) {
-      console.error("Error al cargar tipos de servicio", err);
+      console.error("Error al cargar sectores", err);
     } finally {
       setLoading(false);
     }
@@ -54,10 +56,13 @@ export default function AdminServiceTypes() {
 
     const method = selected.id ? "PUT" : "POST";
     const url = selected.id
-      ? `http://localhost:5055/api/serviceTypes/${selected.id}`
-      : "http://localhost:5055/api/serviceTypes";
+      ? `http://localhost:5055/api/v1/sectors/${selected.id}`
+      : "http://localhost:5055/api/v1/sectors";
 
-    const body = JSON.stringify(selected);
+    const body = JSON.stringify({
+      name: selected.name,
+      description: selected.description,
+    });
 
     try {
       const res = await fetch(url, {
@@ -67,11 +72,26 @@ export default function AdminServiceTypes() {
         body,
       });
       if (res.ok) {
-        fetchServiceTypes();
+        if (selected.id) {
+          setSectors((prev) =>
+            prev.map((s) =>
+              s.id === selected.id
+                ? {
+                    ...s,
+                    name: selected.name,
+                    description: selected.description,
+                  }
+                : s
+            )
+          );
+        } else {
+          const newSector = await res.json();
+          setSectors((prev) => [...prev, newSector]);
+          setCurrentPage(1);
+        }
         setSelected(null);
       } else {
-        const errData = await res.json();
-        console.error("Error al guardar tipo de servicio", errData);
+        console.error("Error al guardar sector", await res.json());
       }
     } catch (err) {
       console.error("Error en la petición", err);
@@ -81,23 +101,23 @@ export default function AdminServiceTypes() {
   const confirmDelete = async () => {
     if (!deleteId) return;
     try {
-      await fetch(`http://localhost:5055/api/serviceTypes/${deleteId}`, {
+      await fetch(`http://localhost:5055/api/v1/sectors/${deleteId}`, {
         method: "DELETE",
         credentials: "include",
       });
       setDeleteId(null);
-      fetchServiceTypes();
+      fetchSectors();
     } catch (err) {
-      console.error("Error al eliminar tipo de servicio", err);
+      console.error("Error al eliminar sector", err);
     }
   };
 
   useEffect(() => {
-    fetchServiceTypes();
+    fetchSectors();
   }, []);
 
-  const filtered = types.filter((t) =>
-    t.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filtered = sectors.filter((s) =>
+    s.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const paginated = filtered.slice(
@@ -113,7 +133,7 @@ export default function AdminServiceTypes() {
   return (
     <div>
       {loading ? (
-        <p className="text-4xl">Cargando tipos de servicio...</p>
+        <p className="text-4xl">Cargando sectores...</p>
       ) : (
         <>
           <div className="flex justify-between items-center mb-4">
@@ -141,28 +161,26 @@ export default function AdminServiceTypes() {
                 </tr>
               </thead>
               <tbody>
-                {paginated.map((t) => (
-                  <tr key={t.id} className="border-t">
-                    <td className="p-2 text-left">{t.name}</td>
+                {paginated.map((s) => (
+                  <tr key={s.id} className="border-t">
+                    <td className="p-2 text-left">{s.name}</td>
                     <td className="p-2 text-left">
-                      {t.description
-                        ? t.description.length > 60
-                          ? `${t.description.slice(0, 60)}...`
-                          : t.description
+                      {s.description?.length
+                        ? s.description
                         : "Sin descripción"}
                     </td>
                     <td className="p-2 flex gap-2">
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setSelected(t)}
+                        onClick={() => setSelected(s)}
                       >
                         <Pencil size={16} />
                       </Button>
                       <Button
                         variant="destructive"
                         size="sm"
-                        onClick={() => setDeleteId(t.id!)}
+                        onClick={() => setDeleteId(s.id!)}
                       >
                         <Trash2 size={16} />
                       </Button>
@@ -193,7 +211,7 @@ export default function AdminServiceTypes() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>
-              {selected?.id ? "Editar Tipo" : "Nuevo Tipo de Servicio"}
+              {selected?.id ? "Editar Sector" : "Nuevo Sector"}
             </DialogTitle>
           </DialogHeader>
           <form className="space-y-4">
@@ -211,7 +229,7 @@ export default function AdminServiceTypes() {
               <Label htmlFor="description">Descripción</Label>
               <textarea
                 id="description"
-                rows={4}
+                rows={3}
                 className="w-full border border-gray-300 rounded p-2 bg-white"
                 value={selected?.description || ""}
                 onChange={(e) =>
@@ -233,10 +251,10 @@ export default function AdminServiceTypes() {
       </Dialog>
 
       <Dialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-        <DialogContent aria-describedby="delete-type-description">
+        <DialogContent aria-describedby="delete-sector-description">
           <DialogHeader>
-            <DialogTitle>¿Eliminar tipo de servicio?</DialogTitle>
-            <DialogDescription id="delete-type-description">
+            <DialogTitle>¿Eliminar sector?</DialogTitle>
+            <DialogDescription id="delete-sector-description">
               Esta acción es irreversible. ¿Deseas continuar?
             </DialogDescription>
           </DialogHeader>

@@ -13,6 +13,7 @@ import {
 import { Label } from "../components/ui/label";
 import Pagination from "../components/organisms/pagination";
 import { Switch } from "@headlessui/react";
+import { useSearchParams } from "@remix-run/react";
 
 interface Service {
   id?: number;
@@ -36,8 +37,13 @@ export default function AdminServices() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [serviceTypes, setServiceTypes] = useState<ServiceType[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(10);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1
+  );
+  const [pageSize, setPageSize] = useState(
+    Number(searchParams.get("pageSize")) || 10
+  );
 
   const fetchServices = async () => {
     setLoading(true);
@@ -145,6 +151,11 @@ export default function AdminServices() {
     currentPage * pageSize
   );
 
+  useEffect(() => {
+    const newPageSize = Number(searchParams.get("pageSize")) || 10;
+    setPageSize(newPageSize);
+  }, [searchParams]);
+
   return (
     <div>
       {loading ? (
@@ -232,7 +243,14 @@ export default function AdminServices() {
         currentPage={currentPage}
         totalItems={filtered.length}
         pageSize={pageSize}
-        onPageChange={(page) => setCurrentPage(page)}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+          setSearchParams((prev) => {
+            const next = new URLSearchParams(prev);
+            next.set("page", String(page));
+            return next;
+          });
+        }}
       />
 
       <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>

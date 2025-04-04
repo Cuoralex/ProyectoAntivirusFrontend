@@ -22,6 +22,7 @@ const LAYOUT_FOR_ROUTES = [
       "/admin/services",
       "/admin/service-types",
       "/admin/opportunity-types",
+      "/admin/sectors",
       "/admin/config",
     ],
     layout: DashboardLayout,

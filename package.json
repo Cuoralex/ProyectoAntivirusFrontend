@@ -26,7 +26,6 @@
     "framer-motion": "^12.4.10",
     "isbot": "^4.1.0",
     "lucide-react": "^0.483.0",
-    "proyectantivirusfrontend": "file:",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-responsive-carousel": "^3.2.23",

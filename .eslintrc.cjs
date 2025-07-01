@@ -1,83 +1,75 @@
-/**
- * This is intended to be a basic starting point for linting in your app.
- * It relies on recommended configs out of the box for simplicity, but you can
- * and should modify this configuration to best suit your team's needs.
- */
+/** @type {import("eslint").Linter.Config} */
 
-/** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
+  env: {
+    browser: true,
+    node: true,
+    es6: true,
+  },
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
     ecmaFeatures: {
       jsx: true,
     },
+    project: ["./tsconfig.json"],
+    tsconfigRootDir: __dirname,
   },
-  env: {
-    browser: true,
-    commonjs: true,
-    es6: true,
+  plugins: [
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "import"
+  ],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  settings: {
+    react: {
+      version: "detect",
+    },
   },
-  ignorePatterns: ["!**/.server", "!**/.client"],
-
-  // Base config
-  extends: ["eslint:recommended"],
-
+  rules: {
+    // Reglas generales
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    "react/jsx-uses-vars": "warn",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }
+    ],
+  },
   overrides: [
-    // React
+    // ✅ Archivos backend (como server.mjs / server.js)
     {
-      files: ["**/*.{js,jsx,ts,tsx}"],
-      plugins: ["react", "jsx-a11y"],
-      extends: [
-        "plugin:react/recommended",
-        "plugin:react/jsx-runtime",
-        "plugin:react-hooks/recommended",
-        "plugin:jsx-a11y/recommended",
-      ],
-      settings: {
-        react: {
-          version: "detect",
-        },
-        formComponents: ["Form"],
-        linkComponents: [
-          { name: "Link", linkAttribute: "to" },
-          { name: "NavLink", linkAttribute: "to" },
-        ],
-        "import/resolver": {
-          typescript: {},
-        },
-      },
-    },
-
-    // Typescript
-    {
-      files: ["**/*.{ts,tsx}"],
-      plugins: ["@typescript-eslint", "import"],
-      parser: "@typescript-eslint/parser",
-      settings: {
-        "import/internal-regex": "^~/",
-        "import/resolver": {
-          node: {
-            extensions: [".ts", ".tsx"],
-          },
-          typescript: {
-            alwaysTryTypes: true,
-          },
-        },
-      },
-      extends: [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:import/recommended",
-        "plugin:import/typescript",
-      ],
-    },
-
-    // Node
-    {
-      files: [".eslintrc.cjs"],
+      files: ["server.{js,mjs}", "server/**/*.js", "scripts/**/*.js"],
       env: {
         node: true,
+        browser: false,
+      },
+      parserOptions: {
+        sourceType: "module",
+        ecmaVersion: "latest",
+        project: null, // ❌ evita error con archivos fuera de tsconfig
+      },
+    },
+    // ✅ Archivos de configuración JS (como postcss.config.js)
+    {
+      files: ["*.config.js", "*.cjs"],
+      env: {
+        node: true,
+      },
+      parserOptions: {
+        sourceType: "module",
+        ecmaVersion: "latest",
+        project: null,
       },
     },
   ],

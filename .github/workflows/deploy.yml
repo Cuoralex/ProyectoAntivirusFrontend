@@ -3,7 +3,7 @@ name: Deploy Remix App to Azure
 on:
   push:
     branches:
-      - main
+      - azure
   workflow_dispatch:
 
 jobs:

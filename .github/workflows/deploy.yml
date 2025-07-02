@@ -1,36 +1,32 @@
-name: Deploy Remix App to Azure
+name: Deploy to Azure Web App
 
 on:
   push:
     branches:
-      - azure
-  workflow_dispatch:
+      - azure  # o main, dev, etc. según tu rama
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --omit=optional
 
-      - name: Build Remix app
+      - name: Build Remix App
         run: npm run build
-
-      - name: Zip app for deployment
-        run: zip -r release.zip . -x "node_modules/*" ".git/*"
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: antivirus-frontend
+          app-name: YOUR_AZURE_APP_NAME
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: release.zip
+          package: .

@@ -21,6 +21,9 @@ jobs:
       - name: Install dependencies
         run: npm install --omit=optional
 
+      - name: Fix Rollup Native Module (Linux)
+        run: npm install @rollup/rollup-linux-x64-gnu --no-save
+
       - name: Build Remix App
         run: npm run build
 

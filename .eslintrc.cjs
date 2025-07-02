@@ -37,7 +37,6 @@ module.exports = {
     },
   },
   rules: {
-    // Reglas generales
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "off",
     "react/jsx-uses-vars": "warn",
@@ -46,8 +45,13 @@ module.exports = {
       { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }
     ],
   },
+  ignorePatterns: [
+    "build/**/*",
+    "public/build/**/*",
+    "node_modules",
+    "release.zip"
+  ],
   overrides: [
-    // ✅ Archivos backend (como server.mjs / server.js)
     {
       files: ["server.{js,mjs}", "server/**/*.js", "scripts/**/*.js"],
       env: {
@@ -57,10 +61,9 @@ module.exports = {
       parserOptions: {
         sourceType: "module",
         ecmaVersion: "latest",
-        project: null, // ❌ evita error con archivos fuera de tsconfig
+        project: null,
       },
     },
-    // ✅ Archivos de configuración JS (como postcss.config.js)
     {
       files: ["*.config.js", "*.cjs"],
       env: {

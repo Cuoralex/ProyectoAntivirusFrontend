@@ -30,6 +30,8 @@ interface ServiceType {
   name: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function AdminServices() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,7 +50,7 @@ export default function AdminServices() {
   const fetchServices = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5055/api/v1/services", {
+      const res = await fetch(`${API_URL}/api/v1/services`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -62,7 +64,7 @@ export default function AdminServices() {
 
   const fetchServiceTypes = async () => {
     try {
-      const res = await fetch("http://localhost:5055/api/serviceTypes", {
+      const res = await fetch(`${API_URL}/api/serviceTypes`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -74,7 +76,7 @@ export default function AdminServices() {
 
   const toggleServiceStatus = async (id: number, current: boolean) => {
     try {
-      await fetch(`http://localhost:5055/api/v1/services/${id}/status`, {
+      await fetch(`${API_URL}/api/v1/services/${id}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -93,8 +95,8 @@ export default function AdminServices() {
 
     const method = selected.id ? "PUT" : "POST";
     const url = selected.id
-      ? `http://localhost:5055/api/v1/services/${selected.id}`
-      : "http://localhost:5055/api/v1/services";
+      ? `${API_URL}/api/v1/services/${selected.id}`
+      : "${API_URL}/api/v1/services";
 
     const body = JSON.stringify({
       serviceTypeId: selected.serviceTypeId,
@@ -126,7 +128,7 @@ export default function AdminServices() {
   const confirmDelete = async () => {
     if (!deleteId) return;
     try {
-      await fetch(`http://localhost:5055/api/v1/services/${deleteId}`, {
+      await fetch(`${API_URL}/api/v1/services/${deleteId}`, {
         method: "DELETE",
         credentials: "include",
       });

@@ -27,6 +27,8 @@ interface OpportunityType {
   opportunityType: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function AdminOpportunityTypes() {
   const [types, setTypes] = useState<OpportunityType[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -45,7 +47,7 @@ export default function AdminOpportunityTypes() {
   const fetchOpportunityTypes = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5055/api/v1/opportunity-type", {
+      const res = await fetch(`${API_URL}/api/v1/opportunity-type`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -59,7 +61,7 @@ export default function AdminOpportunityTypes() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch("http://localhost:5055/api/v1/categories", {
+      const res = await fetch(`${API_URL}/api/v1/categories`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -74,8 +76,8 @@ export default function AdminOpportunityTypes() {
 
     const method = selected.id ? "PUT" : "POST";
     const url = selected.id
-      ? `http://localhost:5055/api/v1/opportunity-type/${selected.id}`
-      : "http://localhost:5055/api/v1/opportunity-type";
+      ? `${API_URL}/api/v1/opportunity-type/${selected.id}`
+      : "${API_URL}/api/v1/opportunity-type";
 
     const body = JSON.stringify({
       name: selected.name,
@@ -106,7 +108,7 @@ export default function AdminOpportunityTypes() {
   const confirmDelete = async () => {
     if (!deleteId) return;
     try {
-      await fetch(`http://localhost:5055/api/v1/opportunity-type/${deleteId}`, {
+      await fetch(`${API_URL}/api/v1/opportunity-type/${deleteId}`, {
         method: "DELETE",
         credentials: "include",
       });

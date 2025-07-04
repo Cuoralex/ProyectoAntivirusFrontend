@@ -1,7 +1,6 @@
 import {
   Home,
   Users,
-  Settings,
   Briefcase,
   Building,
   Layers,
@@ -32,6 +31,8 @@ interface User {
   isActive: boolean;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function DashboardLayout() {
   const location = useLocation();
   const isActive = (path: string) =>
@@ -44,7 +45,7 @@ export default function DashboardLayout() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("http://localhost:5055/api/v1/user", {
+        const res = await fetch(`${API_URL}/api/v1/user`, {
           credentials: "include",
         });
         const data: User[] = await res.json();

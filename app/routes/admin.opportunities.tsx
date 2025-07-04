@@ -42,6 +42,8 @@ interface Locality {
   state: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function AdminOpportunities() {
   const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
   const [loading, setLoading] = useState(true);
@@ -67,7 +69,7 @@ export default function AdminOpportunities() {
   const fetchOpportunities = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5055/api/v1/opportunity", {
+      const res = await fetch(`${API_URL}/api/v1/opportunity`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -84,19 +86,19 @@ export default function AdminOpportunities() {
       const res = await fetch(url, { credentials: "include" });
       return res.ok ? res.json() : [];
     };
-    setSectors(await fetchList("http://localhost:5055/api/v1/sectors"));
+    setSectors(await fetchList(`${API_URL}/api/v1/sectors`));
     setInstitutions(
-      await fetchList("http://localhost:5055/api/v1/institution")
+      await fetchList(`${API_URL}/api/v1/institution`)
     );
     setOpportunityTypes(
-      await fetchList("http://localhost:5055/api/v1/opportunity-type")
+      await fetchList(`${API_URL}/api/v1/opportunity-type`)
     );
   };
 
   const [localities, setLocalities] = useState<SelectItem[]>([]);
 
   const fetchLocalities = async () => {
-    const res = await fetch("http://localhost:5055/api/v1/localities", {
+    const res = await fetch(`${API_URL}/api/v1/localities`, {
       credentials: "include",
     });
     const data: Locality[] = await res.json();
@@ -115,7 +117,7 @@ export default function AdminOpportunities() {
     if (!deleteOpportunityId) return;
     try {
       await fetch(
-        `http://localhost:5055/api/v1/opportunity/${deleteOpportunityId}`,
+        `${API_URL}/api/v1/opportunity/${deleteOpportunityId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -133,8 +135,8 @@ export default function AdminOpportunities() {
 
     const method = selected.id ? "PUT" : "POST";
     const url = selected.id
-      ? `http://localhost:5055/api/v1/opportunity/${selected.id}`
-      : "http://localhost:5055/api/v1/opportunity";
+      ? `${API_URL}/api/v1/opportunity/${selected.id}`
+      : "${API_URL}/api/v1/opportunity";
 
     const expirationDateUtc = selected.expirationDate
       ? new Date(selected.expirationDate).toISOString()

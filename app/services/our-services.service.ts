@@ -1,3 +1,5 @@
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export interface OurServiceResponse {
   id: number;
   isActive: true;
@@ -10,7 +12,7 @@ export interface OurServiceResponse {
 
 const getAllOurServices = async (): Promise<OurServiceResponse[]> => {
   try {
-    const response = await fetch("http://localhost:5055/api/v1/services");
+    const response = await fetch(`${API_URL}/api/v1/services`);
 
     if (!response.ok) {
       throw new Error("Network response was not ok");

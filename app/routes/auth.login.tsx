@@ -19,6 +19,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return null;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const email = formData.get("email");
@@ -28,7 +30,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: "Datos inválidos." }, { status: 400 });
   }
 
-  const response = await fetch("http://localhost:5055/api/v1/user/login", {
+  const response = await fetch(`${API_URL}/api/v1/user/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

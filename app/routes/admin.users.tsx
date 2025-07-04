@@ -32,6 +32,8 @@ interface User {
   isActive: boolean;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function AdminUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +56,7 @@ export default function AdminUsers() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5055/api/v1/user", {
+      const res = await fetch(`${API_URL}/api/v1/user`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -68,7 +70,7 @@ export default function AdminUsers() {
 
   const toggleUserStatus = async (id: number, current: boolean) => {
     try {
-      await fetch(`http://localhost:5055/api/v1/user/${id}/status`, {
+      await fetch(`${API_URL}/api/v1/user/${id}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -85,7 +87,7 @@ export default function AdminUsers() {
   const confirmDeleteUser = async () => {
     if (!deleteUserId) return;
     try {
-      await fetch(`http://localhost:5055/api/v1/user/${deleteUserId}`, {
+      await fetch(`${API_URL}/api/v1/user/${deleteUserId}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -99,7 +101,7 @@ export default function AdminUsers() {
   const saveUserEdits = async () => {
     if (!editUser) return;
     try {
-      await fetch(`http://localhost:5055/api/v1/user/${editUser.id}`, {
+      await fetch(`${API_URL}/api/v1/user/${editUser.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

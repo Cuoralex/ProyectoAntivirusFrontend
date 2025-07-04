@@ -21,6 +21,8 @@ interface Sector {
   description?: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function AdminSectors() {
   const [sectors, setSectors] = useState<Sector[]>([]);
   const [selected, setSelected] = useState<Sector | null>(null);
@@ -39,7 +41,7 @@ export default function AdminSectors() {
   const fetchSectors = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5055/api/v1/sectors", {
+      const res = await fetch(`${API_URL}/api/v1/sectors`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -56,8 +58,8 @@ export default function AdminSectors() {
 
     const method = selected.id ? "PUT" : "POST";
     const url = selected.id
-      ? `http://localhost:5055/api/v1/sectors/${selected.id}`
-      : "http://localhost:5055/api/v1/sectors";
+      ? `${API_URL}/api/v1/sectors/${selected.id}`
+      : "${API_URL}/api/v1/sectors";
 
     const body = JSON.stringify({
       name: selected.name,
@@ -101,7 +103,7 @@ export default function AdminSectors() {
   const confirmDelete = async () => {
     if (!deleteId) return;
     try {
-      await fetch(`http://localhost:5055/api/v1/sectors/${deleteId}`, {
+      await fetch(`${API_URL}/api/v1/sectors/${deleteId}`, {
         method: "DELETE",
         credentials: "include",
       });

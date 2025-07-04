@@ -21,6 +21,8 @@ interface Institution {
   link: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function AdminInstitutions() {
   const [institutions, setInstitutions] = useState<Institution[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ export default function AdminInstitutions() {
   const fetchInstitutions = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5055/api/v1/institution", {
+      const res = await fetch(`${API_URL}/api/v1/institution`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -56,8 +58,8 @@ export default function AdminInstitutions() {
 
     const method = selected.id ? "PUT" : "POST";
     const url = selected.id
-      ? `http://localhost:5055/api/v1/institution`
-      : "http://localhost:5055/api/v1/institution";
+      ? `${API_URL}/api/v1/institution`
+      : "${API_URL}/api/v1/institution";
 
     const body = JSON.stringify(selected);
 
@@ -82,7 +84,7 @@ export default function AdminInstitutions() {
   const confirmDelete = async () => {
     if (!deleteId) return;
     try {
-      await fetch(`http://localhost:5055/api/v1/institution/${deleteId}`, {
+      await fetch(`${API_URL}/api/v1/institution/${deleteId}`, {
         method: "DELETE",
         credentials: "include",
       });

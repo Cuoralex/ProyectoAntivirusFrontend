@@ -5,6 +5,8 @@ import { useActionData } from "@remix-run/react";
 import { useEffect } from "react";
 import { useAuthStore } from "~/store";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const fullName = formData.get("fullname");
@@ -42,7 +44,7 @@ export const action: ActionFunction = async ({ request }) => {
     birthdate,
   };
 
-  const response = await fetch("http://localhost:5055/api/v1/user", {
+  const response = await fetch(`${API_URL}/api/v1/user`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(requestData),

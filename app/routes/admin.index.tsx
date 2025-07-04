@@ -49,6 +49,8 @@ hover:shadow-xl hover:dark:shadow-[0_2px_10px_rgba(255,255,255,0.3)] transition 
   );
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function AdminIndex() {
   const [stats, setStats] = useState<Stats>({
     users: 0,
@@ -75,7 +77,7 @@ export default function AdminIndex() {
 
         const results = await Promise.all(
           endpoints.map(async (ep) => {
-            const res = await fetch(`http://localhost:5055${ep.url}`, {
+            const res = await fetch(`${API_URL}${ep.url}`, {
               credentials: "include",
             });
 

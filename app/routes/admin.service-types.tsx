@@ -20,6 +20,8 @@ interface ServiceType {
   description?: string;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function AdminServiceTypes() {
   const [types, setTypes] = useState<ServiceType[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,7 +39,7 @@ export default function AdminServiceTypes() {
   const fetchServiceTypes = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5055/api/serviceTypes", {
+      const res = await fetch(`${API_URL}/api/serviceTypes`, {
         credentials: "include",
       });
       const data = await res.json();
@@ -54,8 +56,8 @@ export default function AdminServiceTypes() {
 
     const method = selected.id ? "PUT" : "POST";
     const url = selected.id
-      ? `http://localhost:5055/api/serviceTypes/${selected.id}`
-      : "http://localhost:5055/api/serviceTypes";
+      ? `${API_URL}/api/serviceTypes/${selected.id}`
+      : "${API_URL}/api/serviceTypes";
 
     const body = JSON.stringify(selected);
 
@@ -81,7 +83,7 @@ export default function AdminServiceTypes() {
   const confirmDelete = async () => {
     if (!deleteId) return;
     try {
-      await fetch(`http://localhost:5055/api/serviceTypes/${deleteId}`, {
+      await fetch(`${API_URL}/api/serviceTypes/${deleteId}`, {
         method: "DELETE",
         credentials: "include",
       });

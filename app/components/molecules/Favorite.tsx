@@ -7,6 +7,8 @@ interface FavoriteProps {
   userId?: number;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const Favorite: React.FC<FavoriteProps> = ({ 
     opportunityId,
 }: FavoriteProps) => {
@@ -14,7 +16,7 @@ const Favorite: React.FC<FavoriteProps> = ({
 
   useEffect(() => {
     
-    fetch(`http://localhost:5055/api/v1/favorites/${opportunityId}`)
+    fetch(`${API_URL}/api/v1/favorites/${opportunityId}`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Error en la API: ${res.status} - ${res.statusText}`);
@@ -29,7 +31,7 @@ const Favorite: React.FC<FavoriteProps> = ({
 
   const toggleFavorite = () => {
 
-    const url = `http://localhost:5055/api/v1/favorites/${opportunityId}`;
+    const url = `${API_URL}/api/v1/favorites/${opportunityId}`;
     const method = isFavorite ? "DELETE" : "POST";
 
     fetch(url, {

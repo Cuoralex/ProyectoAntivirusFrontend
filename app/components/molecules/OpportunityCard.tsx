@@ -40,6 +40,8 @@ interface OpportunityCardProps {
   opportunity: Opportunity;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
   const price = opportunity.price ?? 0;
   const discountPrice = opportunity.discountPrice ?? price;
@@ -53,7 +55,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
   const handleMarkFavorite = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5055/api/v1/favorites/${opportunity.id}`, // Aquí se usa opportunity.id correctamente
+        `${API_URL}/api/v1/favorites/${opportunity.id}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -74,7 +76,7 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
   useEffect(() => {
     const checkFavorite = async () => {
       try {
-        const response = await fetch(`http://localhost:5055/api/v1/favorites`);
+        const response = await fetch(`${API_URL}/api/v1/favorites`);
         if (!response.ok) {
           throw new Error(
             `Error en la API: ${response.status} - ${response.statusText}`

@@ -1,3 +1,5 @@
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export interface InstitutionResponse {
   id: number;
   name: string;
@@ -7,7 +9,7 @@ export interface InstitutionResponse {
 
 const getAllInstitutions = async (): Promise<InstitutionResponse[]> => {
   try {
-    const response = await fetch("http://localhost:5055/api/v1/institution");
+    const response = await fetch(`${API_URL}/api/v1/institution`);
 
     if (!response.ok) {
       throw new Error("Network response was not ok");

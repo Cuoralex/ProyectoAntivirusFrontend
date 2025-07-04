@@ -1,17 +1,7 @@
 const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const url = `${API_URL}/api/v1/institution`;
 
-const login = async (credentials) => {
-  const response = await fetch(`${API_URL}/auth/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(credentials)
-  });
-
-  if (!response.ok) throw new Error('Login failed');
-  return await response.json();
-};
+const response = await fetch(url);
 
 export async function getOpportunities() {
   const response = await fetch(API_URL);

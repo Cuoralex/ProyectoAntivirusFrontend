@@ -28,6 +28,8 @@ type Stats = {
   sectors: number;
 };
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 function StatCard({ title, count, icon, link }: StatCardProps) {
   const navigate = useNavigate();
   return (
@@ -75,7 +77,7 @@ export default function AdminIndex() {
 
         const results = await Promise.all(
           endpoints.map(async (ep) => {
-            const res = await fetch(`http://localhost:5055${ep.url}`, {
+            const res = await fetch(`${API_URL}${ep.url}`, {
               credentials: "include",
             });
 

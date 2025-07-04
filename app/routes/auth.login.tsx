@@ -10,6 +10,8 @@ import { authToken } from "~/utils/session.server";
 import { userRole } from "~/utils/session-role.server";
 import { userEmail } from "~/utils/session-email.server";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export async function loader({ request }: LoaderFunctionArgs) {
   const cookieHeader = request.headers.get("Cookie");
   const token = await authToken.parse(cookieHeader);
@@ -28,7 +30,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ error: "Datos inválidos." }, { status: 400 });
   }
 
-  const response = await fetch("http://localhost:5055/api/v1/user/login", {
+  const response = await fetch(`${API_URL}/api/v1/user/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",

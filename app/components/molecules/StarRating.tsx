@@ -9,6 +9,8 @@ interface StarRatingProps {
   isWhiteText?: boolean;
 }
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const StarRating: React.FC<StarRatingProps> = ({
   opportunityId,
   comment,
@@ -21,7 +23,7 @@ const StarRating: React.FC<StarRatingProps> = ({
   const [userVoted, setUserVoted] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:5055/api/v1/ratings/opportunity/${opportunityId}/average`)
+    fetch(`${API_URL}/api/v1/ratings/opportunity/${opportunityId}/average`)
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Error en la API: ${res.status} - ${res.statusText}`);
@@ -44,7 +46,7 @@ const StarRating: React.FC<StarRatingProps> = ({
       comment: comment || "Sin comentario",
     };
   
-    fetch(`http://localhost:5055/api/v1/ratings/opportunity/${opportunityId}/average`, {
+    fetch(`${API_URL}/api/v1/ratings/opportunity/${opportunityId}/average`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -67,8 +69,6 @@ const StarRating: React.FC<StarRatingProps> = ({
       })
       .catch((err) => console.error("Error al enviar la calificación:", err));
   };
-  
-     
   
   return (
     <div className="flex items-center text-sm mt-2">

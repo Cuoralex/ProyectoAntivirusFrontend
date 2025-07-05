@@ -30,12 +30,12 @@ function CardInfo({ id, urlImg, title, description }: Readonly<CardInfoProps>) {
   return (
     <div
       id={String(id)}
-      className="shadow-[0_4px_12px_rgba(0,0,0,0.2)] bg-[white] rounded-[10px] max-w-[450px] py-[25px] px-[35px] flex flex-col items-center text-center my-[40px] mx-[20px]"
+      className="shadow-[0_4px_12px_rgba(0,0,0,0.2)] bg-gray-100 rounded-[10px] max-w-[450px] py-[25px] px-[35px] flex flex-col items-center text-center my-[40px] mx-[20px] overflow-hidden"
     >
       <img
         src={urlImg}
         alt={title}
-        className="w-[250px] h-[250px] object-cover rounded-[10px]"
+        className="w-[250px] h-[250px] object-contain rounded-[10px]"
       />
       <h4 className="text-black mt-[18px] mb-[28px] font-bold text-[20px] min-h-[90px]">
         {title}
@@ -83,9 +83,7 @@ export default function Index() {
 
       setInstitutions(institutionsResponse.map(institutionToCardInfoProps));
       setOurServices(
-        ourServicesResponse
-          .map(ourServiceResponseToCardInfoProps)
-          .filter((item): item is CardInfoProps => item !== undefined)
+        ourServicesResponse.map(ourServiceResponseToCardInfoProps).filter((item): item is CardInfoProps => item !== undefined)
       );
     } catch (error) {
       console.error("Error cargando datos:", error);

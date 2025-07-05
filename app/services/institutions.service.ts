@@ -1,7 +1,5 @@
 const API_URL = import.meta.env.VITE_NEXT_PUBLIC_API_URL;
 
-console.log("URL de la API:", API_URL);
-
 export interface InstitutionResponse {
   id: number;
   name: string;

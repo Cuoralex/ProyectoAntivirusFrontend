@@ -10,8 +10,6 @@ export interface OurServiceResponse {
   image: string;
 }
 
-console.log("Llamando a servicios desde:", `${API_URL}/api/v1/services`);
-
 const getAllOurServices = async (): Promise<OurServiceResponse[]> => {
   try {
     const response = await fetch(`${API_URL}/api/v1/services`);

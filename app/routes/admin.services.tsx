@@ -30,7 +30,7 @@ interface ServiceType {
   name: string;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = import.meta.env.VITE_NEXT_PUBLIC_API_URL;
 
 export default function AdminServices() {
   const [services, setServices] = useState<Service[]>([]);

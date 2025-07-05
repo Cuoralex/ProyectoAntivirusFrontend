@@ -49,7 +49,7 @@ hover:shadow-xl hover:dark:shadow-[0_2px_10px_rgba(255,255,255,0.3)] transition 
   );
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = import.meta.env.VITE_NEXT_PUBLIC_API_URL;
 
 export default function AdminIndex() {
   const [stats, setStats] = useState<Stats>({

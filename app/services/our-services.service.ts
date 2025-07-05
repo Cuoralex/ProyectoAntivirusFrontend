@@ -1,4 +1,4 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = import.meta.env.VITE_NEXT_PUBLIC_API_URL;
 
 export interface OurServiceResponse {
   id: number;
@@ -9,6 +9,8 @@ export interface OurServiceResponse {
   description: string;
   image: string;
 }
+
+console.log("Llamando a servicios desde:", `${API_URL}/api/v1/services`);
 
 const getAllOurServices = async (): Promise<OurServiceResponse[]> => {
   try {

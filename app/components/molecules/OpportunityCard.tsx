@@ -40,7 +40,7 @@ interface OpportunityCardProps {
   opportunity: Opportunity;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = import.meta.env.VITE_NEXT_PUBLIC_API_URL;
 
 const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
   const price = opportunity.price ?? 0;

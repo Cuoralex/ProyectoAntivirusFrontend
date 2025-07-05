@@ -5,7 +5,7 @@ import { useActionData } from "@remix-run/react";
 import { useEffect } from "react";
 import { useAuthStore } from "~/store";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = import.meta.env.VITE_NEXT_PUBLIC_API_URL;
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();

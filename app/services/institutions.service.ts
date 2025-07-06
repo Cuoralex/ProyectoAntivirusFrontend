@@ -8,16 +8,26 @@ export interface InstitutionResponse {
 }
 
 const getAllInstitutions = async (): Promise<InstitutionResponse[]> => {
+  if (!API_URL) {
+    throw new Error("API_URL no está definida. Verifica el archivo .env");
+  }
+
   try {
     const response = await fetch(`${API_URL}/api/v1/institution`);
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error(`Error de red: ${response.status} ${response.statusText}`);
     }
 
-    return response.json();
+    const data = await response.json();
+
+    if (!Array.isArray(data)) {
+      throw new Error("Formato de respuesta inválido. Se esperaba un arreglo.");
+    }
+
+    return data as InstitutionResponse[];
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error("Error al obtener instituciones:", error);
     throw error;
   }
 };

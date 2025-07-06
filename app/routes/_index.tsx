@@ -83,7 +83,17 @@ export default function Index() {
 
       setInstitutions(institutionsResponse.map(institutionToCardInfoProps));
       setOurServices(
-        ourServicesResponse.map(ourServiceResponseToCardInfoProps).filter((item): item is CardInfoProps => item !== undefined)
+        ourServicesResponse.map((s) => {
+          const card = ourServiceResponseToCardInfoProps(s);
+          return (
+            card ?? {
+              id: s.id,
+              title: s.title,
+              urlImg: s.image || "",
+              description: s.description,
+            }
+          );
+        })
       );
     } catch (error) {
       console.error("Error cargando datos:", error);
@@ -122,7 +132,11 @@ export default function Index() {
               <div
                 key={institution.id}
                 className={`p-4 flex justify-center items-center border border-gray-300 shadow-lg rounded-lg aspect-[3/2] 
-                  ${[2, 8, 9].includes(institution.id) ? "bg-gray-400" : "bg-white"}`}
+                  ${
+                    [2, 8, 9].includes(institution.id)
+                      ? "bg-gray-400"
+                      : "bg-white"
+                  }`}
               >
                 <img
                   src={institution.urlImg}

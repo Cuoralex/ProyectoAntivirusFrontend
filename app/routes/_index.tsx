@@ -30,7 +30,7 @@ function CardInfo({ id, urlImg, title, description }: Readonly<CardInfoProps>) {
   return (
     <div
       id={String(id)}
-      className="shadow-[0_4px_12px_rgba(0,0,0,0.2)] bg-gray-100 rounded-[10px] max-w-[450px] py-[25px] px-[35px] flex flex-col items-center text-center my-[40px] mx-[20px] overflow-hidden"
+      className="shadow-[0_4px_12px_rgba(0,0,0,0.2)] bg-gray-300 rounded-[10px] max-w-[450px] py-[25px] px-[35px] flex flex-col items-center text-center my-[40px] mx-[20px] overflow-hidden"
     >
       <img
         src={urlImg}

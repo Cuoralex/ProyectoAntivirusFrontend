@@ -22,8 +22,6 @@ export interface CardInfoProps {
   description?: string;
 }
 
-
-
 interface SliderCardInfoProps {
   cards: CardInfoProps[];
 }

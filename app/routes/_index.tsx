@@ -26,6 +26,8 @@ interface SliderCardInfoProps {
   cards: CardInfoProps[];
 }
 
+
+
 function CardInfo({ id, urlImg, title, description }: Readonly<CardInfoProps>) {
   return (
     <div

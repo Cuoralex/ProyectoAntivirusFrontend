@@ -1,7 +1,7 @@
 import { Outlet, Link, useLocation } from "@remix-run/react";
 import "/app/styles/global.css";
-import SuccessModal from "/app/components/organisms/success-modal/sucess-modal";
-import { useAuthStore } from "/app/store.ts";
+import SuccessModal from "../../organisms/success-modal/sucess-modal";
+import { useAuthStore } from "../../../store";
 import GeneralHeader from "../../organisms/header-general/header-general";
 import Footer from "../../organisms/footer-general/footer-general";
 
@@ -26,7 +26,7 @@ export default function AuthLayout() {
         />
 
         <img
-          src="/app/assets/images/antivirus_avatar.png"
+          src="/app/asset/images/antivirus_avatar.png"
           alt="Antivirus Avatar"
           loading="lazy"
           className="hidden lg:block lg:max-w-[514px] h-auto"
@@ -60,13 +60,13 @@ export default function AuthLayout() {
           <p className="text-black font-medium text-lg">Continuar con</p>
           <div className="flex gap-5">
             <img
-              src="/app/assets/icons/google.png"
+              src="/app/asset/icons/google.png"
               alt="Google"
               loading="lazy"
               className="max-w-8 h-auto"
             />
             <img
-              src="/app/assets/icons/facebook.png"
+              src="/app/asset/icons/facebook.png"
               alt="Facebook"
               loading="lazy"
               className="max-w-8 h-auto"

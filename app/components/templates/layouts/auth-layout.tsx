@@ -26,7 +26,7 @@ export default function AuthLayout() {
         />
 
         <img
-          src="/public/images/antivirus-avatar.png"
+          src="/public/antivirus-avatar.png"
           alt="Antivirus Avatar"
           loading="lazy"
           className="hidden lg:block lg:max-w-[514px] h-auto"

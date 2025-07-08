@@ -15,24 +15,26 @@ export default function AuthLayout() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between bg-gray-100">
       <GeneralHeader />
 
-      <main className="flex-grow flex justify-center items-start pt-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-screen-xl w-full flex flex-col lg:flex-row items-center gap-10 relative">
+      <main className="flex-grow flex justify-center items-center px-4 py-12">
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-12 w-full max-w-6xl">
 
           <SuccessModal
             isOpen={isModalOpen}
             onClose={() => setRegistrationSuccess(false)}
           />
 
-          {/* Imagen solo visible en escritorio */}
-          <img
-            src="/antivirus-avatar.png"
-            alt="Antivirus Avatar"
-            loading="lazy"
-            className="hidden lg:block w-52 h-auto rounded-full object-contain"
-          />
+          {/* Avatar - solo visible en escritorio */}
+          <div className="hidden lg:flex justify-center items-center">
+            <img
+              src="/antivirus-avatar.png"
+              alt="Antivirus Avatar"
+              loading="lazy"
+              className="w-48 h-48 xl:w-60 xl:h-60 rounded-full object-contain"
+            />
+          </div>
 
           {/* Formulario */}
           <div className="bg-white shadow-lg flex flex-col items-center gap-4 rounded-lg w-full max-w-md p-8 z-10">

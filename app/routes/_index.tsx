@@ -153,13 +153,13 @@ export default function Index() {
         )}
       </section>
 
-      <section id="our-services" className="bg-[white] p-[20px] lg:p-[110px]">
+      <section id="our-team" className="bg-[white] p-[20px] lg:p-[110px]">
         <div className="mt-[10px] text-center lg:mt-[76px]">
           <OurTeam />
         </div>
       </section>
 
-      <section id="our-team" className="bg-[white] p-[20px] lg:p-[110px]">
+      <section id="our-services" className="bg-[white] p-[20px] lg:p-[110px]">
         <h2 className="text-[black] text-[40px] font-bold text-center">
           Nuestros servicios
         </h2>

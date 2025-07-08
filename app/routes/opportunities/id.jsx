@@ -1,8 +1,14 @@
 // app/routes/opportunities/$id.jsx
 import { useLoaderData } from "@remix-run/react";
 import { getOpportunities } from "../utils/api";
+import { redirect } from "@remix-run/node";
+import { getUserSession } from "~/utils/session.server";
 
-export async function loader({ params }) {
+export async function loader({ params, request }) {
+  const session = await getUserSession(request);
+  if (!session || !session.userId) {
+    return redirect("/auth/login");
+  }
   return getOpportunities(params.id);
 }
 

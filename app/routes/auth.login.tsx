@@ -19,7 +19,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return null;
 }
 
-const API_URL = import.meta.env.VITE_NEXT_PUBLIC_API_URL;
+const API_URL = process.env.API_URL || import.meta.env.VITE_NEXT_PUBLIC_API_URL;
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -49,11 +49,8 @@ export const action: ActionFunction = async ({ request }) => {
   const headers = new Headers();
   headers.append(
     "Set-Cookie",
-    `authToken=${data.token}; Path=/; HttpOnly; SameSite=Lax${
-      process.env.NODE_ENV === "production" ? "; Secure" : ""
-    }`
+    await authToken.serialize(data.token)
   );
-
   headers.append("Set-Cookie", await userRole.serialize(data.role));
   headers.append("Set-Cookie", await userEmail.serialize(data.email));
 

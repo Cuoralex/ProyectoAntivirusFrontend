@@ -1,8 +1,10 @@
 import { createCookie } from "@remix-run/node";
 
 export const userRole = createCookie("userRole", {
-  httpOnly: false,
-  sameSite: "lax",
+  httpOnly: true,
   path: "/",
-  maxAge: 60 * 60 * 2,
+  sameSite: "lax",
+  secure: process.env.NODE_ENV === "production",
+  encode: (value: string) => value,
+  decode: (value: string) => value,
 });

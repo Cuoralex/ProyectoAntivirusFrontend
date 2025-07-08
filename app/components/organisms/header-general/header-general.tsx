@@ -74,8 +74,8 @@ export default function HeaderGeneral() {
             </Link>
           </li>
           <li>
-            <Link to="/opportunities" className="hover:text-gray-500">
-              Oportunidades
+            <Link to="/#OurTeam" className="hover:text-gray-500">
+              Nuestro equipo
             </Link>
           </li>
           <li>
@@ -84,9 +84,11 @@ export default function HeaderGeneral() {
             </Link>
           </li>
           <li>
-            <Link to="/#OurTeam" className="hover:text-gray-500">
-              Nuestro equipo
-            </Link>
+            {isLoggedIn && (
+              <li>
+                <Link to="/opportunities">Oportunidades</Link>
+              </li>
+            )}
           </li>
         </ul>
       </div>
@@ -173,14 +175,14 @@ export default function HeaderGeneral() {
             <Link to="/#our-services" onClick={() => setIsMenuOpen(false)}>
               Servicios
             </Link>
-            <Link to="/opportunities" onClick={() => setIsMenuOpen(false)}>
-              Oportunidades
+            <Link to="/#OurTeam" onClick={() => setIsMenuOpen(false)}>
+              Nuestro equipo
             </Link>
             <Link to="#contact-form" onClick={() => setIsMenuOpen(false)}>
               Contáctanos
             </Link>
-            <Link to="/#OurTeam" onClick={() => setIsMenuOpen(false)}>
-              Nuestro equipo
+            <Link to="/opportunities" onClick={() => setIsMenuOpen(false)}>
+              Oportunidades
             </Link>
           </nav>
 

@@ -61,13 +61,13 @@ export default function AuthLayout() {
           <p className="text-black font-medium text-lg">Continuar con</p>
           <div className="flex gap-5">
             <img
-              src="/assets/icons/google.png"
+              src="/icons/google.png"
               alt="Google"
               loading="lazy"
               className="max-w-8 h-auto"
             />
             <img
-              src="/assets/icons/facebook.png"
+              src="/icons/facebook.png"
               alt="Facebook"
               loading="lazy"
               className="max-w-8 h-auto"

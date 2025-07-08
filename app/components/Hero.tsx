@@ -18,7 +18,6 @@ export default function Hero({ className }: { className?: string }) {
         canvas.classList.add(
           "rounded-full",
           "object-cover",
-          "mx-auto",
           "transition-all",
           "duration-300",
           "w-36",
@@ -35,19 +34,17 @@ export default function Hero({ className }: { className?: string }) {
   }, []);
 
   return (
-    <div className="block md:hidden">
-      <div
-        role="button"
-        tabIndex={0}
-        ref={containerRef}
-        onClick={handleClick}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") handleClick();
-        }}
-        className={`mx-auto mt-8 z-50 cursor-pointer ${className ?? ""}`}
-      >
-        <Spline scene="https://prod.spline.design/w1-lU03AK-Pryggi/scene.splinecode" />
-      </div>
+    <div
+      ref={containerRef}
+      role="button"
+      tabIndex={0}
+      onClick={handleClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") handleClick();
+      }}
+      className={`z-50 cursor-pointer mx-auto mt-8 md:fixed md:top-32 md:right-12 ${className ?? ""}`}
+    >
+      <Spline scene="https://prod.spline.design/w1-lU03AK-Pryggi/scene.splinecode" />
     </div>
   );
 }

@@ -26,7 +26,7 @@ export default function AuthLayout() {
         />
 
         <img
-          src="/app/asset/images/antivirus_avatar.png"
+          src="/asset/images/antivirus_avatar.png"
           alt="Antivirus Avatar"
           loading="lazy"
           className="hidden lg:block lg:max-w-[514px] h-auto"
@@ -60,13 +60,13 @@ export default function AuthLayout() {
           <p className="text-black font-medium text-lg">Continuar con</p>
           <div className="flex gap-5">
             <img
-              src="/app/asset/icons/google.png"
+              src="/asset/icons/google.png"
               alt="Google"
               loading="lazy"
               className="max-w-8 h-auto"
             />
             <img
-              src="/app/asset/icons/facebook.png"
+              src="/asset/icons/facebook.png"
               alt="Facebook"
               loading="lazy"
               className="max-w-8 h-auto"

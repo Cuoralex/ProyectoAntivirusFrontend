@@ -4,8 +4,8 @@ import { useNavigate } from "@remix-run/react";
 
 export default function Hero({ className }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
-
   const navigate = useNavigate();
+
   const handleClick = () => {
     navigate("/auth/register");
   };
@@ -13,10 +13,21 @@ export default function Hero({ className }: { className?: string }) {
   useEffect(() => {
     const timeout = setTimeout(() => {
       const canvas = containerRef.current?.querySelector("canvas");
+
       if (canvas) {
-        canvas.classList.add("w-[200px]", "h-[200px]", "object-contain");
-        canvas.style.width = "150px";
-        canvas.style.height = "150px";
+        canvas.classList.add(
+          "rounded-full",
+          "object-cover",
+          "mx-auto",
+          "transition-all",
+          "duration-300",
+          "w-36",
+          "h-36",
+          "sm:w-48",
+          "sm:h-48",
+          "md:w-56",
+          "md:h-56"
+        );
       }
     }, 2000);
 
@@ -24,17 +35,19 @@ export default function Hero({ className }: { className?: string }) {
   }, []);
 
   return (
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={handleClick}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") handleClick();
-      }}
-      ref={containerRef}
-      className={`fixed top-32 -right-40 z-50 inline-block cursor-pointer ${className}`}
-    >
-      <Spline scene="https://prod.spline.design/w1-lU03AK-Pryggi/scene.splinecode" />
+    <div className="block md:hidden">
+      <div
+        role="button"
+        tabIndex={0}
+        ref={containerRef}
+        onClick={handleClick}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") handleClick();
+        }}
+        className={`mx-auto mt-8 z-50 cursor-pointer ${className ?? ""}`}
+      >
+        <Spline scene="https://prod.spline.design/w1-lU03AK-Pryggi/scene.splinecode" />
+      </div>
     </div>
   );
 }

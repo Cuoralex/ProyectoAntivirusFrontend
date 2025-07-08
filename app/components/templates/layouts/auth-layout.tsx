@@ -18,7 +18,8 @@ export default function AuthLayout() {
     <div className="min-h-screen flex flex-col">
       <GeneralHeader />
 
-      <div className="flex-1 flex justify-center items-center px-4 py-10">
+      {/* 🛠 Aquí agregamos espacio para que no se tape con el header */}
+      <div className="flex-1 flex justify-center items-center px-4 pt-28 pb-10">
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-20 max-w-6xl w-full">
           {/* Muñeco */}
           <img
@@ -91,3 +92,4 @@ export default function AuthLayout() {
     </div>
   );
 }
+

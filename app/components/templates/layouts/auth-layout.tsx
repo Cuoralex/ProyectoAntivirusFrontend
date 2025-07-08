@@ -25,6 +25,7 @@ export default function AuthLayout() {
           }}
         />
 
+
         <img
           src="/public/antivirus-avatar.png"
           alt="Antivirus Avatar"

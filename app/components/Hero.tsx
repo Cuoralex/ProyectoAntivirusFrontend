@@ -20,15 +20,16 @@ export default function Hero({ className }: { className?: string }) {
           "object-cover",
           "transition-all",
           "duration-300",
-          "w-36",
-          "h-36",
-          "sm:w-48",
-          "sm:h-48",
-          "md:w-56",
-          "md:h-56"
+          "w-24",
+          "h-24",
+          "sm:w-32",
+          "sm:h-32",
+          "md:w-48",
+          "md:h-48"
         );
+        canvas.style.margin = "0 auto";
       }
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -42,7 +43,7 @@ export default function Hero({ className }: { className?: string }) {
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") handleClick();
       }}
-      className={`z-50 cursor-pointer mx-auto mt-8 md:fixed md:top-32 md:right-12 ${className ?? ""}`}
+      className={`fixed top-4 right-4 z-30 cursor-pointer ${className ?? ""}`}
     >
       <Spline scene="https://prod.spline.design/w1-lU03AK-Pryggi/scene.splinecode" />
     </div>

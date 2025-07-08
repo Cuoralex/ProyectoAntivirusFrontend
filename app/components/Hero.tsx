@@ -2,7 +2,7 @@ import Spline from "@splinetool/react-spline";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "@remix-run/react";
 
-export default function Hero({ className }: { className?: string }) {
+export default function HeroSpline({ className }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
@@ -11,34 +11,35 @@ export default function Hero({ className }: { className?: string }) {
   };
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      const canvas = containerRef.current?.querySelector("canvas");
+    const canvas = containerRef.current?.querySelector("canvas");
+    if (!canvas) return;
 
-      if (canvas) {
-        canvas.classList.add(
-          "rounded-full",
-          "object-cover",
-          "transition-all",
-          "duration-300"
-        );
+    canvas.classList.add(
+      "rounded-full",
+      "object-cover",
+      "transition-all",
+      "duration-300"
+    );
 
-        // Tamaño adaptativo
-        canvas.style.width = "64px"; // móvil base
-        canvas.style.height = "64px";
-
-        if (window.innerWidth >= 640) {
-          canvas.style.width = "96px";
-          canvas.style.height = "96px";
-        }
-
-        if (window.innerWidth >= 1024) {
-          canvas.style.width = "128px";
-          canvas.style.height = "128px";
-        }
+    // Aplica estilos directamente por tamaño de pantalla
+    const resizeCanvas = () => {
+      if (window.innerWidth < 768) {
+        canvas.style.display = "none"; // Oculta en móviles
+      } else if (window.innerWidth < 1024) {
+        canvas.style.width = "96px";
+        canvas.style.height = "96px";
+      } else if (window.innerWidth < 1440) {
+        canvas.style.width = "128px";
+        canvas.style.height = "128px";
+      } else {
+        canvas.style.width = "160px";
+        canvas.style.height = "160px";
       }
-    }, 1000);
+    };
 
-    return () => clearTimeout(timeout);
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+    return () => window.removeEventListener("resize", resizeCanvas);
   }, []);
 
   return (
@@ -50,8 +51,7 @@ export default function Hero({ className }: { className?: string }) {
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") handleClick();
       }}
-      className={`absolute top-6 right-6 z-30 cursor-pointer ${className ?? ""}`}
-      style={{ pointerEvents: "auto" }}
+      className={`absolute top-24 right-4 z-30 cursor-pointer hidden md:block ${className ?? ""}`}
     >
       <Spline scene="https://prod.spline.design/w1-lU03AK-Pryggi/scene.splinecode" />
     </div>

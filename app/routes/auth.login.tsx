@@ -31,11 +31,14 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   const response = await fetch(`${API_URL}/api/v1/user/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify({ email, password }),
-  });
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+  body: JSON.stringify({ email, password }),
+  credentials: "include", // ✅ esto debe ir dentro del objeto
+});
 
   const data = await response.json();
 

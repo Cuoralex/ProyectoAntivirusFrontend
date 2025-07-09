@@ -1,20 +1,22 @@
-// routes/auth/register.tsx
-import RegisterForm from "~/components/organisms/register-form/register-form";
 import { json, type ActionFunction } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
 import { useEffect } from "react";
 import { useAuthStore } from "~/store";
+import RegisterForm from "~/components/organisms/register-form/register-form";
+
 
 const API_URL = import.meta.env.VITE_NEXT_PUBLIC_API_URL;
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
+
   const fullName = formData.get("fullname");
   const email = formData.get("email");
   const phone = formData.get("phone");
   const password = formData.get("password");
   const confirmPassword = formData.get("confirm_password");
   const birthdate = formData.get("birthdate");
+  const role = formData.get("role") ?? "user";
 
   const fieldErrors: Record<string, string> = {};
 
@@ -25,7 +27,8 @@ export const action: ActionFunction = async ({ request }) => {
   if (!password) fieldErrors.password = "La contraseña es obligatoria.";
   else if ((password as string).length < 6)
     fieldErrors.password = "Debe tener al menos 6 caracteres.";
-  if (!confirmPassword) fieldErrors.confirmPassword = "Confirma la contraseña.";
+  if (!confirmPassword)
+    fieldErrors.confirmPassword = "Confirma la contraseña.";
   else if (password !== confirmPassword)
     fieldErrors.confirmPassword = "Las contraseñas no coinciden.";
   if (!birthdate)
@@ -39,25 +42,29 @@ export const action: ActionFunction = async ({ request }) => {
     fullName,
     email,
     phone,
-    role: "user",
+    role,
     password,
     birthdate,
   };
 
-  const response = await fetch(`${API_URL}/api/v1/user`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(requestData),
-  });
+  try {
+    const response = await fetch(`${API_URL}/api/v1/user`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestData),
+    });
 
-  const responseBody = await response.json();
-  const statusCode = response.status;
+    const responseBody = await response.json();
 
-  if (statusCode === 201) {
+    if (!response.ok) {
+      return json(responseBody, { status: response.status });
+    }
+
     return json({ success: true }, { status: 201 });
+  } catch (error) {
+    console.error("Error del servidor:", error);
+    return json({ error: "Error inesperado del servidor" }, { status: 500 });
   }
-
-  return json(responseBody, { status: statusCode });
 };
 
 export default function RegisterPage() {

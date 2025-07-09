@@ -129,11 +129,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <Form
-      method="post"
-      action="/auth/register"
-      className="flex flex-col items-center text-gray-500 w-full h-full px-12 gap-6"
-    >
+    <Form className="flex flex-col items-center text-gray-500 w-full h-full px-12 gap-6" onSubmit={(e) => e.preventDefault()}>
       <div className="flex flex-col items-start w-full relative">
         <input
           type="text"

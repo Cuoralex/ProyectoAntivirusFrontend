@@ -1,3 +1,4 @@
+// components/organisms/register-form/register-form.tsx
 import { Form, useActionData } from "@remix-run/react";
 import { useState, useEffect } from "react";
 import { useAuthStore } from "../../../store";
@@ -17,7 +18,9 @@ interface ActionData {
 
 export default function RegisterForm() {
   const actionData = useActionData<ActionData>();
-  const setRegistrationSuccess = useAuthStore((state) => state.setRegistrationSuccess);
+  const setRegistrationSuccess = useAuthStore(
+    (state) => state.setRegistrationSuccess
+  );
 
   const [formData, setFormData] = useState({
     fullname: "",
@@ -68,7 +71,7 @@ export default function RegisterForm() {
     if (actionData?.success) {
       setRegistrationSuccess(true);
     }
-  }, [actionData]);
+  }, [actionData, setRegistrationSuccess]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -90,46 +93,44 @@ export default function RegisterForm() {
   return (
     <Form
       method="post"
+      action="/auth/register"
       className="flex flex-col items-center text-gray-500 w-full h-full px-12 gap-6"
     >
       <input type="hidden" name="role" value="user" />
 
+      {/* Fullname */}
       <div className="flex flex-col items-start w-full relative">
         <input
           type="text"
           name="fullname"
           placeholder="Nombre completo"
           autoComplete="name"
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full focus:ring-2 focus:ring-[#7C78B3]"
           value={formData.fullname}
           onChange={handleInputChange}
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-            text-gray-700 placeholder-gray-500"
         />
-        <p className="text-red-500 absolute top-9 text-[10px] md:top-8 md:text-base">
-          {actionData?.fieldErrors?.fullname || ""}
+        <p className="text-red-500 text-xs absolute top-9">
+          {actionData?.fieldErrors?.fullname}
         </p>
       </div>
 
+      {/* Email */}
       <div className="flex flex-col items-start w-full relative">
         <input
           type="email"
           name="email"
           placeholder="Correo"
           autoComplete="email"
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full focus:ring-2 focus:ring-[#7C78B3]"
           value={formData.email}
           onChange={handleInputChange}
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-            text-gray-700 placeholder-gray-500"
         />
-        {emailError && (
-          <p className="text-red-500 absolute top-9 text-[10px] md:top-8 md:text-base">
-            {emailError}
-          </p>
-        )}
+        <p className="text-red-500 text-xs absolute top-9">
+          {emailError || actionData?.fieldErrors?.email}
+        </p>
       </div>
 
+      {/* Phone */}
       <div className="flex flex-col items-start w-full relative">
         <input
           type="tel"
@@ -137,63 +138,58 @@ export default function RegisterForm() {
           inputMode="numeric"
           placeholder="Celular"
           autoComplete="tel"
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full focus:ring-2 focus:ring-[#7C78B3]"
           value={formData.phone}
           onChange={handleInputChange}
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-            text-gray-700 placeholder-gray-500"
         />
-        <p className="text-red-500 absolute top-9 text-[10px] md:top-8 md:text-base">
-          {phoneError}
-        </p>
+        <p className="text-red-500 text-xs absolute top-9">{phoneError}</p>
       </div>
 
+      {/* Birthdate */}
       <div className="flex flex-col items-start w-full relative">
         <input
           type="date"
           name="birthdate"
+          autoComplete="bday"
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full focus:ring-2 focus:ring-[#7C78B3]"
           value={formData.birthdate}
           onChange={handleInputChange}
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-            text-gray-700 placeholder-gray-500"
         />
       </div>
 
+      {/* Password */}
       <div className="flex flex-col items-start w-full relative">
         <input
           type="password"
           name="password"
           placeholder="Contraseña"
           autoComplete="new-password"
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full focus:ring-2 focus:ring-[#7C78B3]"
           value={formData.password}
           onChange={handleInputChange}
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-            text-gray-700 placeholder-gray-500"
         />
-        <p className="text-red-500 absolute top-9 text-[10px] md:top-8 md:text-base">
-          {actionData?.fieldErrors?.password || passwordLengthError || ""}
+        <p className="text-red-500 text-xs absolute top-9">
+          {actionData?.fieldErrors?.password || passwordLengthError}
         </p>
       </div>
 
+      {/* Confirm Password */}
       <div className="flex flex-col items-start w-full relative">
         <input
           type="password"
           name="confirm_password"
           placeholder="Confirme contraseña"
           autoComplete="new-password"
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full focus:ring-2 focus:ring-[#7C78B3]"
           value={formData.confirm_password}
           onChange={handleInputChange}
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-            text-gray-700 placeholder-gray-500"
         />
-        <p className="text-red-500 absolute top-9 text-[10px] md:top-8 md:text-base">
-          {passwordError || actionData?.fieldErrors?.confirmPassword || ""}
+        <p className="text-red-500 text-xs absolute top-9">
+          {passwordError || actionData?.fieldErrors?.confirmPassword}
         </p>
       </div>
 
+      {/* Submit */}
       <button
         type="submit"
         className={`px-4 py-2 rounded-lg w-full ${

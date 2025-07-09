@@ -12,13 +12,12 @@ interface ActionData {
   };
   userExists?: string;
   error?: string;
+  success?: boolean;
 }
 
 export default function RegisterForm() {
   const actionData = useActionData<ActionData>();
-  const setRegistrationSuccess = useAuthStore(
-    (state) => state.setRegistrationSuccess
-  );
+  const setRegistrationSuccess = useAuthStore((state) => state.setRegistrationSuccess);
 
   const [formData, setFormData] = useState({
     fullname: "",
@@ -32,9 +31,7 @@ export default function RegisterForm() {
   const [isFormValid, setIsFormValid] = useState(false);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [phoneError, setPhoneError] = useState<string | null>(null);
-  const [passwordLengthError, setPasswordLengthError] = useState<string | null>(
-    null
-  );
+  const [passwordLengthError, setPasswordLengthError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -67,6 +64,12 @@ export default function RegisterForm() {
     setIsFormValid(allFieldsFilled && passwordsMatch);
   }, [formData]);
 
+  useEffect(() => {
+    if (actionData?.success) {
+      setRegistrationSuccess(true);
+    }
+  }, [actionData]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -74,10 +77,6 @@ export default function RegisterForm() {
       ...prev,
       [name]: name === "phone" ? value.replace(/\D/g, "") : value,
     }));
-
-    if (name === "email") {
-      setEmailError(null);
-    }
 
     if (name === "email") {
       setEmailError(
@@ -88,59 +87,24 @@ export default function RegisterForm() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!isFormValid) return;
-
-    const requestData = {
-      fullName: formData.fullname,
-      email: formData.email,
-      phone: formData.phone,
-      password: formData.password,
-      confirmPassword: formData.confirm_password,
-      birthdate: new Date(formData.birthdate).toISOString().split("T")[0],
-    };
-
-    try {
-      const response = await fetch("/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
-
-      if (!response.ok) {
-        if (response.status === 409) {
-          setEmailError("El correo ya está registrado.");
-        } else {
-          setEmailError(null);
-        }
-        return;
-      }
-
-      setEmailError(null);
-      setRegistrationSuccess(true);
-    } catch (error) {
-      console.error("Error al registrar:", error);
-    }
-  };
-
   return (
-    <Form className="flex flex-col items-center text-gray-500 w-full h-full px-12 gap-6" onSubmit={(e) => e.preventDefault()}>
+    <Form
+      method="post"
+      className="flex flex-col items-center text-gray-500 w-full h-full px-12 gap-6"
+    >
+      <input type="hidden" name="role" value="user" />
+
       <div className="flex flex-col items-start w-full relative">
         <input
           type="text"
           name="fullname"
           placeholder="Nombre completo"
           autoComplete="name"
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-             appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-             text-gray-700 placeholder-gray-500"
           value={formData.fullname}
           onChange={handleInputChange}
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
+            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
+            text-gray-700 placeholder-gray-500"
         />
         <p className="text-red-500 absolute top-9 text-[10px] md:top-8 md:text-base">
           {actionData?.fieldErrors?.fullname || ""}
@@ -153,11 +117,11 @@ export default function RegisterForm() {
           name="email"
           placeholder="Correo"
           autoComplete="email"
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-             appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-             text-gray-700 placeholder-gray-500"
           value={formData.email}
           onChange={handleInputChange}
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
+            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
+            text-gray-700 placeholder-gray-500"
         />
         {emailError && (
           <p className="text-red-500 absolute top-9 text-[10px] md:top-8 md:text-base">
@@ -173,11 +137,11 @@ export default function RegisterForm() {
           inputMode="numeric"
           placeholder="Celular"
           autoComplete="tel"
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-             appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-             text-gray-700 placeholder-gray-500"
           value={formData.phone}
           onChange={handleInputChange}
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
+            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
+            text-gray-700 placeholder-gray-500"
         />
         <p className="text-red-500 absolute top-9 text-[10px] md:top-8 md:text-base">
           {phoneError}
@@ -188,15 +152,11 @@ export default function RegisterForm() {
         <input
           type="date"
           name="birthdate"
-          autoComplete="bday-day"
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-             appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-             text-gray-700 placeholder-gray-500"
           value={formData.birthdate}
           onChange={handleInputChange}
-          style={{
-            color: "#333",
-          }}
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
+            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
+            text-gray-700 placeholder-gray-500"
         />
       </div>
 
@@ -206,11 +166,11 @@ export default function RegisterForm() {
           name="password"
           placeholder="Contraseña"
           autoComplete="new-password"
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-             appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-             text-gray-700 placeholder-gray-500"
           value={formData.password}
           onChange={handleInputChange}
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
+            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
+            text-gray-700 placeholder-gray-500"
         />
         <p className="text-red-500 absolute top-9 text-[10px] md:top-8 md:text-base">
           {actionData?.fieldErrors?.password || passwordLengthError || ""}
@@ -223,19 +183,19 @@ export default function RegisterForm() {
           name="confirm_password"
           placeholder="Confirme contraseña"
           autoComplete="new-password"
-          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
-             appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
-             text-gray-700 placeholder-gray-500"
           value={formData.confirm_password}
           onChange={handleInputChange}
+          className="outline-none rounded-lg bg-white border border-gray-400 px-3 py-1 w-full 
+            appearance-auto focus:outline-none focus:ring-2 focus:ring-[#7C78B3] 
+            text-gray-700 placeholder-gray-500"
         />
         <p className="text-red-500 absolute top-9 text-[10px] md:top-8 md:text-base">
           {passwordError || actionData?.fieldErrors?.confirmPassword || ""}
         </p>
       </div>
+
       <button
-        type="button"
-        onClick={handleSubmit}
+        type="submit"
         className={`px-4 py-2 rounded-lg w-full ${
           isFormValid
             ? "bg-[#7C78B3] text-white"

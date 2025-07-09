@@ -103,7 +103,7 @@ export default function RegisterForm() {
     };
 
     try {
-      const response = await fetch("/auth", {
+      const response = await fetch("/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

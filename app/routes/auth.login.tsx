@@ -31,29 +31,39 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   const response = await fetch(`${API_URL}/api/v1/user/login`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  },
-  body: JSON.stringify({ email, password }),
-  credentials: "include", // ✅ esto debe ir dentro del objeto
-});
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+    credentials: "include",
+  });
 
-  const data = await response.json();
+  const text = await response.text();
+
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch (err) {
+    return json({ error: "Respuesta inválida del servidor." }, { status: 500 });
+  }
 
   if (!response.ok) {
-    return json({ error: data?.message ?? "Login fallido" }, { status: 401 });
+    return json(
+      {
+        error:
+          data?.message || data?.error || "Login fallido. Verifica tus datos.",
+      },
+      { status: response.status }
+    );
   }
 
   const destination =
     data?.role === "admin" ? "/admin/index" : "/user-dashboard";
 
   const headers = new Headers();
-  headers.append(
-    "Set-Cookie",
-    await authToken.serialize(data.token)
-  );
+  headers.append("Set-Cookie", await authToken.serialize(data.token));
   headers.append("Set-Cookie", await userRole.serialize(data.role));
   headers.append("Set-Cookie", await userEmail.serialize(data.email));
 

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 interface AuthState {
+  userId: any;
   registrationSuccess: boolean;
   setRegistrationSuccess: (value: boolean) => void;
 }

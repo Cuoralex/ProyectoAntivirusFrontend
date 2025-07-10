@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import StarRating from "./StarRating";
+import { useAuthStore } from "~/store";
 
 interface Opportunity {
   id: number;
@@ -52,14 +53,17 @@ const OpportunityCard: React.FC<OpportunityCardProps> = ({ opportunity }) => {
     return date.toISOString().split("T")[0]; // Devuelve "YYYY-MM-DD"
   };
 
+  const userId = useAuthStore((state) => state.userId);
+
   const handleMarkFavorite = async () => {
     try {
       const response = await fetch(
-        `${API_URL}/api/v1/favorites/${opportunity.id}`, // Aquí se usa opportunity.id correctamente
+         `${API_URL}/api/v1/favorites/${userId}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            userId,
             opportunityId: opportunity.id,
           }),
         }
